@@ -1,0 +1,32 @@
+# PostgreSQL de desarrollo para Kaizen Casa de Bolsa.
+#
+# Solo levanta la base de datos: la aplicación se ejecuta con `npm run dev`
+# sobre el host. Úsalo si no tienes un PostgreSQL instalado localmente.
+#
+#   docker compose up -d
+#   # y en .env:
+#   # DATABASE_URI=postgres://kcb:kcb_local@127.0.0.1:5432/kaizen_casa_de_bolsa
+#
+# Las credenciales de este archivo son exclusivamente de desarrollo local y no
+# deben reutilizarse en ningún entorno compartido ni en producción.
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kcb
+      POSTGRES_PASSWORD: kcb_local
+      POSTGRES_DB: kaizen_casa_de_bolsa
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U kcb -d kaizen_casa_de_bolsa']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

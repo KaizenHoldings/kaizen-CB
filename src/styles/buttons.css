@@ -1,0 +1,433 @@
+/* ==========================================================================
+   Sistema de botones — implementación de BUTTON_SYSTEM.md
+   Dos patrones, un solo componente reutilizable cada uno.
+   Sin styled-components: CSS propio sobre los tokens de marca.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Action Button
+   -------------------------------------------------------------------------- */
+
+.kcb-action {
+  --btn-bg: transparent;
+  --btn-fg: var(--kcb-blue);
+  --btn-border: var(--kcb-blue);
+  --btn-fill: var(--kcb-blue);
+  --btn-hover-fg: var(--kcb-white);
+
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-block-size: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  gap: 0.5rem;
+  padding-block: clamp(0.75rem, 1vw, 0.95rem);
+  padding-inline: clamp(1.25rem, 2.4vw, 2.25rem);
+  border: 2px solid var(--btn-border);
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-display);
+  font-size: clamp(0.875rem, 0.82rem + 0.2vw, 1rem);
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 transparent;
+  transition:
+    color 420ms var(--kcb-ease),
+    border-color 420ms var(--kcb-ease),
+    border-radius 420ms var(--kcb-ease),
+    box-shadow 420ms var(--kcb-ease),
+    transform 180ms ease;
+}
+
+/* La flecha de reposo se reserva su espacio con padding, de modo que la
+   animación nunca refluya el contenido alrededor del botón. */
+.kcb-action {
+  padding-inline-end: calc(clamp(1.25rem, 2.4vw, 2.25rem) + 1.5rem);
+}
+
+.kcb-action__label,
+.kcb-action__arrow {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  transition:
+    transform 620ms var(--kcb-ease),
+    opacity 420ms var(--kcb-ease);
+}
+
+.kcb-action__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kcb-action__arrow {
+  position: absolute;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+.kcb-action__arrow--exit {
+  inset-inline-end: 1rem;
+}
+
+.kcb-action__arrow--enter {
+  inset-inline-start: -1.75rem;
+  opacity: 0;
+}
+
+.kcb-action__fill {
+  position: absolute;
+  z-index: 0;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--btn-fill);
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 620ms var(--kcb-ease);
+}
+
+.kcb-action:is(:hover, :focus-visible) {
+  color: var(--btn-hover-fg);
+  border-color: var(--btn-fill);
+  border-radius: clamp(0.75rem, 1.4vw, 1rem);
+  box-shadow: 0 14px 30px -16px rgba(14, 48, 72, 0.48);
+}
+
+.kcb-action:is(:hover, :focus-visible) .kcb-action__fill {
+  clip-path: circle(150% at 50% 50%);
+}
+
+.kcb-action:is(:hover, :focus-visible) .kcb-action__arrow--exit {
+  transform: translateX(3rem);
+  opacity: 0;
+}
+
+.kcb-action:is(:hover, :focus-visible) .kcb-action__arrow--enter {
+  transform: translateX(2.75rem);
+  opacity: 1;
+}
+
+.kcb-action:is(:hover, :focus-visible) .kcb-action__label {
+  transform: translateX(0.65rem);
+}
+
+.kcb-action:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--kcb-focus) 55%, transparent);
+  outline-offset: 3px;
+}
+
+.kcb-action:active:not(:disabled, [aria-disabled='true']) {
+  transform: scale(0.97);
+}
+
+.kcb-action:disabled,
+.kcb-action[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+/* Estado de carga: el ancho se conserva porque la etiqueta permanece. */
+.kcb-action[aria-busy='true'] {
+  cursor: progress;
+}
+
+.kcb-action__spinner {
+  position: relative;
+  z-index: 2;
+  inline-size: 1rem;
+  block-size: 1rem;
+  flex: none;
+  border: 2px solid currentColor;
+  border-block-start-color: transparent;
+  border-radius: 50%;
+  animation: kcb-spin 720ms linear infinite;
+}
+
+@keyframes kcb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Variantes por superficie -------------------------------------------- */
+
+.kcb-action[data-surface='light'][data-emphasis='primary'] {
+  --btn-bg: transparent;
+  --btn-fg: var(--kcb-blue);
+  --btn-border: var(--kcb-blue);
+  --btn-fill: var(--kcb-blue);
+  --btn-hover-fg: var(--kcb-white);
+}
+
+.kcb-action[data-surface='light'][data-emphasis='secondary'] {
+  --btn-bg: var(--kcb-white);
+  --btn-fg: var(--kcb-navy);
+  --btn-border: rgba(14, 48, 72, 0.28);
+  --btn-fill: var(--kcb-navy);
+  --btn-hover-fg: var(--kcb-white);
+}
+
+.kcb-action[data-surface='light'][data-emphasis='accent'] {
+  --btn-bg: var(--kcb-emerald);
+  --btn-fg: var(--kcb-white);
+  --btn-border: var(--kcb-emerald);
+  --btn-fill: var(--kcb-navy);
+  --btn-hover-fg: var(--kcb-white);
+}
+
+.kcb-action[data-surface='dark'] {
+  --btn-bg: transparent;
+  --btn-fg: var(--kcb-white);
+  --btn-border: var(--kcb-white);
+  --btn-fill: var(--kcb-white);
+  --btn-hover-fg: var(--kcb-navy);
+}
+
+.kcb-action[data-surface='dark'][data-emphasis='primary'] {
+  --btn-bg: var(--kcb-white);
+  --btn-fg: var(--kcb-navy);
+  --btn-border: var(--kcb-white);
+  --btn-fill: var(--kcb-emerald);
+  --btn-hover-fg: var(--kcb-white);
+}
+
+.kcb-action[data-surface='blue'] {
+  --btn-bg: transparent;
+  --btn-fg: var(--kcb-white);
+  --btn-border: rgba(255, 255, 255, 0.55);
+  --btn-fill: var(--kcb-white);
+  --btn-hover-fg: var(--kcb-navy);
+}
+
+.kcb-action[data-surface='blue'][data-emphasis='accent'] {
+  --btn-bg: var(--kcb-emerald);
+  --btn-fg: var(--kcb-white);
+  --btn-border: var(--kcb-emerald);
+  --btn-fill: var(--kcb-white);
+  --btn-hover-fg: var(--kcb-navy);
+}
+
+.kcb-action[data-full-width='true'] {
+  inline-size: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Download Button
+   -------------------------------------------------------------------------- */
+
+.kcb-download {
+  --download-bg: var(--kcb-navy);
+  --download-icon: var(--kcb-white);
+  --download-hover-bg: var(--kcb-blue);
+  --download-hover-icon: var(--kcb-white);
+  --download-tooltip-bg: var(--kcb-ink);
+  --download-tooltip-fg: var(--kcb-white);
+
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  inline-size: clamp(2.75rem, 2.55rem + 0.5vw, 3.125rem);
+  block-size: clamp(2.75rem, 2.55rem + 0.5vw, 3.125rem);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--download-bg);
+  color: var(--download-icon);
+  cursor: pointer;
+  box-shadow: 0 8px 22px -14px rgba(14, 48, 72, 0.55);
+  transition:
+    color 260ms ease,
+    background-color 260ms ease,
+    border-color 260ms ease,
+    transform 180ms ease,
+    box-shadow 260ms ease;
+}
+
+.kcb-download__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 0.15rem;
+  inline-size: 1.25rem;
+  block-size: 1.35rem;
+}
+
+.kcb-download__arrow {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.kcb-download__tray {
+  inline-size: 1.125rem;
+  block-size: 0.35rem;
+  border-inline: 2px solid currentColor;
+  border-block-end: 2px solid currentColor;
+  border-end-start-radius: 2px;
+  border-end-end-radius: 2px;
+}
+
+.kcb-download__tooltip {
+  position: absolute;
+  z-index: 20;
+  inset-block-start: 50%;
+  inset-inline-start: calc(100% + 0.75rem);
+  max-inline-size: min(15rem, 70vw);
+  transform: translate(0.35rem, -50%);
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.5rem;
+  background: var(--download-tooltip-bg);
+  color: var(--download-tooltip-fg);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 220ms var(--kcb-ease),
+    visibility 180ms ease;
+}
+
+.kcb-download__tooltip::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -0.3rem;
+  inset-block-start: 50%;
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  background: inherit;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Cuando no hay espacio a la derecha, el tooltip se coloca a la izquierda por
+   composición explícita: nunca se deja que provoque desbordamiento. */
+.kcb-download[data-tooltip-side='start'] .kcb-download__tooltip {
+  inset-inline-start: auto;
+  inset-inline-end: calc(100% + 0.75rem);
+  transform: translate(-0.35rem, -50%);
+}
+
+.kcb-download[data-tooltip-side='start'] .kcb-download__tooltip::before {
+  inset-inline-start: auto;
+  inset-inline-end: -0.3rem;
+}
+
+.kcb-download:is(:hover, :focus-visible) {
+  background: var(--download-hover-bg);
+  color: var(--download-hover-icon);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -14px rgba(14, 48, 72, 0.6);
+}
+
+.kcb-download:is(:hover, :focus-visible) .kcb-download__arrow {
+  animation: kcb-download-enter 520ms var(--kcb-ease) both;
+}
+
+.kcb-download:is(:hover, :focus-visible) .kcb-download__tooltip,
+.kcb-download[data-tooltip-side='start']:is(:hover, :focus-visible) .kcb-download__tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+}
+
+.kcb-download:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--kcb-focus) 55%, transparent);
+  outline-offset: 3px;
+}
+
+.kcb-download:active {
+  transform: scale(0.96);
+}
+
+.kcb-download[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.45;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+@keyframes kcb-download-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-0.55rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* En pantallas sin hover fiable el tooltip se oculta: la tarjeta ya muestra
+   tipo y tamaño, y `aria-label` conserva la información completa. */
+@media (hover: none) {
+  .kcb-download__tooltip {
+    display: none;
+  }
+}
+
+.kcb-download[data-surface='light'] {
+  --download-bg: var(--kcb-navy);
+  --download-icon: var(--kcb-white);
+  --download-hover-bg: var(--kcb-blue);
+  --download-hover-icon: var(--kcb-white);
+}
+
+.kcb-download[data-surface='dark'],
+.kcb-download[data-surface='blue'] {
+  --download-bg: rgba(255, 255, 255, 0.14);
+  --download-icon: var(--kcb-white);
+  --download-hover-bg: var(--kcb-white);
+  --download-hover-icon: var(--kcb-navy);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* --------------------------------------------------------------------------
+   Movimiento reducido
+   El cambio de color y el foco siguen siendo comprensibles aunque las flechas
+   no se desplacen.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .kcb-action,
+  .kcb-action *,
+  .kcb-download,
+  .kcb-download * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .kcb-action:is(:hover, :focus-visible) .kcb-action__fill {
+    clip-path: circle(150% at 50% 50%);
+  }
+
+  .kcb-action:is(:hover, :focus-visible) .kcb-action__label,
+  .kcb-action:is(:hover, :focus-visible) .kcb-action__arrow {
+    transform: none;
+  }
+
+  .kcb-action:is(:hover, :focus-visible) .kcb-action__arrow--exit {
+    opacity: 0;
+  }
+
+  .kcb-action:is(:hover, :focus-visible) .kcb-action__arrow--enter {
+    opacity: 1;
+  }
+
+  .kcb-action__spinner {
+    animation: kcb-spin 1.2s linear infinite !important;
+  }
+}

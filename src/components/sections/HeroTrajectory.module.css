@@ -1,0 +1,51 @@
+/* Estado por defecto: la trayectoria está dibujada.
+   La animación solo se añade cuando el script previo al pintado confirma que
+   el movimiento está permitido, así que sin JavaScript —o con movimiento
+   reducido— el gráfico se ve completo en lugar de quedar como un marco vacío. */
+
+:global(html[data-motion='on']) .line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+:global(html[data-motion='on']) .area,
+:global(html[data-motion='on']) .dot {
+  opacity: 0;
+  animation: fade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+:global(html[data-motion='on']) .area {
+  animation-delay: 0.5s;
+}
+
+:global(html[data-motion='on']) .dot {
+  animation-delay: 1.4s;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Red de seguridad, coherente con el resto del sistema. */
+@media (prefers-reduced-motion: reduce) {
+  .line {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+
+  .area,
+  .dot {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,200 @@
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-block-end: 1px solid var(--color-line);
+  transition:
+    box-shadow 300ms var(--ease-kcb),
+    background-color 300ms var(--ease-kcb);
+}
+
+/* Elevación declarada una sola vez: al desplazar, el filete cede ante la sombra. */
+.header[data-scrolled='true'] {
+  background: rgba(255, 255, 255, 0.97);
+  border-block-end-color: transparent;
+  box-shadow: var(--shadow-soft-sm);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 78rem;
+  min-block-size: var(--kcb-header-height);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+.brand {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.logo {
+  block-size: 2.125rem;
+  inline-size: auto;
+}
+
+@media (min-width: 72rem) {
+  .logo {
+    block-size: 2.625rem;
+  }
+}
+
+.nav {
+  display: none;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  /* Alineado al final: así la navegación nunca puede invadir el logo, por
+     larga que sea una etiqueta. */
+  justify-content: flex-end;
+  gap: clamp(0.75rem, 1.5vw, 1.75rem);
+}
+
+.link {
+  display: inline-block;
+  padding: 0.5rem 0.125rem;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: clamp(0.875rem, 0.8rem + 0.15vw, 0.9375rem);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 200ms var(--ease-kcb);
+}
+
+.link:hover {
+  color: var(--color-blue);
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.75rem;
+  margin-inline-start: auto;
+}
+
+.ctaWrap {
+  display: none;
+}
+
+/* --- Control del menú móvil ------------------------------------------------
+   Deliberadamente no es un Action Button: es un control especializado. */
+
+.burger {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  background: var(--color-white);
+  color: var(--color-navy);
+  cursor: pointer;
+  transition:
+    background-color 200ms var(--ease-kcb),
+    border-color 200ms var(--ease-kcb);
+}
+
+.burger:hover {
+  background: var(--color-tint);
+  border-color: transparent;
+}
+
+.burgerIcon {
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+}
+
+@media (min-width: 72rem) {
+  .nav {
+    display: block;
+  }
+
+  .ctaWrap {
+    display: inline-flex;
+  }
+
+  .burger {
+    display: none;
+  }
+}
+
+/* --- Panel móvil ---------------------------------------------------------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(14, 48, 72, 0.45);
+}
+
+.panel {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  inline-size: min(22rem, 88vw);
+  padding: calc(var(--kcb-header-height) + 1.5rem) 1.5rem 2rem;
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.panelMenu {
+  display: flex;
+  flex-direction: column;
+}
+
+.panelLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-block-size: 3.25rem;
+  padding-block: 0.75rem;
+  border-block-end: 1px solid var(--color-line);
+  color: var(--color-navy);
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 200ms var(--ease-kcb);
+}
+
+.panelLink:hover {
+  color: var(--color-blue);
+}
+
+.panelArrow {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  flex: none;
+  color: var(--color-muted);
+}
+
+.panelFoot {
+  margin-block-start: auto;
+  padding-block-start: 2rem;
+}
+
+@media (min-width: 72rem) {
+  .overlay,
+  .panel {
+    display: none;
+  }
+}

@@ -1,0 +1,73 @@
+/* ==========================================================================
+   Tokens de marca — Kaizen Casa de Bolsa
+   Valores fijados por BRAND.md y BUTTON_SYSTEM.md. No añadir colores fuera
+   de esta paleta ni redefinir estos valores en componentes.
+   ========================================================================== */
+
+@theme {
+  /* --- Paleta principal --------------------------------------------------- */
+  --color-navy: #0e3048;
+  --color-blue: #205890;
+  --color-blue-2: #3e7cb0;
+  --color-tint: #eaf1f8;
+  --color-tint-2: #dbe8f4;
+  --color-pearl: #f5f7fa;
+  --color-white: #ffffff;
+  --color-ink: #1b2a3a;
+  --color-muted: #5b6b7e;
+  --color-line: rgba(14, 48, 72, 0.1);
+  --color-emerald: #0e9f6e;
+  --color-emerald-hover: #0b855c;
+
+  /* --- Paleta semántica --------------------------------------------------- */
+  --color-positive: #1b8a5a;
+  --color-negative: #c0392b;
+  --color-positive-on-navy: #5fe0a6;
+  --color-negative-on-navy: #ff9c8e;
+  --color-chart-light: #9dc2e6;
+
+  /* --- Tipografía --------------------------------------------------------- */
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Sombras azuladas y difusas (nunca negras) -------------------------- */
+  --shadow-soft: 0 20px 50px -22px rgba(14, 48, 72, 0.28);
+  --shadow-soft-sm: 0 10px 28px -16px rgba(14, 48, 72, 0.26);
+
+  /* --- Radios ------------------------------------------------------------- */
+  --radius-card: 16px;
+  --radius-panel: 20px;
+  --radius-pill: 999px;
+
+  /* --- Movimiento --------------------------------------------------------- */
+  --ease-kcb: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+:root {
+  /* Alias usados por el sistema de botones, que define sus propias variables
+     por superficie. Mantienen los nombres de BUTTON_SYSTEM.md. */
+  --kcb-navy: var(--color-navy);
+  --kcb-blue: var(--color-blue);
+  --kcb-blue-2: var(--color-blue-2);
+  --kcb-tint: var(--color-tint);
+  --kcb-white: var(--color-white);
+  --kcb-ink: var(--color-ink);
+  --kcb-line: var(--color-line);
+  --kcb-emerald: var(--color-emerald);
+  --kcb-ease: var(--ease-kcb);
+  --kcb-focus: var(--color-emerald);
+
+  /* Altura real de los elementos fijos: la usan `scroll-margin-top` de las
+     secciones y el desplazamiento del menú móvil, para que un enlace ancla
+     nunca deje el título oculto bajo la barra. */
+  --kcb-ticker-height: 2.25rem;
+  --kcb-header-height: 4.25rem;
+  --kcb-sticky-offset: calc(var(--kcb-header-height) + 0.5rem);
+}
+
+/* Debe coincidir con el punto en que `SiteHeader` cambia a navegación completa. */
+@media (min-width: 72rem) {
+  :root {
+    --kcb-header-height: 5rem;
+  }
+}
