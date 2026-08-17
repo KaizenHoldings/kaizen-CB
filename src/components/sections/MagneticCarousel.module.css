@@ -1,0 +1,234 @@
+/* Carrusel magnético — franja de soluciones financieras.
+   La geometría la calcula el componente en JavaScript; aquí viven la
+   superficie, el contenido y sus estados. */
+
+.viewport {
+  position: relative;
+  /* Sin barra de desplazamiento en ningún tamaño: la franja se recorre
+     arrastrándola, y al abrir una tarjeta la pista se corre sola. */
+  overflow: hidden;
+  /* Ocupa la banda que le cede la sección, en lugar de imponer su propia
+     altura: así el bloque entero cabe en una pantalla. */
+  block-size: 100%;
+  /* Aire para el anillo de foco y para la tarjeta abierta. */
+  padding-block: 1rem;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.backdrop[data-active='true'] {
+  pointer-events: auto;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  /* `safe` evita que, al desbordar, el centrado deje inalcanzable el extremo
+     izquierdo de la franja. */
+  justify-content: center;
+  justify-content: safe center;
+  gap: 8px;
+  inline-size: 100%;
+  /* La pista llena la banda disponible; el tamaño de apertura se mide desde
+     ella, de modo que la tarjeta abierta nunca la desborda. */
+  min-block-size: 100%;
+  margin: 0;
+  list-style: none;
+  padding: 0;
+  /* El gesto horizontal es del carrusel; el vertical sigue siendo de la
+     página, para no secuestrar el desplazamiento en pantallas táctiles. */
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.track:active {
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+}
+
+/* Aire en los extremos: al abrir la primera o la última tarjeta el recorrido
+   llega al tope y, sin él, quedarían pegadas al borde de la pantalla.
+   Van como elementos flexibles y no como `padding` porque el relleno final de
+   un contenedor que desborda no entra en `scrollWidth`, así que por la derecha
+   no habría nada que recorrer. Al ser simétricos, el reparto centrado no se
+   mueve y los centros de ranura que calcula la lupa siguen siendo válidos. */
+.track::before,
+.track::after {
+  content: '';
+  flex: none;
+  inline-size: calc(clamp(1.25rem, 4vw, 3rem) - 8px);
+  block-size: 1px;
+}
+
+.item {
+  flex: none;
+  display: block;
+  line-height: 0;
+}
+
+.bar {
+  position: relative;
+  z-index: 2;
+  display: block;
+  overflow: hidden;
+  /* Tamaño contraído: es el que se sirve desde el servidor y al que vuelve la
+     barra cuando el bucle suelta el control del ancho y el alto. */
+  inline-size: 130px;
+  block-size: var(--kcb-bar-height, 400px);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--color-navy);
+  cursor: pointer;
+  will-change: width, height;
+  /* Nunca por encima del espacio disponible: en pantallas bajas la barra cede
+     altura antes que desbordar la banda de la franja. */
+  max-inline-size: calc(100vw - 2.5rem);
+  max-block-size: 100%;
+}
+
+.bar[data-open='true'] {
+  z-index: 3;
+}
+
+.bar[data-dimmed='true'] {
+  opacity: 0.6;
+}
+
+/* El anillo va a plena opacidad: tiene que leerse tanto sobre la fotografía
+   como sobre el azul del contenido. */
+.bar:focus-visible {
+  outline: 3px solid var(--color-emerald);
+  outline-offset: 3px;
+}
+
+.image {
+  object-fit: cover;
+  /* La imagen no intercepta el puntero: el botón entero es el objetivo. */
+  pointer-events: none;
+}
+
+/* --- Contenido -------------------------------------------------------------
+   Velo navy translúcido sobre la fotografía: la imagen se ve arriba y el texto
+   se apoya abajo, donde el velo es más denso.
+   Equivale a `bg-[#0e3048]/70` → `/55` → `/0`.
+   El título va a 1.125rem/700. WCAG trata como «texto grande» el negrita de
+   18px en adelante, así que su umbral es 3:1 y no 4.5:1: con este velo más
+   transparente los nueve productos lo cumplen, incluidas las tres fotografías
+   claras que antes se quedaban entre 3.4 y 3.8:1. */
+
+.content {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  /* `px-3` + `pb-4`: el texto se apoya con holgura sobre el borde inferior. */
+  padding: 0.875rem 0.75rem 1rem;
+  overflow: visible;
+  text-align: start;
+  background: linear-gradient(
+    to top,
+    rgba(14, 48, 72, 0.7) 0%,
+    rgba(14, 48, 72, 0.55) 55%,
+    rgba(14, 48, 72, 0) 100%
+  );
+}
+
+/* El título se lee siempre: es lo que identifica cada producto en reposo.
+   La descripción se pliega y solo se despliega al señalar, enfocar o abrir.
+   El pliegue va con `grid-template-rows`, que sí se puede animar, en lugar de
+   una altura fija que habría que adivinar por producto. */
+.descriptionWrap {
+  display: grid;
+  /* `minmax(0, …)`: un `0fr` a secas conserva el mínimo automático de la
+     fila, y el relleno del texto dejaba unos milímetros asomando. */
+  grid-template-rows: minmax(0, 0fr);
+  transition: grid-template-rows 300ms var(--ease-kcb);
+}
+
+.bar:hover .descriptionWrap,
+.bar:focus-visible .descriptionWrap,
+.bar[data-open='true'] .descriptionWrap {
+  grid-template-rows: minmax(0, 1fr);
+}
+
+/* Equivale a `text-sm font-light leading-snug whitespace-normal break-words
+   text-white`. Vive en el módulo y no como utilidades sueltas porque el resto
+   de la barra se estiliza aquí: mezclarlas dejaría el tamaño a merced del orden
+   de la hoja frente a esta misma clase.
+   `text-wrap: balance` se retira: repartir líneas a lo ancho es justo lo que no
+   interesa en una columna de 106 px. `overflow-wrap` y la partición silábica
+   son lo que impide que «Estructuración» o «Titularización» —palabras más
+   anchas que la propia columna— se salgan por los lados. */
+.title {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.375;
+  color: var(--color-white);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.description {
+  /* La separación va dentro para que se pliegue con el texto. */
+  padding-block-start: 0.4rem;
+  min-block-size: 0;
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-tint);
+  text-wrap: pretty;
+}
+
+/* Abierta hay sitio de sobra: el texto sube de escala y respira. */
+.bar[data-open='true'] .content {
+  gap: 0.5rem;
+  padding: 1.5rem 1.5rem 1.75rem;
+}
+
+.bar[data-open='true'] .title {
+  font-size: clamp(1.35rem, 1.15rem + 1vw, 1.875rem);
+  letter-spacing: -0.02em;
+}
+
+.bar[data-open='true'] .description {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  max-inline-size: 46ch;
+}
+
+/* --- Movimiento reducido ---------------------------------------------------
+   Sin lupa continua, sin desenfoque y sin animar tamaños: se conserva elegir,
+   abrir, leer y cerrar, con respuesta inmediata de color y opacidad. */
+
+@media (prefers-reduced-motion: reduce) {
+  .descriptionWrap {
+    transition: none;
+  }
+
+  .bar {
+    will-change: auto;
+  }
+
+  .viewport {
+    scroll-behavior: auto;
+  }
+}

@@ -41,6 +41,7 @@
   box-shadow: 0 0 0 0 transparent;
   transition:
     color 420ms var(--kcb-ease),
+    background-color 420ms var(--kcb-ease),
     border-color 420ms var(--kcb-ease),
     border-radius 420ms var(--kcb-ease),
     box-shadow 420ms var(--kcb-ease),
@@ -214,6 +215,19 @@
   --btn-border: var(--kcb-emerald);
   --btn-fill: var(--kcb-white);
   --btn-hover-fg: var(--kcb-navy);
+}
+
+/* Relleno de hover indicado por el cliente para el CTA de apertura de cuenta.
+   El sistema traía Emerald en la variante oscura y Blue en la clara; aquí el
+   círculo que se expande es este Navy. No cambia el patrón ni los tiempos: solo
+   el color del relleno y el del texto que queda encima. Los atributos del
+   selector le dan la especificidad necesaria para ganar a las variantes por
+   superficie declaradas arriba. */
+   
+.kcb-action.kcb-action--navy-hover[data-surface][data-emphasis] {
+  /*este es el del boton*/
+  --btn-fill: #1d5284;
+  --btn-hover-fg: var(--kcb-white);
 }
 
 .kcb-action[data-full-width='true'] {

@@ -30,7 +30,7 @@ export const PublicationCard: React.FC<{
   const dateLabel = formatShortDate(publication.publishedAt)
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[16px] bg-white shadow-[0_10px_28px_-16px_rgba(14,48,72,0.26)] transition-shadow duration-300 hover:shadow-[0_20px_50px_-22px_rgba(14,48,72,0.28)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white border border-line shadow-[var(--shadow-soft-sm)] transition-shadow duration-300 hover:shadow-[var(--shadow-soft)]">
       {publication.image ? (
         <div className="relative aspect-[16/9] overflow-hidden bg-tint">
           <Image

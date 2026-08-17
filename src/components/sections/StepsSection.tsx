@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 
 /**
@@ -29,7 +30,7 @@ const STEPS = [
 
 export const StepsSection: React.FC = () => (
   <section id="pasos" className="kcb-section bg-tint" aria-labelledby="pasos-titulo">
-    <div className="kcb-container">
+    <Reveal className="kcb-container">
       <SectionHeading
         id="pasos-titulo"
         title="Abrir tu cuenta es sencillo"
@@ -56,6 +57,6 @@ export const StepsSection: React.FC = () => (
           </li>
         ))}
       </ol>
-    </div>
+    </Reveal>
   </section>
 )

@@ -1,7 +1,7 @@
 'use client'
 
-import { motion, useReducedMotion } from 'motion/react'
-import React from 'react'
+import { motion } from 'motion/react'
+import React, { useEffect, useState } from 'react'
 
 type RevealProps = {
   children: React.ReactNode
@@ -20,15 +20,25 @@ type RevealProps = {
   as?: 'div' | 'section' | 'article' | 'li' | 'header' | 'aside'
 }
 
+/** Recorrido vertical de la entrada. Contenido a propósito: es un movimiento
+ *  institucional, no un rebote. */
+const TRAVEL = 30
+
+const TRANSITION = { duration: 0.6, ease: 'easeOut' as const }
+
 /**
- * Entrada de sección.
+ * Entrada de sección. Único componente de entrada del sitio: las secciones no
+ * declaran su propia animación, la piden a este.
  *
- * El estado oculto NO se renderiza en el servidor: lo aplica `globals.css`
- * únicamente cuando el script previo al pintado marca `data-motion="on"` en la
- * raíz, es decir, solo si hay JavaScript y el sistema no pide movimiento
- * reducido. Así, si la animación no puede ejecutarse —sin JS, con movimiento
- * reducido, o si la hidratación falla—, el contenido queda visible en lugar de
- * desaparecer. Motion parte del valor que la hoja de estilos dejó puesto.
+ * El estado inicial lo declara Motion, no la hoja de estilos, porque necesita
+ * conocer el punto de partida en el montaje para poder interpolarlo; si se le
+ * entrega después, solo anima la opacidad y el desplazamiento no ocurre.
+ *
+ * Ese `initial` también viaja en el HTML del servidor, así que `globals.css`
+ * lo deshace mientras el script previo al pintado no haya marcado la raíz: sin
+ * JavaScript el contenido se lee entero y en su sitio.
+ *
+ * Con movimiento reducido queda solo el fundido, sin recorrido vertical.
  */
 export const Reveal: React.FC<RevealProps> = ({
   children,
@@ -38,28 +48,35 @@ export const Reveal: React.FC<RevealProps> = ({
   trigger = 'view',
   as = 'div',
 }) => {
-  const prefersReducedMotion = useReducedMotion()
+  /* Arranca en `false` porque es lo único que el servidor puede saber; el
+     primer render del cliente coincide con el HTML servido y el valor real se
+     establece al montar, sin aviso de hidratación. */
+  const [reduceMotion, setReduceMotion] = useState(false)
 
-  if (prefersReducedMotion) {
-    const Static = as
-    return <Static className={className}>{children}</Static>
-  }
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const sync = () => setReduceMotion(query.matches)
+    sync()
+    query.addEventListener('change', sync)
+    return () => query.removeEventListener('change', sync)
+  }, [])
 
   const Component = motion[as]
 
-  const transition = {
-    duration: 0.55,
-    delay,
-    // Ease-out exponencial: rápido al entrar, asentado al final.
-    ease: [0.16, 1, 0.3, 1] as const,
-  }
+  // Sin recorrido cuando se pide movimiento reducido o cuando la variante es
+  // un fundido puro.
+  const travel = reduceMotion || motionStyle === 'none' ? 0 : TRAVEL
+  const hidden = { opacity: 0, y: travel }
+  const shown = { opacity: 1, y: 0 }
+  const transition = { ...TRANSITION, delay }
 
   if (trigger === 'mount') {
     return (
       <Component
         className={className}
         data-reveal={motionStyle}
-        animate={{ opacity: 1, y: 0 }}
+        initial={hidden}
+        animate={shown}
         transition={transition}
       >
         {children}
@@ -71,8 +88,18 @@ export const Reveal: React.FC<RevealProps> = ({
     <Component
       className={className}
       data-reveal={motionStyle}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15, margin: '0px 0px -80px 0px' }}
+      initial={hidden}
+      whileInView={shown}
+      /* `once: false`: la entrada se repite cada vez que la sección vuelve a
+         pantalla.
+         Sin margen negativo a propósito. Recortar la zona de disparo —un
+         `-10% 0px`, por ejemplo— funciona mientras la animación ocurre una sola
+         vez, pero repitiéndola vuelve a ocultar lo que ya está en pantalla: un
+         bloque apoyado en la franja superior o inferior de la ventana queda
+         fuera del área recortada y se desvanece a la vista. Medido: el CTA de
+         productos a 830 px de una ventana de 900 caía en esa banda y se
+         quedaba en opacidad 0. Con el área completa, nada visible se oculta. */
+      viewport={{ once: false }}
       transition={transition}
     >
       {children}

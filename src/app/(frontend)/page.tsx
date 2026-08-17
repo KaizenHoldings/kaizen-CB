@@ -3,11 +3,11 @@ import React from 'react'
 import { AboutSection } from '@/components/sections/AboutSection'
 import { AdvantagesSection } from '@/components/sections/AdvantagesSection'
 import { ComplianceSection } from '@/components/sections/ComplianceSection'
-import { ContactSection } from '@/components/sections/ContactSection'
 import { FinancialInformationSection } from '@/components/sections/FinancialInformationSection'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { MarketSection } from '@/components/sections/MarketSection'
 import { NewsletterSection } from '@/components/sections/NewsletterSection'
+import { PitchSection } from '@/components/sections/PitchSection'
 import { ProductsSection } from '@/components/sections/ProductsSection'
 import { RegistrationSection } from '@/components/sections/RegistrationSection'
 import { StepsSection } from '@/components/sections/StepsSection'
@@ -33,6 +33,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      <PitchSection />
       <AboutSection />
       <ProductsSection />
       <AdvantagesSection />
@@ -41,7 +42,6 @@ export default async function HomePage() {
       <ComplianceSection publications={publications} />
       <StepsSection />
       <RegistrationSection />
-      <ContactSection />
       <NewsletterSection />
     </>
   )

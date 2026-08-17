@@ -26,7 +26,7 @@ export default function NotFound() {
             <ActionButton href="/" surface="light" emphasis="primary">
               Volver al inicio
             </ActionButton>
-            <Link href="/#contacto" className="kcb-link min-h-11 content-center">
+            <Link href="/contacto" className="kcb-link min-h-11 content-center">
               Escribirnos
             </Link>
           </div>

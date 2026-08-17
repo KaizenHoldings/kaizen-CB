@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
       { pathname: '/api/media/file/**' },
       // Logo e isotipo oficiales servidos desde `public/brand`.
       { pathname: '/brand/**' },
+      // Fotografía institucional servida desde `public/img`.
+      { pathname: '/img/**' },
     ],
   },
   webpack: (webpackConfig) => {

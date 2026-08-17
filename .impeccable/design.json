@@ -1,11 +1,17 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-11T00:00:00.000Z",
+  "generatedAt": "2026-08-14T14:47:24.868930Z",
   "title": "Design System: Kaizen Casa de Bolsa",
   "extensions": {
     "authority": {
       "note": "BRAND.md and BUTTON_SYSTEM.md at the project root are binding external authority. They own the palette, the two type families, logo usage, shadow character, iconography, tone and the two button behaviours. This sidecar records how that pinned world landed in code; it never overrides those files.",
-      "sources": ["BRAND.md", "BUTTON_SYSTEM.md", "src/styles/tokens.css", "src/styles/buttons.css", "src/app/(frontend)/globals.css"]
+      "sources": [
+        "BRAND.md",
+        "BUTTON_SYSTEM.md",
+        "src/styles/tokens.css",
+        "src/styles/buttons.css",
+        "src/app/(frontend)/globals.css"
+      ]
     },
     "colorMeta": {
       "navy": {
@@ -13,63 +19,144 @@
         "displayName": "Institutional Navy",
         "canonical": "#0E3048",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#04121C", "#0A2237", "#0E3048", "#16456A", "#205890", "#3E7CB0", "#9DC2E6", "#EAF1F8"]
+        "tonalRamp": [
+          "#04121C",
+          "#0A2237",
+          "#0E3048",
+          "#16456A",
+          "#205890",
+          "#3E7CB0",
+          "#9DC2E6",
+          "#EAF1F8"
+        ]
       },
       "blue": {
         "role": "primary",
         "displayName": "Signal Blue",
         "canonical": "#205890",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#04121C", "#0A2237", "#0E3048", "#16456A", "#205890", "#3E7CB0", "#9DC2E6", "#EAF1F8"]
+        "tonalRamp": [
+          "#04121C",
+          "#0A2237",
+          "#0E3048",
+          "#16456A",
+          "#205890",
+          "#3E7CB0",
+          "#9DC2E6",
+          "#EAF1F8"
+        ]
       },
       "blue-2": {
         "role": "secondary",
         "displayName": "Atlantic Blue",
         "canonical": "#3E7CB0",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#0A2237", "#0E3048", "#16456A", "#205890", "#3E7CB0", "#6FA0CB", "#9DC2E6", "#DBE8F4"]
+        "tonalRamp": [
+          "#0A2237",
+          "#0E3048",
+          "#16456A",
+          "#205890",
+          "#3E7CB0",
+          "#6FA0CB",
+          "#9DC2E6",
+          "#DBE8F4"
+        ]
       },
       "chart-light": {
         "role": "secondary",
         "displayName": "Chart Light",
         "canonical": "#9DC2E6",
         "source": "BRAND.md §6",
-        "tonalRamp": ["#0E3048", "#16456A", "#205890", "#3E7CB0", "#6FA0CB", "#9DC2E6", "#DBE8F4", "#F5F7FA"]
+        "tonalRamp": [
+          "#0E3048",
+          "#16456A",
+          "#205890",
+          "#3E7CB0",
+          "#6FA0CB",
+          "#9DC2E6",
+          "#DBE8F4",
+          "#F5F7FA"
+        ]
       },
       "tint": {
         "role": "neutral",
         "displayName": "Tint",
         "canonical": "#EAF1F8",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#0E3048", "#16456A", "#205890", "#3E7CB0", "#9DC2E6", "#DBE8F4", "#EAF1F8", "#F5F7FA"]
+        "tonalRamp": [
+          "#0E3048",
+          "#16456A",
+          "#205890",
+          "#3E7CB0",
+          "#9DC2E6",
+          "#DBE8F4",
+          "#EAF1F8",
+          "#F5F7FA"
+        ]
       },
       "tint-2": {
         "role": "neutral",
         "displayName": "Tint 2",
         "canonical": "#DBE8F4",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#0E3048", "#16456A", "#205890", "#3E7CB0", "#9DC2E6", "#DBE8F4", "#EAF1F8", "#FFFFFF"]
+        "tonalRamp": [
+          "#0E3048",
+          "#16456A",
+          "#205890",
+          "#3E7CB0",
+          "#9DC2E6",
+          "#DBE8F4",
+          "#EAF1F8",
+          "#FFFFFF"
+        ]
       },
       "pearl": {
         "role": "neutral",
         "displayName": "Pearl",
         "canonical": "#F5F7FA",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#1B2A3A", "#33465A", "#5B6B7E", "#8A99A8", "#C3CDD8", "#DBE8F4", "#F5F7FA", "#FFFFFF"]
+        "tonalRamp": [
+          "#1B2A3A",
+          "#33465A",
+          "#5B6B7E",
+          "#8A99A8",
+          "#C3CDD8",
+          "#DBE8F4",
+          "#F5F7FA",
+          "#FFFFFF"
+        ]
       },
       "white": {
         "role": "neutral",
         "displayName": "White",
         "canonical": "#FFFFFF",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#1B2A3A", "#33465A", "#5B6B7E", "#8A99A8", "#C3CDD8", "#EAF1F8", "#F5F7FA", "#FFFFFF"]
+        "tonalRamp": [
+          "#1B2A3A",
+          "#33465A",
+          "#5B6B7E",
+          "#8A99A8",
+          "#C3CDD8",
+          "#EAF1F8",
+          "#F5F7FA",
+          "#FFFFFF"
+        ]
       },
       "ink": {
         "role": "neutral",
         "displayName": "Ink",
         "canonical": "#1B2A3A",
         "source": "BRAND.md §5",
-        "tonalRamp": ["#0D1620", "#12202D", "#1B2A3A", "#33465A", "#5B6B7E", "#8A99A8", "#DBE8F4", "#F5F7FA"]
+        "tonalRamp": [
+          "#0D1620",
+          "#12202D",
+          "#1B2A3A",
+          "#33465A",
+          "#5B6B7E",
+          "#8A99A8",
+          "#DBE8F4",
+          "#F5F7FA"
+        ]
       },
       "muted": {
         "role": "neutral",
@@ -77,14 +164,32 @@
         "canonical": "#5B6B7E",
         "source": "BRAND.md §5",
         "contrast": "4.79:1 on Tint #EAF1F8 — passes AA and is the floor of the system.",
-        "tonalRamp": ["#0D1620", "#12202D", "#1B2A3A", "#33465A", "#5B6B7E", "#8A99A8", "#C3CDD8", "#F5F7FA"]
+        "tonalRamp": [
+          "#0D1620",
+          "#12202D",
+          "#1B2A3A",
+          "#33465A",
+          "#5B6B7E",
+          "#8A99A8",
+          "#C3CDD8",
+          "#F5F7FA"
+        ]
       },
       "line": {
         "role": "neutral",
         "displayName": "Line",
         "canonical": "rgba(14, 48, 72, 0.10)",
         "source": "BRAND.md §5",
-        "tonalRamp": ["rgba(14,48,72,0.60)", "rgba(14,48,72,0.45)", "rgba(14,48,72,0.32)", "rgba(14,48,72,0.22)", "rgba(14,48,72,0.16)", "rgba(14,48,72,0.10)", "rgba(14,48,72,0.06)", "rgba(14,48,72,0.03)"]
+        "tonalRamp": [
+          "rgba(14,48,72,0.60)",
+          "rgba(14,48,72,0.45)",
+          "rgba(14,48,72,0.32)",
+          "rgba(14,48,72,0.22)",
+          "rgba(14,48,72,0.16)",
+          "rgba(14,48,72,0.10)",
+          "rgba(14,48,72,0.06)",
+          "rgba(14,48,72,0.03)"
+        ]
       },
       "emerald": {
         "role": "tertiary",
@@ -92,82 +197,237 @@
         "canonical": "#0E9F6E",
         "source": "BRAND.md §5",
         "contrast": "2.97:1 on Tint #EAF1F8 — FAILS AA. Reserved for live/positive signalling and the focus ring; never the general icon color.",
-        "tonalRamp": ["#03291C", "#053D2A", "#0B553B", "#0B855C", "#0E9F6E", "#3FC194", "#7FE9BD", "#E8F4F0"]
+        "tonalRamp": [
+          "#03291C",
+          "#053D2A",
+          "#0B553B",
+          "#0B855C",
+          "#0E9F6E",
+          "#3FC194",
+          "#7FE9BD",
+          "#E8F4F0"
+        ]
       },
       "emerald-hover": {
         "role": "tertiary",
         "displayName": "Emerald Hover",
         "canonical": "#0B855C",
         "source": "BRAND.md §6",
-        "tonalRamp": ["#03291C", "#053D2A", "#0B553B", "#0B855C", "#0E9F6E", "#3FC194", "#7FE9BD", "#E8F4F0"]
+        "tonalRamp": [
+          "#03291C",
+          "#053D2A",
+          "#0B553B",
+          "#0B855C",
+          "#0E9F6E",
+          "#3FC194",
+          "#7FE9BD",
+          "#E8F4F0"
+        ]
       },
       "positive": {
         "role": "tertiary",
         "displayName": "Positive",
         "canonical": "#1B8A5A",
         "source": "BRAND.md §6",
-        "tonalRamp": ["#042417", "#062E1F", "#0E5138", "#1B8A5A", "#2FA873", "#5FE0A6", "#A8EFD0", "#E8F4F0"]
+        "tonalRamp": [
+          "#042417",
+          "#062E1F",
+          "#0E5138",
+          "#1B8A5A",
+          "#2FA873",
+          "#5FE0A6",
+          "#A8EFD0",
+          "#E8F4F0"
+        ]
       },
       "negative": {
         "role": "tertiary",
         "displayName": "Negative",
         "canonical": "#C0392B",
         "source": "BRAND.md §6",
-        "tonalRamp": ["#3B0E08", "#571510", "#7A2018", "#9E2C20", "#C0392B", "#DB6B5E", "#FF9C8E", "#FBE7E4"]
+        "tonalRamp": [
+          "#3B0E08",
+          "#571510",
+          "#7A2018",
+          "#9E2C20",
+          "#C0392B",
+          "#DB6B5E",
+          "#FF9C8E",
+          "#FBE7E4"
+        ]
       },
       "positive-on-navy": {
         "role": "tertiary",
         "displayName": "Positive on Navy",
         "canonical": "#5FE0A6",
         "source": "BRAND.md §6",
-        "tonalRamp": ["#053D2A", "#0B553B", "#0B855C", "#0E9F6E", "#3FC194", "#5FE0A6", "#A8EFD0", "#E8F4F0"]
+        "tonalRamp": [
+          "#053D2A",
+          "#0B553B",
+          "#0B855C",
+          "#0E9F6E",
+          "#3FC194",
+          "#5FE0A6",
+          "#A8EFD0",
+          "#E8F4F0"
+        ]
       },
       "negative-on-navy": {
         "role": "tertiary",
         "displayName": "Negative on Navy",
         "canonical": "#FF9C8E",
         "source": "BRAND.md §6",
-        "tonalRamp": ["#571510", "#7A2018", "#9E2C20", "#C0392B", "#DB6B5E", "#FF9C8E", "#FFC6BD", "#FBE7E4"]
+        "tonalRamp": [
+          "#571510",
+          "#7A2018",
+          "#9E2C20",
+          "#C0392B",
+          "#DB6B5E",
+          "#FF9C8E",
+          "#FFC6BD",
+          "#FBE7E4"
+        ]
       }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "The page h1 only. Currently the hero headline on the Blue→Navy gradient." },
-      "lead": { "displayName": "Lead", "purpose": "SectionHeading size=\"lead\". The second focal scale of the page, reserved for the financial-information section." },
-      "headline": { "displayName": "Headline", "purpose": "Default section h2 via SectionHeading." },
-      "title": { "displayName": "Title", "purpose": "SectionHeading level={3} and subsection headings." },
-      "card-title": { "displayName": "Card Title", "purpose": "Publication and document titles, hero route names, mobile panel links. The one heading size that does not scale with viewport." },
-      "body": { "displayName": "Body", "purpose": "Inter base reading at 1.65. Section descriptions step to 1.0625rem; rich text runs 1.0625rem/1.75." },
-      "body-small": { "displayName": "Body Small", "purpose": "Metadata, file type/size, dates, dense supporting copy." },
-      "label": { "displayName": "Label", "purpose": "Small uppercase tracked Sora label naming a group of choices immediately beneath it. Wide tracking is reserved for this role by BRAND.md §8." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "The page h1 only. Currently the hero headline on the Blue→Navy gradient."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "SectionHeading size=\"lead\". The second focal scale of the page, reserved for the financial-information section."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Default section h2 via SectionHeading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "SectionHeading level={3} and subsection headings."
+      },
+      "card-title": {
+        "displayName": "Card Title",
+        "purpose": "Publication and document titles, hero route names, mobile panel links. The one heading size that does not scale with viewport."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Inter base reading at 1.65. Section descriptions step to 1.0625rem; rich text runs 1.0625rem/1.75."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Metadata, file type/size, dates, dense supporting copy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Small uppercase tracked Sora label naming a group of choices immediately beneath it. Wide tracking is reserved for this role by BRAND.md §8."
+      }
     },
     "shadows": [
-      { "name": "soft", "value": "0 20px 50px -22px rgba(14, 48, 72, 0.28)", "purpose": "The lifted state: mobile navigation panel, publication card on hover. Fixed by BRAND.md §9." },
-      { "name": "soft-sm", "value": "0 10px 28px -16px rgba(14, 48, 72, 0.26)", "purpose": "Resting card and the scrolled header. Fixed by BRAND.md §9." },
-      { "name": "action-hover", "value": "0 14px 30px -16px rgba(14, 48, 72, 0.48)", "purpose": "Local to .kcb-action on hover/focus-visible only." },
-      { "name": "download-rest", "value": "0 8px 22px -14px rgba(14, 48, 72, 0.55)", "purpose": "The one control elevated at rest, because it is a compact circular target." },
-      { "name": "download-hover", "value": "0 12px 26px -14px rgba(14, 48, 72, 0.60)", "purpose": "Download Button hover/focus-visible." }
+      {
+        "name": "soft",
+        "value": "0 20px 50px -22px rgba(14, 48, 72, 0.28)",
+        "purpose": "The lifted state: mobile navigation panel, publication card on hover. Fixed by BRAND.md §9."
+      },
+      {
+        "name": "soft-sm",
+        "value": "0 10px 28px -16px rgba(14, 48, 72, 0.26)",
+        "purpose": "Resting card and the scrolled header. Fixed by BRAND.md §9."
+      },
+      {
+        "name": "action-hover",
+        "value": "0 14px 30px -16px rgba(14, 48, 72, 0.48)",
+        "purpose": "Local to .kcb-action on hover/focus-visible only."
+      },
+      {
+        "name": "download-rest",
+        "value": "0 8px 22px -14px rgba(14, 48, 72, 0.55)",
+        "purpose": "The one control elevated at rest, because it is a compact circular target."
+      },
+      {
+        "name": "download-hover",
+        "value": "0 12px 26px -14px rgba(14, 48, 72, 0.60)",
+        "purpose": "Download Button hover/focus-visible."
+      }
     ],
     "motion": [
-      { "name": "ease-kcb", "value": "cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "The brand easing (BUTTON_SYSTEM.md §4). Buttons, header, links, panels." },
-      { "name": "ease-entrance", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Exponential ease-out for section entrances and the hero trajectory draw." },
-      { "name": "duration-reveal", "value": "550ms", "purpose": "Section entrance duration; stagger steps stay within 80ms." },
-      { "name": "duration-fill", "value": "620ms", "purpose": "Action Button radial fill and arrow exchange." },
-      { "name": "duration-state", "value": "260ms", "purpose": "Download Button and card state transitions." },
-      { "name": "trajectory-draw", "value": "1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards", "purpose": "Hero trajectory stroke-dash draw, applied only under html[data-motion='on']." },
-      { "name": "ticker-scroll", "value": "48s linear infinite", "purpose": "Market ticker track; pauses on control, on :focus-within, and entirely under reduced motion." },
-      { "name": "gate", "value": "html[data-motion='on']", "purpose": "The motion contract: no hidden state is ever server-rendered. The pre-paint inline script in src/app/(frontend)/layout.tsx sets data-motion only when prefers-reduced-motion is not set. Without JS or with reduced motion, content renders visible." }
+      {
+        "name": "ease-kcb",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "The brand easing (BUTTON_SYSTEM.md §4). Buttons, header, links, panels."
+      },
+      {
+        "name": "ease-entrance",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Exponential ease-out for section entrances and the hero trajectory draw."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "550ms",
+        "purpose": "Section entrance duration; stagger steps stay within 80ms."
+      },
+      {
+        "name": "duration-fill",
+        "value": "620ms",
+        "purpose": "Action Button radial fill and arrow exchange."
+      },
+      {
+        "name": "duration-state",
+        "value": "260ms",
+        "purpose": "Download Button and card state transitions."
+      },
+      {
+        "name": "trajectory-draw",
+        "value": "1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards",
+        "purpose": "Hero trajectory stroke-dash draw, applied only under html[data-motion='on']."
+      },
+      {
+        "name": "ticker-scroll",
+        "value": "48s linear infinite",
+        "purpose": "Market ticker track; pauses on control, on :focus-within, and entirely under reduced motion."
+      },
+      {
+        "name": "gate",
+        "value": "html[data-motion='on']",
+        "purpose": "The motion contract: no hidden state is ever server-rendered. The pre-paint inline script in src/app/(frontend)/layout.tsx sets data-motion only when prefers-reduced-motion is not set. Without JS or with reduced motion, content renders visible."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "40rem" },
-      { "name": "lg", "value": "64rem" },
-      { "name": "chrome", "value": "72rem", "purpose": "SiteHeader switches to full navigation; --kcb-header-height goes 4.25rem → 5rem." },
-      { "name": "ticker-source-hide", "value": "47.99rem" }
+      {
+        "name": "sm",
+        "value": "40rem"
+      },
+      {
+        "name": "lg",
+        "value": "64rem"
+      },
+      {
+        "name": "chrome",
+        "value": "72rem",
+        "purpose": "SiteHeader switches to full navigation; --kcb-header-height goes 4.25rem → 5rem."
+      },
+      {
+        "name": "ticker-source-hide",
+        "value": "47.99rem"
+      }
     ],
     "layout": [
-      { "name": "container", "value": "max-width: 78rem; padding-inline: clamp(1.25rem, 4vw, 3rem)" },
-      { "name": "section-rhythm", "value": "padding-block: clamp(4rem, 8vw, 7.5rem)" },
-      { "name": "measure", "value": "max-width: 68ch" },
-      { "name": "sticky-offset", "value": "calc(var(--kcb-header-height) + 0.5rem)" }
+      {
+        "name": "container",
+        "value": "max-width: 78rem; padding-inline: clamp(1.25rem, 4vw, 3rem)"
+      },
+      {
+        "name": "section-rhythm",
+        "value": "padding-block: clamp(4rem, 8vw, 7.5rem)"
+      },
+      {
+        "name": "measure",
+        "value": "max-width: 68ch"
+      },
+      {
+        "name": "sticky-offset",
+        "value": "calc(var(--kcb-header-height) + 0.5rem)"
+      }
     ]
   },
   "components": [
@@ -256,23 +516,91 @@
       "No hidden state is ever server-rendered: without JS or with reduced motion the page is fully readable."
     ],
     "rules": [
-      { "name": "The Pinned Palette Rule", "body": "BRAND.md §5–§6 owns the palette. New surfaces select from src/styles/tokens.css; they never introduce a hue, not even once, and never redefine a token locally. Audit test: a hex literal outside tokens.css is a defect unless it is a per-category editorial tag color from BRAND.md §6.", "section": "colors" },
-      { "name": "The Emerald Reserve Rule", "body": "Emerald signals live and positive accent, never \"icon color\". Measured: Emerald #0E9F6E on Tint #EAF1F8 is 2.97:1 and fails AA. This is why .kcb-chip renders its glyph in Blue #205890 on Tint — 6.45:1 — and why BRAND.md §16's \"no Emerald in excess\" is a contrast fact here, not a taste preference.", "section": "colors" },
-      { "name": "The Muted Floor Rule", "body": "Muted #5B6B7E on Tint #EAF1F8 measures 4.79:1 — it passes AA for normal text and is the floor of the entire system. Do not put Muted on any ground lighter-contrast than Tint, do not use it below 0.875rem, and never use it for a control label. BRAND.md §15 states this constraint; the number is the build's measurement of it.", "section": "colors" },
-      { "name": "The Two-Channel Rule", "body": "Direction is never color alone. Every gain or loss carries a symbol and a text value alongside the hue (MarketTicker, DocumentRow metadata), per BRAND.md §6 and PRODUCT.md's accessibility commitments.", "section": "colors" },
-      { "name": "The One Gradient Rule", "body": "Exactly one gradient exists — linear-gradient(160deg, #205890 0%, #0E3048 100%), exposed as the kcb-gradient utility and fixed by BRAND.md §7. It is used for the first viewport and for institutional dark blocks. There is no second gradient, and no component gets one of its own.", "section": "colors" },
-      { "name": "The Two Families Rule", "body": "Sora and Inter, and nothing else, ever — BRAND.md §8 and §16. Sora takes headings, navigation, buttons, labels, figures, table headers and card titles; Inter takes paragraphs, forms, metadata, legal notices.", "section": "typography" },
-      { "name": "The Second Focal Rule", "body": "A page has one Display and at most one lead. SectionHeading size=\"lead\" is a claim about which section carries the evidence; if two sections claim it, neither is emphasized.", "section": "typography" },
-      { "name": "The Bare Heading Rule", "body": "SectionHeading renders no label above its title: the title carries its own weight and the description explains it. A small tracked label appears only where it names a group of choices or items directly beneath it, never as decoration above a section title.", "section": "typography" },
-      { "name": "The Reserved Tracking Rule", "body": "Wide tracking (0.08em) belongs to small uppercase Sora labels and status pills only — BRAND.md §8. Body copy is never uppercase, and headings are never tracked out.", "section": "typography" },
-      { "name": "The Tabular Figures Rule", "body": "Anything comparable is tabular: table and [data-tabular] get font-variant-numeric: tabular-nums in the base layer. Add data-tabular to any element where numbers stack or align.", "section": "typography" },
-      { "name": "The No Sideways Rule", "body": "body carries overflow-x: clip. No section, tooltip or ticker may produce horizontal scroll; the Download Button's tooltip flips side by explicit composition (data-tooltip-side) rather than being allowed to overflow.", "section": "layout" },
-      { "name": "The Measured Chrome Rule", "body": "Any new fixed or sticky element must publish its height as a --kcb-* custom property and fold into --kcb-sticky-offset. Hard-coded scroll offsets are a defect.", "section": "layout" },
-      { "name": "The Declare-Once Rule", "body": "A surface is either a hairline or a shadow, never both. SiteHeader is the reference implementation: at rest it is a 1px --color-line bottom border on translucent white; at data-scrolled=\"true\" the border goes transparent and --shadow-soft-sm takes over. Elevation is never additive.", "section": "elevation" },
-      { "name": "The Blue Shadow Rule", "body": "Every shadow is rgba(14, 48, 72, α) — the navy at low alpha, per BRAND.md §9. A rgba(0,0,0,…) shadow anywhere in the build is a defect.", "section": "elevation" },
-      { "name": "The Hairline-Before-Box Rule", "body": "Group content with a 1px rule and spacing before reaching for a card. The hero's two routes, DocumentRow, and the mobile panel links are all hairline-separated lists, not card grids. A card is justified only when its content is a discrete object with its own image, tag and destination — PublicationCard.", "section": "shapes" },
-      { "name": "The No-Hidden-Server-State Rule", "body": "Hidden state is never server-rendered. Reveal marks its element data-reveal, but the hidden values live only in globals.css under html[data-motion='on'] [data-reveal] (opacity: 0, and translateY(16px) for up). data-motion is set by a pre-paint inline script in src/app/(frontend)/layout.tsx, and only when prefers-reduced-motion is not set. So with no JavaScript, with reduced motion, or if hydration fails, content renders visible. A reduced-motion safety net additionally forces opacity: 1 !important; transform: none !important.", "section": "components" },
-      { "name": "The Mount-In-View Rule", "body": "First-viewport content uses trigger=\"mount\", never scroll-triggered — content already on screen must not wait for a scroll event that may never come. Below the fold, trigger=\"view\" fires once at 15% visibility with an 80px bottom margin. Duration is 0.55s on cubic-bezier(0.16, 1, 0.3, 1); stagger stays within 0.08s steps and never delays a heading — SectionHeading itself does not animate, so reading can begin immediately.", "section": "components" }
+      {
+        "name": "The Pinned Palette Rule",
+        "body": "BRAND.md §5–§6 owns the palette. New surfaces select from src/styles/tokens.css; they never introduce a hue, not even once, and never redefine a token locally. Audit test: a hex literal outside tokens.css is a defect unless it is a per-category editorial tag color from BRAND.md §6.",
+        "section": "colors"
+      },
+      {
+        "name": "The Emerald Reserve Rule",
+        "body": "Emerald signals live and positive accent, never \"icon color\". Measured: Emerald #0E9F6E on Tint #EAF1F8 is 2.97:1 and fails AA. This is why .kcb-chip renders its glyph in Blue #205890 on Tint — 6.45:1 — and why BRAND.md §16's \"no Emerald in excess\" is a contrast fact here, not a taste preference.",
+        "section": "colors"
+      },
+      {
+        "name": "The Muted Floor Rule",
+        "body": "Muted #5B6B7E on Tint #EAF1F8 measures 4.79:1 — it passes AA for normal text and is the floor of the entire system. Do not put Muted on any ground lighter-contrast than Tint, do not use it below 0.875rem, and never use it for a control label. BRAND.md §15 states this constraint; the number is the build's measurement of it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Channel Rule",
+        "body": "Direction is never color alone. Every gain or loss carries a symbol and a text value alongside the hue (MarketTicker, DocumentRow metadata), per BRAND.md §6 and PRODUCT.md's accessibility commitments.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Gradient Rule",
+        "body": "Exactly one gradient exists — linear-gradient(160deg, #205890 0%, #0E3048 100%), exposed as the kcb-gradient utility and fixed by BRAND.md §7. It is used for the first viewport and for institutional dark blocks. There is no second gradient, and no component gets one of its own.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Families Rule",
+        "body": "Sora and Inter, and nothing else, ever — BRAND.md §8 and §16. Sora takes headings, navigation, buttons, labels, figures, table headers and card titles; Inter takes paragraphs, forms, metadata, legal notices.",
+        "section": "typography"
+      },
+      {
+        "name": "The Second Focal Rule",
+        "body": "A page has one Display and at most one lead. SectionHeading size=\"lead\" is a claim about which section carries the evidence; if two sections claim it, neither is emphasized.",
+        "section": "typography"
+      },
+      {
+        "name": "The Bare Heading Rule",
+        "body": "SectionHeading renders no label above its title: the title carries its own weight and the description explains it. A small tracked label appears only where it names a group of choices or items directly beneath it, never as decoration above a section title.",
+        "section": "typography"
+      },
+      {
+        "name": "The Reserved Tracking Rule",
+        "body": "Wide tracking (0.08em) belongs to small uppercase Sora labels and status pills only — BRAND.md §8. Body copy is never uppercase, and headings are never tracked out.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Anything comparable is tabular: table and [data-tabular] get font-variant-numeric: tabular-nums in the base layer. Add data-tabular to any element where numbers stack or align.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Sideways Rule",
+        "body": "body carries overflow-x: clip. No section, tooltip or ticker may produce horizontal scroll; the Download Button's tooltip flips side by explicit composition (data-tooltip-side) rather than being allowed to overflow.",
+        "section": "layout"
+      },
+      {
+        "name": "The Measured Chrome Rule",
+        "body": "Any new fixed or sticky element must publish its height as a --kcb-* custom property and fold into --kcb-sticky-offset. Hard-coded scroll offsets are a defect.",
+        "section": "layout"
+      },
+      {
+        "name": "The Declare-Once Rule",
+        "body": "A surface is either a hairline or a shadow, never both. SiteHeader is the reference implementation: at rest it is a 1px --color-line bottom border on translucent white; at data-scrolled=\"true\" the border goes transparent and --shadow-soft-sm takes over. Elevation is never additive.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Blue Shadow Rule",
+        "body": "Every shadow is rgba(14, 48, 72, α) — the navy at low alpha, per BRAND.md §9. A rgba(0,0,0,…) shadow anywhere in the build is a defect.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Hairline-Before-Box Rule",
+        "body": "Group content with a 1px rule and spacing before reaching for a card. The hero's two routes, DocumentRow, and the mobile panel links are all hairline-separated lists, not card grids. A card is justified only when its content is a discrete object with its own image, tag and destination — PublicationCard.",
+        "section": "shapes"
+      },
+      {
+        "name": "The No-Hidden-Server-State Rule",
+        "body": "Hidden state is never server-rendered. Reveal marks its element data-reveal, but the hidden values live only in globals.css under html[data-motion='on'] [data-reveal] (opacity: 0, and translateY(16px) for up). data-motion is set by a pre-paint inline script in src/app/(frontend)/layout.tsx, and only when prefers-reduced-motion is not set. So with no JavaScript, with reduced motion, or if hydration fails, content renders visible. A reduced-motion safety net additionally forces opacity: 1 !important; transform: none !important.",
+        "section": "components"
+      },
+      {
+        "name": "The Mount-In-View Rule",
+        "body": "First-viewport content uses trigger=\"mount\", never scroll-triggered — content already on screen must not wait for a scroll event that may never come. Below the fold, trigger=\"view\" fires once at 15% visibility with an 80px bottom margin. Duration is 0.55s on cubic-bezier(0.16, 1, 0.3, 1); stagger stays within 0.08s steps and never delays a heading — SectionHeading itself does not animate, so reading can begin immediately.",
+        "section": "components"
+      }
     ],
     "dos": [
       "Do take every color from src/styles/tokens.css, which mirrors BRAND.md §5–§6. Add nothing to it.",

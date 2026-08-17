@@ -1,23 +1,38 @@
+/* Segundo elemento de la pila fija: se apoya bajo la cinta y nunca se oculta.
+   El propio `header` no tiene superficie: arriba del todo es completamente
+   transparente y deja pasar la imagen del hero. */
 .header {
-  position: sticky;
-  inset-block-start: 0;
+  position: fixed;
+  inset-block-start: var(--kcb-ticker-height);
+  inset-inline: 0;
   z-index: 50;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
+  /* Recorta solo por arriba: la superficie entra deslizándose desde encima sin
+     asomar sobre la cinta, mientras la sombra sigue escapando hacia abajo. */
+  clip-path: inset(0 -100vw -100vw -100vw);
+}
+
+/* Capa dedicada, detrás del contenido: es lo único que anima. El logo, los
+   enlaces y el CTA no se mueven ni se remontan mientras cambia de estado. */
+/* Orden dentro del `header`: velo (40) · superficie (41) · panel (45) ·
+   contenido (50). La superficie va por encima del velo para que, con el menú
+   abierto, el navbar siga siendo blanco y no se tiña a medias. */
+.surface {
+  position: absolute;
+  inset: 0;
+  z-index: 41;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
   border-block-end: 1px solid var(--color-line);
-  transition:
-    box-shadow 300ms var(--ease-kcb),
-    background-color 300ms var(--ease-kcb);
-}
-
-/* Elevación declarada una sola vez: al desplazar, el filete cede ante la sombra. */
-.header[data-scrolled='true'] {
-  background: rgba(255, 255, 255, 0.97);
-  border-block-end-color: transparent;
   box-shadow: var(--shadow-soft-sm);
+  will-change: transform, opacity;
 }
 
+/* Por encima del panel móvil (z-45): con el menú abierto, el control de cierre
+   y el logo siguen visibles y pulsables en lugar de quedar bajo la superficie
+   del panel. */
 .inner {
+  position: relative;
+  z-index: 50;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -29,15 +44,44 @@
 }
 
 .brand {
+  position: relative;
   display: inline-flex;
   flex: none;
   align-items: center;
   border-radius: 6px;
 }
 
+/* Las dos versiones oficiales del logo se apilan y se funden entre sí: sobre
+   la imagen del hero manda la clara y sobre la superficie blanca la oscura,
+   tal como fija BRAND.md §4. No se recolorea ni se redibuja ninguna. */
 .logo {
+  display: block;
   block-size: 2.125rem;
   inline-size: auto;
+  transition: opacity 420ms var(--ease-kcb);
+}
+
+.logoLight {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  translate: 0 -50%;
+}
+
+.header .logoDark {
+  opacity: 0;
+}
+
+.header .logoLight {
+  opacity: 1;
+}
+
+.header[data-scrolled='true'] .logoDark {
+  opacity: 1;
+}
+
+.header[data-scrolled='true'] .logoLight {
+  opacity: 0;
 }
 
 @media (min-width: 72rem) {
@@ -61,19 +105,100 @@
   gap: clamp(0.75rem, 1.5vw, 1.75rem);
 }
 
-.link {
-  display: inline-block;
-  padding: 0.5rem 0.125rem;
-  color: var(--color-ink);
-  font-family: var(--font-display);
-  font-size: clamp(0.875rem, 0.8rem + 0.15vw, 0.9375rem);
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: color 200ms var(--ease-kcb);
+/* Sobre la imagen del hero el texto es claro; sobre la superficie blanca pasa
+   a Navy. El estado de interacción no se comunica solo con color: un filete
+   inferior crece bajo la etiqueta. */
+/* Elemento de la navegación: referencia de posición para la pastilla activa. */
+.navItem {
+  position: relative;
+  display: flex;
 }
 
-.link:hover {
+/* Indicador de sección activa. Va detrás del texto, no debajo: no es un
+   subrayado, es una superficie que se desplaza de un destino a otro.
+   El tono se invierte con la superficie del navbar —claro sobre la foto del
+   hero, Navy tenue sobre el blanco— porque una pastilla blanca sobre blanco no
+   existiría. */
+.navPill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: -0.7rem;
+  z-index: 0;
+  border-radius: var(--radius-pill);
+  /* El color lo pone una utilidad en el propio elemento. Aquí no se declara
+     ningún fondo a propósito: una regla de módulo con estado —`[data-scrolled]`
+     tiene más especificidad que una clase suelta— ganaría a esa utilidad. Al
+     ser un color sólido ya no necesita invertirse con la superficie. */
+}
+
+.link {
+  position: relative;
+  /* Por encima de la pastilla. */
+  z-index: 1;
+  display: inline-block;
+  padding: 0.5rem 0.125rem;
+  color: var(--color-white);
+  font-family: var(--font-display);
+  /* Fijo, no fluido: la navegación solo aparece a partir de 72rem, así que un
+     `clamp` con extremo inferior más bajo nunca llegaría a usarlo. */
+  font-size: 0.875rem;
+  font-weight: 300;
+  /* Solo cambia la presentación: el texto del documento conserva su
+     capitalización, de modo que un lector de pantalla lo anuncia igual. */
+  text-transform: capitalize;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 420ms var(--ease-kcb);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset-block-end: 0.25rem;
+  inset-inline: 0.125rem;
+  block-size: 1px;
+  background: currentColor;
+  scale: 0 1;
+  transform-origin: left center;
+  transition: scale 240ms var(--ease-kcb);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  scale: 1 1;
+}
+
+/* El destino activo no dibuja el filete de hover: la pastilla ya lo señala, y
+   los dos juntos duplicarían la marca. */
+.link[aria-current='page']::after {
+  content: none;
+}
+
+/* Blanco sobre la pastilla, tanto sobre la fotografía del hero como sobre la
+   superficie blanca: el fondo del enlace activo ya no es el de la barra, es el
+   de la pastilla. Va después de la variante desplazada y con el atributo, así
+   que gana por especificidad sin recurrir a `!important`.
+   Blanco sobre #1f558b da 7,6:1. */
+.header .link[aria-current='page'],
+.header[data-scrolled='true'] .link[aria-current='page'],
+.header[data-scrolled='true'] .link[aria-current='page']:hover,
+.header[data-scrolled='true'] .link[aria-current='page']:focus-visible,
+.header .link[aria-current='page']:hover,
+.header .link[aria-current='page']:focus-visible {
+  color: var(--color-white);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--color-chart-light);
+}
+
+.header[data-scrolled='true'] .link {
+  color: var(--color-navy);
+}
+
+.header[data-scrolled='true'] .link:hover,
+.header[data-scrolled='true'] .link:focus-visible {
   color: var(--color-blue);
 }
 
@@ -89,6 +214,26 @@
   display: none;
 }
 
+/* Color de reposo del CTA del navbar, indicado por el cliente. Es un Navy algo
+   más oscuro que `--color-navy` y vive solo aquí: se declara sobre las
+   variables que BUTTON_SYSTEM.md expone para esto, así que el componente y el
+   resto de los botones del sitio no cambian. La animación de hover —relleno
+   que se expande y texto que cambia— sigue resolviéndola el sistema.
+   Los atributos del selector igualan la especificidad de las variantes por
+   superficie de `buttons.css`, que si no ganarían. */
+.ctaWrap :global(.kcb-action[data-surface][data-emphasis]) {
+  --btn-bg: #0d2d43;
+  --btn-fg: var(--color-white);
+  --btn-border: #0d2d43;
+}
+
+/* Sobre la fotografía, ese Navy queda casi al mismo tono que el fondo y el
+   botón perdería su silueta: mientras el navbar es transparente el filete se
+   aclara para que la forma del control siga siendo evidente. */
+.header:not([data-scrolled='true']) .ctaWrap :global(.kcb-action[data-surface][data-emphasis]) {
+  --btn-border: rgba(255, 255, 255, 0.55);
+}
+
 /* --- Control del menú móvil ------------------------------------------------
    Deliberadamente no es un Action Button: es un control especializado. */
 
@@ -97,17 +242,28 @@
   place-items: center;
   inline-size: 2.75rem;
   block-size: 2.75rem;
-  border: 1px solid var(--color-line);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 12px;
-  background: var(--color-white);
-  color: var(--color-navy);
+  background: transparent;
+  color: var(--color-white);
   cursor: pointer;
   transition:
-    background-color 200ms var(--ease-kcb),
-    border-color 200ms var(--ease-kcb);
+    background-color 420ms var(--ease-kcb),
+    border-color 420ms var(--ease-kcb),
+    color 420ms var(--ease-kcb);
 }
 
 .burger:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.header[data-scrolled='true'] .burger {
+  border-color: var(--color-line);
+  background: var(--color-white);
+  color: var(--color-navy);
+}
+
+.header[data-scrolled='true'] .burger:hover {
   background: var(--color-tint);
   border-color: transparent;
 }
@@ -148,7 +304,8 @@
   display: flex;
   flex-direction: column;
   inline-size: min(22rem, 88vw);
-  padding: calc(var(--kcb-header-height) + 1.5rem) 1.5rem 2rem;
+  /* Deja libre toda la pila de cromo fijo, no solo el navbar. */
+  padding: calc(var(--kcb-chrome-height) + 1.5rem) 1.5rem 2rem;
   background: var(--color-white);
   box-shadow: var(--shadow-soft);
   overflow-y: auto;
@@ -180,6 +337,24 @@
   color: var(--color-blue);
 }
 
+/* En el panel el indicador no se desliza: la lista se monta y se desmonta con
+   el propio panel, así que un desplazamiento partiría de un origen que el
+   usuario no ha visto. Realce fijo, con la marca de acento al inicio. */
+.panelLink[data-active='true'] {
+  position: relative;
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-compact, 12px);
+  border-block-end-color: transparent;
+  background: #1f558b;
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+.panelLink[data-active='true']:hover {
+  color: var(--color-white);
+}
+
 .panelArrow {
   inline-size: 1.125rem;
   block-size: 1.125rem;
@@ -196,5 +371,18 @@
   .overlay,
   .panel {
     display: none;
+  }
+}
+
+/* Con movimiento reducido el cambio de estado se conserva —transparente a
+   blanco— pero sin deslizamientos ni filetes que crecen: solo el cambio de
+   color y de opacidad, que es lo que comunica el estado. */
+@media (prefers-reduced-motion: reduce) {
+  .surface {
+    will-change: auto;
+  }
+
+  .link::after {
+    transition: none;
   }
 }

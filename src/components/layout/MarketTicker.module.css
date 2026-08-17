@@ -1,5 +1,10 @@
+/* Primer elemento de la pila fija de cromo: la cinta se mantiene arriba y el
+   navbar se posiciona justo debajo. Su superficie Navy es propia y nunca se
+   ve afectada por la superficie blanca que anima el navbar. */
 .bar {
-  position: relative;
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
   z-index: 60;
   background: var(--color-navy);
   color: var(--color-white);
@@ -18,22 +23,6 @@
   min-block-size: var(--kcb-ticker-height);
   padding-inline: clamp(1.25rem, 4vw, 3rem);
   padding-block: 0.375rem;
-}
-
-/* --- Estado no disponible ------------------------------------------------- */
-
-.unavailable {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.unavailableIcon {
-  inline-size: 1rem;
-  block-size: 1rem;
-  flex: none;
-  color: var(--color-chart-light);
 }
 
 /* --- Estado con datos ----------------------------------------------------- */

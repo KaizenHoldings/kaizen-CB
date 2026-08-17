@@ -1,0 +1,30 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font-size",
+        "value": "1.125rem",
+        "createdAt": "2026-08-13T15:01:06.580Z",
+        "reason": "Titulo de tarjeta de PitchSection: paso intermedio pedido por el cliente entre card-title y title"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "src/styles/buttons.css"
+        ],
+        "createdAt": "2026-08-14T14:46:01.041Z"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "src/styles/buttons.css"
+        ],
+        "createdAt": "2026-08-14T14:46:01.517Z"
+      }
+    ]
+  }
+}

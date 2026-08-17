@@ -5,7 +5,8 @@ type SectionHeadingProps = {
   id: string
   title: React.ReactNode
   description?: React.ReactNode
-  level?: 2 | 3
+  /** `1` para una página propia, donde el título de sección es el encabezado principal. */
+  level?: 1 | 2 | 3
   surface?: 'light' | 'dark'
   align?: 'start' | 'center'
   /**
@@ -34,7 +35,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   size = 'default',
   aside,
 }) => {
-  const Heading = level === 2 ? 'h2' : 'h3'
+  const Heading = level === 1 ? 'h1' : level === 2 ? 'h2' : 'h3'
   const isDark = surface === 'dark'
 
   const titleSize =
@@ -57,7 +58,9 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         <Heading
           id={id}
           className={[
-            'text-balance font-semibold',
+            // Peso ligero en todos los títulos de sección: el tamaño ya da la
+            // jerarquía, así que el trazo puede aligerarse.
+            'text-balance font-light',
             titleSize,
             isDark ? 'text-white' : 'text-navy',
           ].join(' ')}

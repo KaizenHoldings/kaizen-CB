@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { ContactForm } from '@/components/sections/ContactForm'
 import { Icon, type IconName } from '@/components/ui/Icon'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { SITE } from '@/lib/site'
@@ -15,17 +16,28 @@ const CHANNELS: Array<{
   { icon: 'mail', label: 'Correo', value: SITE.contact.email, href: SITE.contact.emailHref },
 ]
 
-export const ContactSection: React.FC = () => (
+/**
+ * Contacto. Vive en su propia página, no en la landing.
+ *
+ * `level` es configurable porque ahí el título es el encabezado principal del
+ * documento; si la sección volviera a incrustarse en otra página, basta con
+ * dejarlo en 2 para no romper la jerarquía.
+ */
+export const ContactSection: React.FC<{ level?: 1 | 2 }> = ({ level = 2 }) => (
   <section id="contacto" className="kcb-section bg-tint" aria-labelledby="contacto-titulo">
     <div className="kcb-container">
+      {/* Dos columnas en escritorio —datos a un lado, formulario al otro— y una
+          sola columna apilada por debajo de `lg`, con los datos primero: son la
+          vía de contacto que sí funciona hoy. */}
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16">
         <div>
           <SectionHeading
             id="contacto-titulo"
+            level={level}
             title="Estamos listos para atenderte"
             description="Conversemos sobre tus objetivos financieros. Te respondemos en días hábiles."
           />
-          <ul className="mt-10">
+          <ul className="mt-12">
             {CHANNELS.map((channel) => (
               <li key={channel.label} className="kcb-hairline flex gap-4 py-5">
                 <span className="kcb-chip" data-size="sm">
@@ -49,17 +61,8 @@ export const ContactSection: React.FC = () => (
             ))}
           </ul>
         </div>
-        {/* Dimensiones reservadas por `aspect-ratio` para no provocar salto de
-              maquetación mientras carga el mapa. */}
-        <div className="aspect-[4/3] overflow-hidden rounded-[20px] bg-tint-2 shadow-[0_20px_50px_-22px_rgba(14,48,72,0.28)] lg:aspect-[5/4]">
-          <iframe
-            src="https://www.google.com/maps?q=Edificio%20Caracas%20Campus%2C%20Av.%20Altagracia%2C%20La%20Trinidad%2C%20Caracas%2C%20Venezuela&output=embed"
-            title="Ubicación de Kaizen Casa de Bolsa en el mapa"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="size-full border-0"
-          />
-        </div>
+
+        <ContactForm />
       </div>
     </div>
   </section>

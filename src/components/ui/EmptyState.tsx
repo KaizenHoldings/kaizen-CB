@@ -32,7 +32,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     <div
       role={live ? 'status' : undefined}
       className={[
-        'flex flex-col items-start gap-4 rounded-[16px] px-6 py-10 sm:px-8',
+        'flex flex-col items-start gap-4 rounded-2xl px-6 py-10 sm:px-8',
         isDark
           ? 'bg-white/[0.06] text-tint'
           : 'bg-pearl text-muted',

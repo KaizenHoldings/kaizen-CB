@@ -61,7 +61,7 @@ export const ComplianceSection: React.FC<{ publications: PublicationSummary[] }>
       </div>
 
       <Reveal className="mt-10">
-        <p className="flex items-start gap-2.5 rounded-[12px] bg-tint px-4 py-3.5 text-sm text-navy">
+        <p className="flex items-start gap-2 rounded-xl bg-tint px-4 py-3.5 text-sm text-navy">
           <Icon name="info" className="mt-0.5 size-4 shrink-0 text-blue" />
           <span>
             ¿Buscas normativa, manuales o el código de gobierno corporativo? Están en la pestaña{' '}

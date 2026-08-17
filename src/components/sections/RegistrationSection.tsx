@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { RegistrationTabs } from '@/components/sections/RegistrationTabs'
+import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 
 /**
@@ -14,7 +15,15 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
  */
 export const RegistrationSection: React.FC = () => (
   <section id="registro" className="kcb-section bg-white" aria-labelledby="registro-titulo">
-    <div className="kcb-container">
+    {/* Anclas de destino de las tarjetas de «Elige tu punto de partida».
+        Van por encima del encabezado, no dentro de las pestañas: colocadas allí
+        el desplazamiento aterrizaba 111 px por debajo y el título de la sección
+        quedaba fuera de pantalla. `RegistrationTabs` sigue leyendo el fragmento
+        para preseleccionar la pestaña. */}
+    <span id="registro-natural" className="block scroll-mt-[var(--kcb-sticky-offset)]" />
+    <span id="registro-juridica" className="block scroll-mt-[var(--kcb-sticky-offset)]" />
+
+    <Reveal className="kcb-container">
       <SectionHeading
         id="registro-titulo"
         title="Regístrate con nosotros"
@@ -24,6 +33,6 @@ export const RegistrationSection: React.FC = () => (
       <div className="mt-12">
         <RegistrationTabs />
       </div>
-    </div>
+    </Reveal>
   </section>
 )

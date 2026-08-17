@@ -33,7 +33,7 @@ export const NAV_LINKS = [
   { href: '/#mercado', label: 'Mercado' },
   { href: '/#informacion-financiera', label: 'Información financiera' },
   { href: '/#cumplimiento', label: 'Cumplimiento' },
-  { href: '/#contacto', label: 'Contacto' },
+  { href: '/contacto', label: 'Contacto' },
 ] as const
 
 /**

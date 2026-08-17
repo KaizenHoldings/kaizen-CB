@@ -10,9 +10,14 @@ import { marketDataService } from '@/modules/market-data/services/market-data.se
 
 import './globals.css'
 
+/**
+ * `200` no está en la lista de pesos autorizados por `BRAND.md` §8
+ * (400/500/600/700/800). Se agrega como excepción puntual y deliberada, a
+ * pedido explícito del cliente, solo para el titular del hero.
+ */
 const sora = Sora({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
   variable: '--font-sora',
   display: 'swap',
 })
@@ -95,9 +100,17 @@ export const viewport: Viewport = {
 
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
   const marketSnapshot = await marketDataService.getSnapshot()
+  // Sin datos la cinta no se dibuja, así que tampoco debe reservar altura: el
+  // cálculo se resuelve en el servidor para que no haya salto ni parpadeo.
+  const showTicker = marketSnapshot.status !== 'unavailable'
 
   return (
-    <html lang="es" className={`${sora.variable} ${inter.variable}`}>
+    <html
+      lang="es"
+      className={`${sora.variable} ${inter.variable}`}
+      style={showTicker ? undefined : ({ '--kcb-ticker-height': '0rem' } as React.CSSProperties)}
+      suppressHydrationWarning
+    >
       <head>
         {/*
           Habilita el estado inicial de las entradas de sección antes del primer
@@ -124,7 +137,12 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         <MarketTicker snapshot={marketSnapshot} />
         <SiteHeader />
 
-        <main id="contenido">{children}</main>
+        {/* La cinta y el navbar son cromo fijo: el contenido reserva su altura
+            para no quedar debajo. Una sección puede renunciar a esa reserva
+            —el hero lo hace— para extenderse bajo el navbar transparente. */}
+        <main id="contenido" className="pt-[var(--kcb-chrome-height)]">
+          {children}
+        </main>
 
         <SiteFooter />
       </body>

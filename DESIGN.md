@@ -70,9 +70,9 @@ typography:
     letterSpacing: "0.08em"
 rounded:
   chip-sm: "10px"
+  compact: "12px"
   chip: "12px"
   card: "16px"
-  panel: "20px"
   pill: "999px"
 spacing:
   gutter: "clamp(1.25rem, 4vw, 3rem)"
@@ -260,7 +260,7 @@ Depth is tonal first and shadowed second. Blocks are separated by ground color (
 
 ## Shapes
 
-Corners are soft and contemporary, sized by hierarchy, within `BRAND.md` §9's 12–24px band: cards at **16px** (`--radius-card`), large panels at **20px** (`--radius-panel`), icon chips at **12px** (10px at `sm`), compact controls such as the burger at **12px**, the skip link at `0 0 12px 12px`, the download tooltip at **8px**, and the focus ring's own radius at **4px**. Buttons and tags are pills (`--radius-pill: 999px`).
+Corners use **two steps only**, both inside `BRAND.md` §9's 12–24px band: **12px** (`--radius-compact`, Tailwind `rounded-xl`) for compact controls — icon chips, the burger, form fields, inline notices — and **16px** (`--radius-card`, Tailwind `rounded-2xl`) for every containing surface: cards, panels, form containers, tables. The former 20px panel and 24px feature-panel steps were folded into 16px so that no two adjacent surfaces round differently. Exceptions, each deliberate: icon chips drop to 10px at `sm`, the skip link is `0 0 12px 12px`, the download tooltip is **8px**, the focus ring's own radius is **4px**, and the bento cells and carousel bars are square (0) by design decision. Buttons and tags are pills (`--radius-pill: 999px`).
 
 Borders are discrete and always 1px, except the Action Button's 2px ring, which is the button's identity rather than a container edge. The two hairline utilities — `kcb-hairline` (`--color-line`) and `kcb-hairline-light` (`rgba(255,255,255,0.16)`) — are the default way to group content on light and dark ground respectively.
 

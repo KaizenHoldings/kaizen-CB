@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { DocumentBrowser } from '@/components/sections/DocumentBrowser'
+import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import type {
   DocumentCategory,
@@ -24,7 +25,7 @@ export const FinancialInformationSection: React.FC<{
     className="kcb-section bg-pearl"
     aria-labelledby="informacion-financiera-titulo"
   >
-    <div className="kcb-container">
+    <Reveal className="kcb-container">
       {/* Segundo peso focal de la página: la documentación pública es la
           evidencia sobre la que descansa la tesis, y su escala lo dice. */}
       <SectionHeading
@@ -42,6 +43,6 @@ export const FinancialInformationSection: React.FC<{
           reference={supporting.reference}
         />
       </div>
-    </div>
+    </Reveal>
   </section>
 )

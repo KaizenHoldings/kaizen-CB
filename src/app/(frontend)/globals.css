@@ -129,26 +129,25 @@
    El icono va en Blue, no en Emerald: Emerald sobre Tint solo alcanza 2,97:1 y
    BRAND.md reserva el verde institucional como acento puntual, no como color
    de todos los iconos de la página. Blue sobre Tint da 6,45:1. */
+/* El icono va suelto, sin superficie detrás: la caja solo reserva su espacio y
+   lo centra. El radio se retiró con el fondo, que era lo único que lo hacía
+   visible. */
 .kcb-chip {
   display: inline-grid;
   place-items: center;
   inline-size: 2.75rem;
   block-size: 2.75rem;
   flex: none;
-  border-radius: 12px;
-  background: var(--color-tint);
   color: var(--color-blue);
 }
 
 .kcb-chip[data-surface='dark'] {
-  background: rgba(255, 255, 255, 0.1);
   color: var(--color-white);
 }
 
 .kcb-chip[data-size='sm'] {
   inline-size: 2.25rem;
   block-size: 2.25rem;
-  border-radius: 10px;
 }
 
 /* Etiqueta pequeña de categoría. Siempre acompaña a un texto legible. */
@@ -275,25 +274,60 @@
    Movimiento
    ========================================================================== */
 
-/* Estado inicial de las entradas de sección.
-   Se aplica SOLO cuando el script previo al pintado ha marcado la raíz, es
-   decir, con JavaScript activo y sin movimiento reducido. El HTML servido
-   nunca lleva contenido oculto: si la animación no puede ejecutarse, el texto
-   se lee igual. Motion anima desde estos valores. */
-html[data-motion='on'] [data-reveal] {
-  opacity: 0;
+/* Red de seguridad de todas las entradas.
+   El estado oculto lo declara Motion en su `initial`, porque necesita conocer
+   el punto de partida en el montaje para poder interpolarlo; si se lo damos
+   después, solo anima la opacidad y el desplazamiento no ocurre. Ese `initial`
+   también viaja en el HTML del servidor, así que esta regla lo deshace mientras
+   el script previo al pintado no haya marcado la raíz: sin JavaScript todo el
+   contenido se lee entero, en su sitio y a plena opacidad. */
+html:not([data-motion='on']) [data-product-item],
+html:not([data-motion='on']) [data-reveal],
+html:not([data-motion='on']) [data-hero],
+html:not([data-motion='on']) [data-hero] * {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
 }
 
-html[data-motion='on'] [data-reveal='up'] {
-  transform: translateY(16px);
+/* Entrada del bento: cada celda llega desde su lado hasta encajar.
+   `--bento-from` (-1 izquierda, 1 derecha) y `--bento-delay` los escribe
+   `BentoReveal` al entrar en pantalla, midiendo la rejilla ya recolocada.
+   El recorte lo hace la propia rejilla, así que las piezas asoman desde su
+   borde y el desplazamiento nunca genera scroll horizontal. */
+[data-bento] {
+  overflow-x: clip;
+}
+
+html[data-motion='on'] [data-bento] > * {
+  opacity: 0;
+  transform: translate3d(calc(var(--bento-from, -1) * clamp(2.5rem, 6vw, 5rem)), 0, 0);
+}
+
+html[data-motion='on'] [data-bento][data-in='true'] > * {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 460ms var(--kcb-ease) var(--bento-delay, 0ms),
+    transform 620ms var(--kcb-ease) var(--bento-delay, 0ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* Red de seguridad: aunque algo marcara la raíz, con movimiento reducido el
      contenido permanece visible y en su sitio. */
-  [data-reveal] {
+  [data-reveal],
+  [data-bento] > *,
+  [data-product-item] {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* El hero sí conserva su fundido con movimiento reducido —es lo que pide el
+     encargo—, pero nunca recorrido ni recorte. */
+  [data-hero],
+  [data-hero] * {
+    transform: none !important;
+    clip-path: none !important;
   }
 }
 

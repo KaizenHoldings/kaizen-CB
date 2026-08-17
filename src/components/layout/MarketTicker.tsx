@@ -7,7 +7,6 @@ import { formatDecimal, formatVariation } from '@/lib/format'
 import {
   DIRECTION_LABELS,
   DIRECTION_SYMBOLS,
-  UNAVAILABLE_MESSAGES,
   type MarketDataSnapshot,
   type MarketQuote,
 } from '@/modules/market-data/domain/market-quote'
@@ -20,23 +19,17 @@ import styles from './MarketTicker.module.css'
  * Es arquitectónicamente independiente del navbar: recibe el snapshot ya
  * normalizado desde el servidor y no conoce el proveedor. Nunca presenta
  * valores de ejemplo como información oficial.
+ *
+ * Sin fuente disponible la cinta no se dibuja: una barra fija ocupando el
+ * borde superior solo para anunciar que no hay datos cuesta más de lo que
+ * informa. El estado de no disponibilidad se sigue comunicando donde importa,
+ * en la sección de mercado, y el contrato del proveedor no cambia.
  */
 export const MarketTicker: React.FC<{ snapshot: MarketDataSnapshot }> = ({ snapshot }) => {
   const [paused, setPaused] = useState(false)
   const trackId = useId()
 
-  if (snapshot.status === 'unavailable') {
-    return (
-      <aside className={styles.bar} aria-label="Información de mercado">
-        <div className={styles.inner}>
-          <p className={styles.unavailable}>
-            <Icon name="info" className={styles.unavailableIcon} />
-            <span>{UNAVAILABLE_MESSAGES[snapshot.reason]}</span>
-          </p>
-        </div>
-      </aside>
-    )
-  }
+  if (snapshot.status === 'unavailable') return null
 
   const { quotes, source, updatedAt, isSimulated } = snapshot
   const updated = new Date(updatedAt)

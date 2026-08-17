@@ -107,7 +107,7 @@ export const NewsletterForm: React.FC = () => {
             aria-invalid={clientError ? true : undefined}
             aria-describedby={describedBy || undefined}
             placeholder="nombre@empresa.com"
-            className="mt-2 min-h-12 w-full rounded-[12px] border border-white/28 bg-white/12 px-4 text-[1rem] text-white placeholder:text-white/60 focus-visible:border-white focus-visible:bg-white/18"
+            className="mt-2 min-h-12 w-full rounded-xl border border-white/28 bg-white/12 px-4 text-[1rem] text-white placeholder:text-white/60 focus-visible:border-white focus-visible:bg-white/18"
           />
         </div>
 

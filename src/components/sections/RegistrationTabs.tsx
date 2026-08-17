@@ -60,10 +60,6 @@ export const RegistrationTabs: React.FC = () => {
 
   return (
     <div>
-      {/* Anclas de destino para las rutas del hero. */}
-      <span id="registro-natural" className="block scroll-mt-[var(--kcb-sticky-offset)]" />
-      <span id="registro-juridica" className="block scroll-mt-[var(--kcb-sticky-offset)]" />
-
       <div
         role="tablist"
         aria-label="Tipo de persona"
@@ -82,13 +78,13 @@ export const RegistrationTabs: React.FC = () => {
               tabIndex={selected ? 0 : -1}
               onClick={() => setActive(tab.id)}
               className={[
-                'flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full px-4 font-[family-name:var(--font-display)] text-[0.875rem] font-semibold whitespace-nowrap transition-colors duration-200 sm:flex-none sm:px-6 sm:text-[0.9375rem]',
+                'flex min-h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-3 font-[family-name:var(--font-display)] text-[0.875rem] font-semibold transition-colors duration-200 sm:flex-none sm:px-6 sm:whitespace-nowrap sm:text-[0.9375rem]',
                 selected
-                  ? 'bg-white text-navy shadow-[0_6px_16px_-10px_rgba(14,48,72,0.5)]'
+                  ? 'bg-white text-navy shadow-[var(--shadow-soft-sm)]'
                   : 'text-muted hover:text-navy',
               ].join(' ')}
             >
-              <Icon name={tab.icon} className="size-[1.125rem]" />
+              <Icon name={tab.icon} className="size-[1.125rem] shrink-0" />
               {tab.label}
             </button>
           )
@@ -105,7 +101,7 @@ export const RegistrationTabs: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={prefersReducedMotion ? undefined : { opacity: 0, y: -8 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 rounded-[20px] bg-pearl p-6 sm:p-10"
+          className="mt-8 rounded-2xl bg-pearl p-6 sm:p-10"
         >
           <p className="kcb-measure text-[1.0625rem] leading-relaxed text-ink">{activeTab.intro}</p>
 
