@@ -230,6 +230,17 @@
   --btn-hover-fg: var(--kcb-white);
 }
 
+/* Relleno de hover del CTA de «Elige tu punto de partida». Mismo mecanismo que
+   el modificador de arriba: solo cambia el color del círculo que se expande y
+   el del texto que queda encima, sin tocar el patrón ni los tiempos de §5.2.
+   No se resuelve con una utilidad `hover:bg-*` porque el fondo del hover no lo
+   pinta el botón, sino la capa `.kcb-action__fill` que se expande sobre él: la
+   utilidad quedaría debajo y no se vería. */
+.kcb-action.kcb-action--pitch-hover[data-surface][data-emphasis] {
+  --btn-fill: #184771;
+  --btn-hover-fg: var(--kcb-white);
+}
+
 .kcb-action[data-full-width='true'] {
   inline-size: 100%;
 }

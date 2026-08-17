@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import React from 'react'
 
+import { PitchCard } from '@/components/sections/PitchCard'
 import { ActionButton } from '@/components/ui/ActionButton'
 import { Reveal } from '@/components/ui/Reveal'
 
@@ -20,13 +20,14 @@ const ROUTES = [
     href: '#registro-natural',
     title: 'Invierto por mi cuenta',
     description: 'Haz crecer tu patrimonio con acompañamiento de un asesor en cada decisión.',
-    image: '/img/pitchSection/personal.opt.jpg',
+    video: '/img/pitchSection/opt1_video.mp4',
+    flipVideo: true,
   },
   {
     href: '#registro-juridica',
     title: 'Represento a una empresa',
     description: 'Financia, estructura y emite en el mercado de valores venezolano.',
-    image: '/img/pitchSection/bussines.opt.jpg',
+    video: '/img/pitchSection/opt2_video.mp4',
   },
 ]
 
@@ -53,23 +54,20 @@ export const PitchSection: React.FC = () => (
         className="mt-7 -mx-5 grid gap-6 sm:-mx-6 lg:mt-10 lg:-mx-8 lg:grid-cols-2 lg:gap-10"
       >
         {ROUTES.map((route) => (
-          <li
-            key={route.href}
-            className="group relative grid grid-cols-1 bg-white transition-shadow duration-300 ease-[var(--ease-kcb)] hover:shadow-[var(--shadow-soft)] has-[a:focus-visible]:shadow-[var(--shadow-soft)] sm:grid-cols-[minmax(0,1fr)_44%]"
-          >
-            <div className="flex flex-col items-start p-5 text-left sm:p-6 lg:p-8">
+          <PitchCard key={route.href} video={route.video} flipVideo={route.flipVideo}>
+            <div className="relative z-10 flex flex-col items-start bg-gradient-to-r from-[#0e2d41] via-[#0e2d41] to-[#0e2d41]/70 p-5 text-left sm:p-6 lg:p-8">
               {/* El título deja de ser enlace: ahora la acción la lleva el botón
                   «Comenzar». Con la capa `after` que cubría la tarjeta, ese
                   botón habría quedado debajo del área pulsable del título y no
                   se podría accionar; y dos enlaces al mismo destino en la misma
                   tarjeta duplicarían el control sin añadir nada. */}
-              <h3 className="font-[family-name:var(--font-display)] text-[1.125rem] leading-[1.35] font-normal text-balance text-ink capitalize">
+              <h3 className="font-[family-name:var(--font-display)] text-[1.125rem] leading-[1.35] font-normal text-balance text-white capitalize">
                 {route.title}
               </h3>
 
               {/* Sin sangrado: título, descripción y botón comparten eje con
                   el titular de la sección. */}
-              <p className="mt-6 max-w-[32ch] text-base leading-relaxed text-pretty text-muted lg:mt-10">
+              <p className="mt-6 max-w-[32ch] text-base leading-relaxed text-pretty text-tint lg:mt-10">
                 {route.description}
               </p>
 
@@ -78,27 +76,16 @@ export const PitchSection: React.FC = () => (
               <div className="mt-8 lg:mt-auto lg:pt-10">
                 <ActionButton
                   href={route.href}
-                  surface="light"
+                  surface="dark"
                   emphasis="primary"
+                  className="kcb-action--pitch-hover"
                   ariaLabel={`Comenzar: ${route.title}`}
                 >
                   Comenzar
                 </ActionButton>
               </div>
             </div>
-
-            {/* Decorativa: el título ya nombra la ruta. En una sola columna la
-                imagen no hereda el alto de la fila, así que toma proporción. */}
-            <div className="relative aspect-[16/10] overflow-hidden sm:aspect-auto sm:min-h-52">
-              <Image
-                src={route.image}
-                alt=""
-                fill
-                sizes="(max-width: 64rem) 45vw, 24rem"
-                className="object-cover transition-transform duration-500 ease-[var(--ease-kcb)] motion-safe:group-hover:scale-105 motion-safe:group-has-[a:focus-visible]:scale-105"
-              />
-            </div>
-          </li>
+          </PitchCard>
         ))}
       </ul>
     </Reveal>

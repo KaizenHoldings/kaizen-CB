@@ -15,47 +15,47 @@ const PRODUCTS: MagneticItem[] = [
   {
     title: 'Pagaré bursátil',
     description: 'Financiamiento a corto plazo emitido a través del mercado de valores.',
-    image: '/img/productos/periodico.jpg',
+    image: '/img/products/1.jpg',
   },
   {
     title: 'Estructuración',
     description: 'Diseñamos la estrategia de emisión óptima para cada empresa.',
-    image: '/img/productos/laptop.jpg',
+    image: '/img/products/2.jpg',
   },
   {
     title: 'Emisiones',
     description: 'Bonos, papeles comerciales y obligaciones en la Bolsa de Valores de Caracas.',
-    image: '/img/productos/wallstreet.jpg',
+    image: '/img/products/3.jpg',
   },
   {
-    title: 'Agente de colocación primaria',
+    title: 'Colocación de emisiones',
     description: 'Colocamos tu emisión entre los inversionistas del mercado.',
-    image: '/img/productos/edificio.jpg',
+    image: '/img/products/4.jpg',
   },
   {
     title: 'Finanzas corporativas',
     description: 'Valoración, fusiones y adquisiciones, y consultoría estratégica.',
-    image: '/img/productos/hero1.jpg',
+    image: '/img/products/5.jpg',
   },
   {
     title: 'Titularización',
     description: 'Transformamos tus activos en títulos negociables para obtener liquidez.',
-    image: '/img/productos/hero3.jpg',
+    image: '/img/products/6.jpg',
   },
   {
-    title: 'Intermediación de títulos',
+    title: 'Negociación de valores',
     description: 'Compra y venta de instrumentos financieros en el mercado bursátil.',
-    image: '/img/productos/hero5.jpg',
+    image: '/img/products/71.jpg',
   },
   {
     title: 'Cartera administrada',
     description: 'Gestionamos tu portafolio según tus metas y tu perfil de riesgo.',
-    image: '/img/productos/hero2.jpg',
+    image: '/img/products/8.jpg',
   },
   {
     title: 'Reporto',
     description: 'Financiamiento de corto plazo respaldado por títulos valores.',
-    image: '/img/productos/hero4.jpg',
+    image: '/img/products/9.jpg',
   },
 ]
 
