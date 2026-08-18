@@ -20,8 +20,28 @@ const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 assertRequiredEnv()
 
+/* ¿La URL pública apunta a la propia máquina? En ese caso el sitio se sirve por
+   HTTP y con puerto variable. */
+const isLocalHost = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(serverUrl)
+
+/* `cors` y `csrf` solo se declaran cuando hay un dominio real que proteger.
+   Payload compara el `Origin` de cada petición autenticada contra esta lista y,
+   si no encaja, resuelve la sesión como anónima: el login devuelve 200, la
+   petición siguiente llega sin usuario y el panel te devuelve al login.
+   En local eso ocurría con cualquier desviación del valor exacto de
+   `NEXT_PUBLIC_SERVER_URL` —otro puerto, `127.0.0.1` en vez de `localhost`, o
+   una petición sin cabecera `Origin`—, que es justo el rebote que se estaba
+   viendo. El proyecto de referencia no declara ninguna de las dos y por eso no
+   lo sufre. Fuera de local se mantienen, donde sí aportan. */
+/* `serverURL` entra en el mismo paquete: aunque `csrf` no se declare, Payload
+   toma la URL del servidor como origen admitido implícito, así que fijarla
+   reintroduce el rechazo por sí sola. El proyecto de referencia tampoco la
+   declara. Sin ella, Payload deduce el origen de cada petición. */
+const originGuards = isLocalHost
+  ? {}
+  : { serverURL: serverUrl, cors: [serverUrl], csrf: [serverUrl] }
+
 export default buildConfig({
-  serverURL: serverUrl,
   admin: {
     user: AdminUsers.slug,
     importMap: { baseDir: path.resolve(dirname) },
@@ -50,8 +70,7 @@ export default buildConfig({
     push: !isProduction,
     migrationDir: path.resolve(dirname, 'migrations'),
   }),
-  cors: [serverUrl],
-  csrf: [serverUrl],
+  ...originGuards,
   // La web pública consume Payload por Local API; no hace falta exponer GraphQL.
   graphQL: { disable: true },
   i18n: {

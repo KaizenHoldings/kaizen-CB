@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { serverUrl } from '@/lib/env'
+
 import { isActive, isSuperAdmin, superAdminFieldOnly, superAdminOnly } from '../access/roles'
 
 /**
@@ -20,7 +22,12 @@ export const AdminUsers: CollectionConfig = {
     useAPIKey: false,
     cookies: {
       sameSite: 'Lax',
-      secure: process.env.NODE_ENV === 'production',
+      /* Atado al esquema real de la URL pública, no a `NODE_ENV`. Con
+         `NODE_ENV === 'production'` la cookie salía marcada `Secure` también en
+         una compilación de producción servida por HTTP —`npm start` en local, o
+         un despliegue tras un proxy que termina TLS—, y el navegador la
+         descarta: el login funciona y la petición siguiente llega sin sesión. */
+      secure: serverUrl.startsWith('https://'),
     },
   },
   admin: {
