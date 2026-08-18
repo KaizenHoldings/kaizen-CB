@@ -253,7 +253,9 @@ export const DocumentBrowser: React.FC<Props> = ({
                         </h3>
                         <ul className="mt-3">
                           {group.documents.map((document) => (
-                            <DocumentRow key={document.id} document={document} />
+                            <li key={document.id}>
+                              <DocumentRow document={document} />
+                            </li>
                           ))}
                         </ul>
                       </section>
@@ -272,7 +274,9 @@ export const DocumentBrowser: React.FC<Props> = ({
                 ) : (
                   <ul>
                     {byCategory[active].map((document) => (
-                      <DocumentRow key={document.id} document={document} />
+                      <li key={document.id}>
+                        <DocumentRow document={document} />
+                      </li>
                     ))}
                   </ul>
                 )}

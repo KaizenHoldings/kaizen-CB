@@ -24,6 +24,18 @@
           "src/styles/buttons.css"
         ],
         "createdAt": "2026-08-14T14:46:01.517Z"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "0.75rem",
+        "createdAt": "2026-08-18T14:04:32.046Z",
+        "reason": "escalón del Content Tag documentado en DESIGN.md §Typography"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "4px",
+        "createdAt": "2026-08-18T14:04:32.189Z",
+        "reason": "radio del anillo de foco, documentado en DESIGN.md §Shapes"
       }
     ]
   }

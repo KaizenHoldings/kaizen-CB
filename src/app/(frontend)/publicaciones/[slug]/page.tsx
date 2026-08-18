@@ -15,12 +15,23 @@ import {
 } from '@/modules/publications/domain/publication'
 import { publicationService } from '@/modules/publications/services/publication.service'
 
+/* Sin caché de ruta: la página se renderiza en cada petición.
+   Los datos vienen de Payload por Local API, no por `fetch`, así que no hay
+   petición individual a la que ponerle `cache: 'no-store'`; lo que guardaba
+   contenido antiguo era el prerenderizado de la ruta —quedaba estática con
+   revalidación de una hora—. `force-dynamic` es el equivalente de segmento.
+   Sigue disponible en Next 16 porque `cacheComponents` no está activado; con esa
+   opción encendida, esta configuración desaparecería. */
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
+
 type Params = { params: Promise<{ slug: string }> }
 
-export async function generateStaticParams() {
-  const slugs = await publicationService.listSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
+/* Sin `generateStaticParams`: mientras existía, Next prerenderizaba en el build
+   una página por publicación y `force-dynamic` no llegaba a aplicarse —la ruta
+   seguía marcada como SSG—, así que editar una publicación en el panel no se
+   reflejaba hasta volver a compilar. Con `dynamicParams` en su valor por
+   defecto, cualquier slug se resuelve en la petición. */
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
@@ -122,7 +133,9 @@ export default async function PublicationPage({ params }: Params) {
               Documento relacionado
             </h2>
             <ul className="mt-3">
-              <DocumentRow document={publication.relatedDocument} />
+              <li>
+                <DocumentRow document={publication.relatedDocument} />
+              </li>
             </ul>
           </section>
         ) : null}

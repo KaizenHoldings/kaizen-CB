@@ -5,6 +5,16 @@ import { PublicationsBrowser } from '@/components/sections/PublicationsBrowser'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { publicationService } from '@/modules/publications/services/publication.service'
 
+/* Sin caché de ruta: la página se renderiza en cada petición.
+   Los datos vienen de Payload por Local API, no por `fetch`, así que no hay
+   petición individual a la que ponerle `cache: 'no-store'`; lo que guardaba
+   contenido antiguo era el prerenderizado de la ruta —quedaba estática con
+   revalidación de una hora—. `force-dynamic` es el equivalente de segmento.
+   Sigue disponible en Next 16 porque `cacheComponents` no está activado; con esa
+   opción encendida, esta configuración desaparecería. */
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
+
 export const metadata: Metadata = {
   title: 'Publicaciones',
   description:

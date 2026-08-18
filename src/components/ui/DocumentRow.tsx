@@ -51,8 +51,13 @@ export const DocumentRow: React.FC<{
     </span>
   )
 
+  /* Raíz `div`, no `li`: la fila es contenido, no intrínsecamente un elemento
+     de lista. Como `li` no se podía reutilizar dentro de una tarjeta de carril
+     —que ya es el `li` del carrusel— y anidar `li` dentro de `li` es HTML
+     inválido, que además rompía la hidratación. Quien la use como lista pone su
+     propio `li` alrededor; las clases visuales siguen aquí, intactas. */
   return (
-    <li
+    <div
       className={[
         'flex items-start gap-4 border-t py-5',
         isDark ? 'border-white/16' : 'border-line',
@@ -114,6 +119,6 @@ export const DocumentRow: React.FC<{
           tooltipSide="start"
         />
       </div>
-    </li>
+    </div>
   )
 }

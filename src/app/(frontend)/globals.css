@@ -113,6 +113,32 @@
   background: linear-gradient(160deg, #205890 0%, #0e3048 100%);
 }
 
+/* Carril horizontal con anclaje. La barra de desplazamiento se oculta porque
+   el carril ya se anuncia solo —las tarjetas quedan cortadas en el borde— y una
+   barra nativa rompería el acabado. El gesto sigue siendo el del sistema:
+   rueda, arrastre táctil y teclado, sin JavaScript de por medio.
+   `pan-y` deja el desplazamiento vertical a la página; solo el horizontal es
+   del carril. */
+@utility kcb-rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline-start: 0;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.kcb-rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cada pieza se detiene al inicio del carril y no se comprime. */
+@utility kcb-rail-item {
+  scroll-snap-align: start;
+  flex: none;
+}
+
 @utility kcb-hairline {
   border-top: 1px solid var(--color-line);
 }

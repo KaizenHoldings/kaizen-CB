@@ -61,7 +61,7 @@ export const PitchSection: React.FC = () => (
                   botón habría quedado debajo del área pulsable del título y no
                   se podría accionar; y dos enlaces al mismo destino en la misma
                   tarjeta duplicarían el control sin añadir nada. */}
-              <h3 className="font-[family-name:var(--font-display)] text-[1.125rem] leading-[1.35] font-normal text-balance text-white capitalize">
+              <h3 className="font-[family-name:var(--font-display)] text-[1.125rem] leading-[1.35] font-normal text-balance text-white font-light">
                 {route.title}
               </h3>
 

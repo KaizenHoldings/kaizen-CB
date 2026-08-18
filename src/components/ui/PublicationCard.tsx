@@ -13,8 +13,14 @@ import {
 /**
  * Tarjeta de publicación.
  *
- * El tipo se comunica con texto además de color, y el enlace envuelve el
- * título —no la tarjeta completa— para que el nombre accesible sea preciso.
+ * El tipo se comunica con texto además de color.
+ *
+ * Toda la tarjeta es el área pulsable: el enlace de «Leer la publicación»
+ * extiende su zona sensible con una capa `before` que cubre la tarjeta entera.
+ * El título deja de ser enlace por eso mismo —esa capa lo taparía, y dos
+ * enlaces al mismo destino en una tarjeta duplican el control sin añadir nada—.
+ * El nombre accesible lo da un `aria-label` que incorpora el título, para que
+ * el enlace no se anuncie como un genérico «Leer la publicación».
  */
 export const PublicationCard: React.FC<{
   publication: PublicationSummary
@@ -30,7 +36,7 @@ export const PublicationCard: React.FC<{
   const dateLabel = formatShortDate(publication.publishedAt)
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white border border-line shadow-[var(--shadow-soft-sm)] transition-shadow duration-300 hover:shadow-[var(--shadow-soft)]">
+    <article className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl bg-white border border-line shadow-[var(--shadow-soft-sm)] transition-shadow duration-300 hover:shadow-[var(--shadow-soft)] has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-[3px] has-[a:focus-visible]:outline-emerald">
       {publication.image ? (
         <div className="relative aspect-[16/9] overflow-hidden bg-tint">
           <Image
@@ -67,24 +73,26 @@ export const PublicationCard: React.FC<{
           ) : null}
         </div>
 
-        <Heading className="mt-4 font-[family-name:var(--font-display)] text-[1.0625rem] leading-snug font-semibold text-navy">
-          <Link
-            href={`/publicaciones/${publication.slug}`}
-            className="underline-offset-4 hover:underline"
-          >
-            {publication.title}
-          </Link>
+        <Heading className="mt-4 font-[family-name:var(--font-display)] text-[1.0625rem] leading-snug font-semibold text-navy underline-offset-4 group-hover:underline">
+          {publication.title}
         </Heading>
 
         <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">{publication.excerpt}</p>
 
-        <p className="mt-5 flex items-center gap-1.5 pt-1 font-[family-name:var(--font-display)] text-sm font-semibold text-blue">
+        {/* `before:absolute before:inset-0` extiende la zona sensible del enlace
+            a toda la tarjeta sin cambiar el árbol ni la maquetación: la capa no
+            ocupa espacio, solo intercepta el puntero. */}
+        <Link
+          href={`/publicaciones/${publication.slug}`}
+          aria-label={`Leer la publicación: ${publication.title}`}
+          className="mt-5 flex items-center gap-1.5 pt-1 font-[family-name:var(--font-display)] text-sm font-semibold text-blue before:absolute before:inset-0 before:content-[''] focus-visible:outline-none"
+        >
           Leer la publicación
           <Icon
             name="arrowRight"
             className="size-4 transition-transform duration-300 group-hover:translate-x-1"
           />
-        </p>
+        </Link>
       </div>
     </article>
   )
