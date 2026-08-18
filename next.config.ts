@@ -7,6 +7,20 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  /* Origenes admitidos para las Server Actions.
+     Next compara el `Origin` de la petición contra el `Host` —o el
+     `X-Forwarded-Host` cuando hay proxy delante— y rechaza el desajuste como
+     posible CSRF. Detrás del proxy de producción esos dos valores dejan de
+     coincidir, y de ahí el error del registro.
+     `localhost` no aparece porque el mismo origen se admite siempre: solo hacen
+     falta los dominios que el proxy introduce.
+     En Next 16 la opción sigue bajo `experimental`, según
+     `node_modules/next/dist/docs/.../serverActions.md`. */
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['64.202.187.229', 'kz.finance'],
+    },
+  },
   images: {
     localPatterns: [
       // Archivos subidos desde el panel de Payload.
