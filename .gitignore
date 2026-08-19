@@ -10,7 +10,8 @@
 
 /.idea/*
 !/.idea/runConfigurations
-
+/web
+/Web
 # testing
 /coverage
 

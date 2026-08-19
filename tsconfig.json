@@ -41,6 +41,7 @@
   ],
   "exclude": [
     "node_modules",
-    "socado-web"
+    "socado-web",
+    "Web"
   ]
 }

@@ -308,6 +308,7 @@
    el script previo al pintado no haya marcado la raíz: sin JavaScript todo el
    contenido se lee entero, en su sitio y a plena opacidad. */
 html:not([data-motion='on']) [data-product-item],
+html:not([data-motion='on']) [data-scroll-media],
 html:not([data-motion='on']) [data-reveal],
 html:not([data-motion='on']) [data-hero],
 html:not([data-motion='on']) [data-hero] * {

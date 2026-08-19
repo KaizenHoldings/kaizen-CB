@@ -38,6 +38,7 @@ const eslintConfig = [
       // Proyecto de referencia ajeno, copiado dentro del repositorio. No es
       // código de esta aplicación y trae su propio estilo y sus propios tipos.
       'socado-web/',
+      'Web/',
       // Salida generada por Payload: no se edita a mano.
       'src/payload-types.ts',
       'src/payload-generated-schema.ts',
