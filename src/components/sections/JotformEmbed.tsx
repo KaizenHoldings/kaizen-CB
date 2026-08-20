@@ -23,10 +23,15 @@ type JotformEmbedProps = {
  * Formulario de Jotform incrustado a página completa.
  *
  * El manejador de Jotform es lo que ajusta el alto del marco al contenido real
- * del formulario y lo que gestiona su comunicación por `postMessage`; sin él el
- * marco se quedaría en su altura inicial y el formulario aparecería recortado.
- * Se invoca cuando el script está listo, no al montar, porque el orden de carga
- * no está garantizado.
+ * del formulario y lo que gestiona su comunicación por `postMessage`. Se invoca
+ * cuando el script está listo, no al montar, porque el orden de carga no está
+ * garantizado.
+ *
+ * La estrategia es `afterInteractive` y no `lazyOnload`: en estas páginas el
+ * formulario *es* el contenido, y con la carga diferida al reposo llegaba tarde
+ * —medido, el marco se quedaba en sus 539 px iniciales—. Con `scrolling="no"`
+ * eso deja el resto del formulario fuera de alcance, así que el ajuste de alto
+ * no es un adorno: es lo que lo hace utilizable.
  */
 export const JotformEmbed: React.FC<JotformEmbedProps> = ({ formId, title }) => {
   const [scriptReady, setScriptReady] = useState(false)
@@ -42,7 +47,7 @@ export const JotformEmbed: React.FC<JotformEmbedProps> = ({ formId, title }) => 
     <>
       <Script
         src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onReady={() => setScriptReady(true)}
       />
 
