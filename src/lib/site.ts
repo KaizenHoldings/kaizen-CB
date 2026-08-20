@@ -30,7 +30,6 @@ export const NAV_LINKS = [
   { href: '/#inicio', label: 'Inicio' },
   { href: '/#nosotros', label: 'Nosotros' },
   { href: '/#productos', label: 'Productos' },
-  { href: '/#mercado', label: 'Mercado' },
   { href: '/#informacion-financiera', label: 'Información financiera' },
   { href: '/#cumplimiento', label: 'Cumplimiento' },
   { href: '/contacto', label: 'Contacto' },

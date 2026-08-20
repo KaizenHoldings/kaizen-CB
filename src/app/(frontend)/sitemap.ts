@@ -21,6 +21,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    /* Los formularios de registro se excluyen: son destinos de un flujo, no
+       contenido que deba indexarse. Sus páginas ya lo declaran con `robots`. */
     {
       url: `${serverUrl}/contacto`,
       lastModified: now,

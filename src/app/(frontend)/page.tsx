@@ -6,14 +6,12 @@ import { RAIL_LIMIT } from '@/components/sections/CategoryRail'
 import { ComplianceSection } from '@/components/sections/ComplianceSection'
 import { FinancialInformationSection } from '@/components/sections/FinancialInformationSection'
 import { HeroSection } from '@/components/sections/HeroSection'
-import { MarketSection } from '@/components/sections/MarketSection'
 import { NewsletterSection } from '@/components/sections/NewsletterSection'
 import { PitchSection } from '@/components/sections/PitchSection'
 import { ProductsSection } from '@/components/sections/ProductsSection'
 import { RegistrationSection } from '@/components/sections/RegistrationSection'
 import { StepsSection } from '@/components/sections/StepsSection'
 
-import { marketDataService } from '@/modules/market-data/services/market-data.service'
 import { PUBLICATION_TYPES } from '@/modules/publications/domain/publication'
 import { publicationService } from '@/modules/publications/services/publication.service'
 
@@ -35,12 +33,11 @@ export const fetchCache = 'force-no-store'
  * componente visual consulta la base de datos ni una API externa.
  */
 export default async function HomePage() {
-  const [publications, marketSnapshot] = await Promise.all([
+  const [publications] = await Promise.all([
     /* Suficientes para llenar un carril por tipo: la sección agrupa en memoria y
        cada grupo muestra hasta `RAIL_LIMIT`. Pidiendo solo tres, cada carril se
        quedaba con una sola tarjeta. */
     publicationService.listLatest(PUBLICATION_TYPES.length * RAIL_LIMIT),
-    marketDataService.getSnapshot(),
   ])
 
   return (
@@ -50,7 +47,6 @@ export default async function HomePage() {
       <AboutSection />
       <ProductsSection />
       <AdvantagesSection />
-      <MarketSection snapshot={marketSnapshot} />
       <FinancialInformationSection />
       <ComplianceSection publications={publications} />
       <StepsSection />

@@ -9,11 +9,15 @@ import { SITE } from '@/lib/site'
 
 type Track = 'natural' | 'juridica'
 
+/* La vía de registro vive dentro de la pestaña, no en una condición aparte:
+   así el panel solo puede ofrecer la que corresponde a la persona activa, y
+   emparejarlas mal deja de ser posible por construcción. */
 const TABS: Array<{
   id: Track
   label: string
   icon: IconName
   intro: string
+  form: { href: string; label: string }
 }> = [
   {
     id: 'natural',
@@ -21,6 +25,10 @@ const TABS: Array<{
     icon: 'user',
     intro:
       'Abres tu cuenta a tu nombre para invertir en instrumentos del mercado de valores venezolano.',
+    form: {
+      href: '/registro/persona-natural',
+      label: 'Formulario de Identificación de Clientes Persona Natural Kaizen Casa de Bolsa',
+    },
   },
   {
     id: 'juridica',
@@ -28,6 +36,10 @@ const TABS: Array<{
     icon: 'building',
     intro:
       'Registras a tu empresa para invertir, financiarte o emitir en el mercado de valores.',
+    form: {
+      href: '/registro/persona-juridica',
+      label: 'Formulario de Identificación de Clientes PJ -Kaizen Casa de Bolsa',
+    },
   },
 ]
 
@@ -105,41 +117,34 @@ export const RegistrationTabs: React.FC = () => {
         >
           <p className="kcb-measure text-[1.0625rem] leading-relaxed text-ink">{activeTab.intro}</p>
 
-          {/* Una sola superficie elevada: el estado vive dentro del panel, no en
-              una tarjeta anidada. */}
-          <div className="kcb-hairline mt-8 pt-8">
-            <div className="flex items-start gap-3">
-              <span className="kcb-chip" data-size="sm">
-                <Icon name="clock" className="size-5" />
-              </span>
-              <div className="min-w-0">
-                <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-navy">
-                  El formulario en línea todavía no está habilitado
-                </h3>
-                <p className="kcb-measure mt-2 text-[0.9375rem] leading-relaxed text-muted">
-                  Estamos terminando de integrar el formulario de apertura de cuenta para{' '}
-                  {activeTab.label.toLowerCase()}. Mientras tanto, escríbenos o llámanos y un asesor
-                  te indica los recaudos que necesitas y te acompaña en el registro.
-                </p>
-                <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted">
-                  No envíes documentos personales por esta web: tu asesor te indicará el canal
-                  seguro para consignarlos.
-                </p>
+          {/* Formularios de identificación. Se abren en un diálogo dentro de la
+              página: así el visitante no pierde el contexto de la sección ni
+              acaba en una pestaña suelta de un dominio ajeno.
+              Apilados en móvil y en fila desde `sm`, siguiendo el mismo patrón
+              que el resto de pares de acciones de la sección. */}
+          <div className="mt-8">
+            {/* El formulario dejó de ser un diálogo y vive en su propia página:
+                `ActionButton` con `href` renderiza el `Link` de Next, así que la
+                navegación es del enrutador y no de un manejador propio. */}
+            <ActionButton href={activeTab.form.href} surface="light" emphasis="secondary">
+              {activeTab.form.label}
+            </ActionButton>
+          </div>
 
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <ActionButton href={SITE.contact.emailHref} surface="light" emphasis="primary">
-                    Escríbenos por correo
-                  </ActionButton>
-                  <a
-                    href={SITE.contact.phoneHref}
-                    className="inline-flex min-h-11 items-center gap-2 font-[family-name:var(--font-display)] text-[0.9375rem] font-semibold text-navy hover:text-blue"
-                  >
-                    <Icon name="phone" className="size-[1.125rem]" />
-                    {SITE.contact.phone}
-                  </a>
-                </div>
-              </div>
-            </div>
+          {/* El aviso de «formulario no habilitado» se retiró al entrar en
+              servicio los formularios: contradecía al botón que tiene encima.
+              Quedan las vías de contacto, que siguen siendo válidas. */}
+          <div className="kcb-hairline mt-8 flex flex-col gap-3 pt-8 sm:flex-row sm:items-center">
+            <ActionButton href={SITE.contact.emailHref} surface="light" emphasis="primary">
+              Escríbenos por correo
+            </ActionButton>
+            <a
+              href={SITE.contact.phoneHref}
+              className="inline-flex min-h-11 items-center gap-2 font-[family-name:var(--font-display)] text-[0.9375rem] font-semibold text-navy hover:text-blue"
+            >
+              <Icon name="phone" className="size-[1.125rem]" />
+              {SITE.contact.phone}
+            </a>
           </div>
         </motion.div>
       </AnimatePresence>
