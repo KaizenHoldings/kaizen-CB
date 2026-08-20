@@ -1,3 +1,6 @@
+'use client'
+
+import { motion, useReducedMotion } from 'motion/react'
 import React from 'react'
 
 import { ActionButton } from '@/components/ui/ActionButton'
@@ -69,10 +72,16 @@ const PRODUCTS: Product[] = [
  * pulsar para leer cada descripción; aquí las nueve se comparan de un vistazo,
  * que es lo que pide un catálogo institucional.
  */
-export const ProductsSection: React.FC = () => (
-  <section
+export const ProductsSection: React.FC = () => {
+  const reduceMotion = useReducedMotion()
+
+  const cardHidden = { opacity: 0, y: reduceMotion ? 0 : -40 }
+  const cardVisible = { opacity: 1, y: 0 }
+
+  return (
+    <section
     id="productos"
-    className="kcb-section scroll-mt-[var(--kcb-sticky-offset)] bg-pearl py-16 md:py-24"
+    className="kcb-section scroll-mt-[var(--kcb-sticky-offset)] bg-pearl py-12 md:py-16"
     aria-labelledby="productos-titulo"
   >
     <div className="kcb-container">
@@ -85,16 +94,26 @@ export const ProductsSection: React.FC = () => (
         </h2>
       </Reveal>
 
-      <Reveal>
-        <ul className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-8">
+        <motion.ul 
+          className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:mt-16 lg:grid-cols-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ staggerChildren: 0.15 }}
+        >
           {PRODUCTS.map((product) => (
-            <li
+            <motion.li
               key={product.title}
-              /* `gap-4` sustituye a los márgenes que separaban imagen, título
+              variants={{
+                hidden: cardHidden,
+                visible: cardVisible
+              }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              /* `gap-3` sustituye a los márgenes que separaban imagen, título
                  y descripción. El estirado de la rejilla iguala el alto de las
                  tarjetas de una misma fila aunque las descripciones ocupen
                  distinto número de líneas. */
-              className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-white p-6 transition-shadow duration-300 ease-[var(--ease-kcb)] hover:shadow-[var(--shadow-soft-sm)] lg:p-8"
+              className="flex h-full flex-col gap-3 rounded-2xl border border-line bg-white p-5 transition-shadow duration-300 ease-[var(--ease-kcb)] hover:shadow-[var(--shadow-soft-sm)]"
             >
               {/* Decorativo: el título nombra el producto, así que el icono no
                   aporta nombre accesible.
@@ -111,10 +130,9 @@ export const ProductsSection: React.FC = () => (
               <p className="text-[0.9375rem] leading-relaxed text-pretty text-muted">
                 {product.description}
               </p>
-            </li>
+            </motion.li>
           ))}
-        </ul>
-      </Reveal>
+        </motion.ul>
 
       <Reveal className="mt-12 flex justify-center lg:mt-16">
         <ActionButton href="/contacto" surface="light" emphasis="primary">
@@ -123,4 +141,5 @@ export const ProductsSection: React.FC = () => (
       </Reveal>
     </div>
   </section>
-)
+  )
+}

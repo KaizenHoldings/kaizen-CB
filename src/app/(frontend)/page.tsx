@@ -12,7 +12,7 @@ import { PitchSection } from '@/components/sections/PitchSection'
 import { ProductsSection } from '@/components/sections/ProductsSection'
 import { RegistrationSection } from '@/components/sections/RegistrationSection'
 import { StepsSection } from '@/components/sections/StepsSection'
-import { documentService } from '@/modules/documents/services/document.service'
+
 import { marketDataService } from '@/modules/market-data/services/market-data.service'
 import { PUBLICATION_TYPES } from '@/modules/publications/domain/publication'
 import { publicationService } from '@/modules/publications/services/publication.service'
@@ -35,9 +35,7 @@ export const fetchCache = 'force-no-store'
  * componente visual consulta la base de datos ni una API externa.
  */
 export default async function HomePage() {
-  const [archive, supporting, publications, marketSnapshot] = await Promise.all([
-    documentService.financialStatementArchive(),
-    documentService.listSupportingDocuments(),
+  const [publications, marketSnapshot] = await Promise.all([
     /* Suficientes para llenar un carril por tipo: la sección agrupa en memoria y
        cada grupo muestra hasta `RAIL_LIMIT`. Pidiendo solo tres, cada carril se
        quedaba con una sola tarjeta. */
@@ -53,7 +51,7 @@ export default async function HomePage() {
       <ProductsSection />
       <AdvantagesSection />
       <MarketSection snapshot={marketSnapshot} />
-      <FinancialInformationSection archive={archive} supporting={supporting} />
+      <FinancialInformationSection />
       <ComplianceSection publications={publications} />
       <StepsSection />
       <RegistrationSection />

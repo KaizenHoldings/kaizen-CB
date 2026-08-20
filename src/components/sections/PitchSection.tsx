@@ -39,7 +39,7 @@ export const PitchSection: React.FC = () => (
     /* Alto de pantalla como mínimo, no como medida fija: si el contenido pide
        más —apilado en móvil— la sección crece en lugar de recortarlo. `dvh`
        descuenta la barra del navegador móvil. */
-    className="scroll-mt-[var(--kcb-sticky-offset)] bg-white min-h-[100dvh]"
+    className="scroll-mt-[var(--kcb-sticky-offset)] bg-pearl min-h-[100dvh]"
     aria-labelledby="propuesta-titulo"
   >
     {/* Sin relleno vertical propio: la sección va a sangre y su alto lo marcan
