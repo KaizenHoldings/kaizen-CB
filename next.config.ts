@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
      `node_modules/next/dist/docs/.../serverActions.md`. */
   experimental: {
     serverActions: {
-      allowedOrigins: ['64.202.187.229', 'kz.finance'],
+      allowedOrigins: ['64.202.187.229', 'kz.finance', 'kaizencasadebolsa.com', 'www.kaizencasadebolsa.com'],
     },
   },
   images: {
