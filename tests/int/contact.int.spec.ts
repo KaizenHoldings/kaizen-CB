@@ -59,9 +59,18 @@ describe('cuerpo del correo', () => {
     expect(CONTACT_SUBJECT).toBe('Correo de prueba - implementación de formulario')
   })
 
-  it('pide confirmación de que la integración funciona', () => {
-    expect(html).toContain('confirmaran la recepción')
-    expect(html).toContain('la integración del formulario opera correctamente')
+  /* El cuerpo se recortó: ya no pide confirmar la recepción, y la frase que
+     ahora identifica el origen del mensaje es la que se comprueba. */
+  it('declara desde dónde se envió el mensaje', () => {
+    expect(html).toContain('Este mensaje ha sido enviado desde el sitio web de Kaizen Casa de Bolsa.')
+  })
+
+  it('sigue redactado en castellano, sea cual sea el idioma del sitio', () => {
+    // El correo interno para la institución no se traduce nunca.
+    expect(html).toContain('lang="es"')
+    expect(html).toContain('Datos remitidos desde el formulario')
+    expect(html).toContain('Nombre completo')
+    expect(html).toContain('Correo electrónico')
   })
 
   it('incluye los datos remitidos', () => {

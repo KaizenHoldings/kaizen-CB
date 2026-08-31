@@ -4,6 +4,7 @@ import React, { useId, useRef, useState } from 'react'
 
 import { ActionButton } from '@/components/ui/ActionButton'
 import { Icon } from '@/components/ui/Icon'
+import type { Dictionary } from '@/dictionaries/getDictionary'
 import { SITE } from '@/lib/site'
 
 /* Estilo común de los campos. Superficie blanca sobre el fondo Tint de la
@@ -17,8 +18,15 @@ const FIELD =
 
 const LABEL = 'font-[family-name:var(--font-display)] text-[0.9375rem] font-semibold text-navy'
 
+/* Se guarda el `status` que devuelve la ruta, no su texto. El servidor decide
+   el resultado; cómo se dice es cosa del idioma que se está viendo, y el correo
+   interno para la institución sigue siendo en castellano pase lo que pase. */
+type EstadoServidor = keyof Dictionary['contact']['form']['status']
+
 type Estado =
-  { kind: 'idle' } | { kind: 'sending' } | { kind: 'done'; ok: boolean; message: string }
+  | { kind: 'idle' }
+  | { kind: 'sending' }
+  | { kind: 'done'; ok: boolean; status: EstadoServidor }
 
 /**
  * Formulario de contacto.
@@ -31,7 +39,7 @@ type Estado =
  * `type="email"`), que ya la anuncia a las tecnologías asistivas; el servidor
  * la repite porque nunca se confía en el cliente.
  */
-export const ContactForm: React.FC = () => {
+export const ContactForm: React.FC<{ dict: Dictionary['contact']['form'] }> = ({ dict }) => {
   const baseId = useId()
   const nameId = `${baseId}-nombre`
   const emailId = `${baseId}-correo`
@@ -68,8 +76,10 @@ export const ContactForm: React.FC = () => {
 
       const payload = (await response.json()) as { status: string; message: string }
       const ok = payload.status === 'sent'
+      const status: EstadoServidor =
+        payload.status in dict.status ? (payload.status as EstadoServidor) : 'error'
 
-      setEstado({ kind: 'done', ok, message: payload.message })
+      setEstado({ kind: 'done', ok, status })
 
       // Solo se vacían los campos cuando el mensaje salió de verdad: si falló,
       // quien escribe conserva su texto para reintentar.
@@ -84,14 +94,14 @@ export const ContactForm: React.FC = () => {
         const { default: Swal } = await import('sweetalert2')
         await Swal.fire({
           icon: 'success',
-          title: 'Correo enviado correctamente',
-          confirmButtonText: 'Aceptar',
+          title: dict.alertTitle,
+          confirmButtonText: dict.alertConfirm,
           // Navy de marca, el mismo que `--color-navy`.
           confirmButtonColor: '#0E3048',
         })
       }
     } catch {
-      setEstado({ kind: 'done', ok: false, message: 'Hubo un error al enviar el mensaje.' })
+      setEstado({ kind: 'done', ok: false, status: 'error' })
     }
   }
 
@@ -101,13 +111,13 @@ export const ContactForm: React.FC = () => {
         className="font-[family-name:var(--font-display)] text-[clamp(1.35rem,1.15rem+1vw,1.875rem)] font-light text-navy"
         suppressHydrationWarning
       >
-        Escríbenos
+        {dict.title}
       </h2>
 
       <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-5" noValidate={false}>
         <div>
           <label htmlFor={nameId} className={LABEL}>
-            Nombre completo
+            {dict.nameLabel}
           </label>
           <input
             id={nameId}
@@ -118,7 +128,7 @@ export const ContactForm: React.FC = () => {
             maxLength={120}
             disabled={enviando}
             value={nombre}
-            placeholder="Nombre y apellido"
+            placeholder={dict.namePlaceholder}
             className={`${FIELD} min-h-12`}
             onChange={(event) => setNombre(event.target.value)}
           />
@@ -126,7 +136,7 @@ export const ContactForm: React.FC = () => {
 
         <div>
           <label htmlFor={emailId} className={LABEL}>
-            Correo electrónico
+            {dict.emailLabel}
           </label>
           <input
             id={emailId}
@@ -138,7 +148,7 @@ export const ContactForm: React.FC = () => {
             maxLength={254}
             disabled={enviando}
             value={correo}
-            placeholder="nombre@empresa.com"
+            placeholder={dict.emailPlaceholder}
             className={`${FIELD} min-h-12`}
             onChange={(event) => setCorreo(event.target.value)}
           />
@@ -146,7 +156,7 @@ export const ContactForm: React.FC = () => {
 
         <div>
           <label htmlFor={messageId} className={LABEL}>
-            Mensaje
+            {dict.messageLabel}
           </label>
           <textarea
             id={messageId}
@@ -156,7 +166,7 @@ export const ContactForm: React.FC = () => {
             maxLength={4000}
             disabled={enviando}
             value={mensaje}
-            placeholder="Cuéntanos en qué podemos ayudarte."
+            placeholder={dict.messagePlaceholder}
             className={`${FIELD} resize-y py-3 leading-relaxed`}
             onChange={(event) => setMensaje(event.target.value)}
           />
@@ -187,7 +197,7 @@ export const ContactForm: React.FC = () => {
             loading={enviando}
             disabled={enviando}
           >
-            {enviando ? 'Enviando…' : 'Enviar mensaje'}
+            {enviando ? dict.sending : dict.submit}
           </ActionButton>
         </div>
 
@@ -200,13 +210,13 @@ export const ContactForm: React.FC = () => {
                 className={`mt-0.5 size-4 shrink-0 ${estado.ok ? 'text-emerald' : 'text-negative'}`}
               />
               <span>
-                {estado.message}
+                {dict.status[estado.status]}
                 {/* Si el envío falló, la vía directa sigue disponible: no se deja
                     a quien escribe sin salida. */}
                 {estado.ok ? null : (
                   <>
                     {' '}
-                    También puedes escribirnos directamente a{' '}
+                    {dict.fallback}{' '}
                     <a href={SITE.contact.emailHref} className="kcb-link">
                       {SITE.contact.email}
                     </a>

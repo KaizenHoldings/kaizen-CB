@@ -263,5 +263,38 @@
       "fileUnavailableFor": "{title}: archivo no disponible"
     },
     "relatedDocument": "Documento relacionado"
+  },
+  "contact": {
+    "title": "Estamos listos para atenderte",
+    "description": "Conversemos sobre tus objetivos financieros. Te respondemos en días hábiles.",
+    "metaTitle": "Contacto",
+    "metaDescription": "Escríbenos o visítanos. Kaizen Casa de Bolsa responde en días hábiles a consultas sobre inversión, financiamiento y emisiones en el mercado de valores venezolano.",
+    "ogTitle": "Contacto · Kaizen Casa de Bolsa",
+    "ogDescription": "Conversemos sobre tus objetivos financieros. Te respondemos en días hábiles.",
+    "channels": {
+      "direccion": "Dirección",
+      "telefono": "Teléfono",
+      "correo": "Correo"
+    },
+    "form": {
+      "title": "Escríbenos",
+      "nameLabel": "Nombre completo",
+      "namePlaceholder": "Nombre y apellido",
+      "emailLabel": "Correo electrónico",
+      "emailPlaceholder": "nombre@empresa.com",
+      "messageLabel": "Mensaje",
+      "messagePlaceholder": "Cuéntanos en qué podemos ayudarte.",
+      "submit": "Enviar mensaje",
+      "sending": "Enviando…",
+      "fallback": "También puedes escribirnos directamente a",
+      "alertTitle": "Correo enviado correctamente",
+      "alertConfirm": "Aceptar",
+      "status": {
+        "sent": "Mensaje enviado exitosamente.",
+        "invalid": "Revisa los datos del formulario: falta algo o no es válido.",
+        "rate-limited": "Recibimos varios mensajes desde aquí. Inténtalo de nuevo en unos minutos.",
+        "error": "Hubo un error al enviar el mensaje."
+      }
+    }
   }
 }

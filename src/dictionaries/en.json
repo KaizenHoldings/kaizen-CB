@@ -263,5 +263,38 @@
       "fileUnavailableFor": "{title}: file not available"
     },
     "relatedDocument": "Related document"
+  },
+  "contact": {
+    "title": "We are ready to assist you",
+    "description": "Let us talk about your financial goals. We reply within business days.",
+    "metaTitle": "Contact",
+    "metaDescription": "Write to us or visit us. Kaizen Casa de Bolsa replies within business days to enquiries about investment, financing and issuances in the Venezuelan securities market.",
+    "ogTitle": "Contact · Kaizen Casa de Bolsa",
+    "ogDescription": "Let us talk about your financial goals. We reply within business days.",
+    "channels": {
+      "direccion": "Address",
+      "telefono": "Phone",
+      "correo": "Email"
+    },
+    "form": {
+      "title": "Write to us",
+      "nameLabel": "Full name",
+      "namePlaceholder": "First and last name",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "name@company.com",
+      "messageLabel": "Message",
+      "messagePlaceholder": "Tell us how we can help you.",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "fallback": "You can also write to us directly at",
+      "alertTitle": "Email sent successfully",
+      "alertConfirm": "OK",
+      "status": {
+        "sent": "Message sent successfully.",
+        "invalid": "Check the form details: something is missing or not valid.",
+        "rate-limited": "We have received several messages from here. Please try again in a few minutes.",
+        "error": "There was an error sending the message."
+      }
+    }
   }
 }
