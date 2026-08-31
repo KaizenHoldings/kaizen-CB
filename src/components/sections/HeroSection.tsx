@@ -4,6 +4,8 @@ import React from 'react'
 import { HeroField } from '@/components/sections/HeroField'
 import { HeroIntro } from '@/components/sections/HeroIntro'
 import { ActionButton } from '@/components/ui/ActionButton'
+import type { Dictionary } from '@/dictionaries/getDictionary'
+import { localeHref, type Locale } from '@/lib/i18n'
 
 /**
  * Primer viewport: el momento de marca.
@@ -17,7 +19,10 @@ import { ActionButton } from '@/components/ui/ActionButton'
  * que necesitan movimiento; la fotografía, los velos y los propios botones se
  * renderizan en el servidor y viajan como `children`.
  */
-export const HeroSection: React.FC = () => (
+export const HeroSection: React.FC<{ dict: Dictionary['hero']; locale: Locale }> = ({
+  dict,
+  locale,
+}) => (
   <section
     id="inicio"
     // Anula la reserva de cromo de `main`: el hero empieza en el borde real de
@@ -53,19 +58,20 @@ export const HeroSection: React.FC = () => (
     {/* El hero ocupa la pantalla completa; el padding superior reserva la
         altura del cromo fijo para que el titular nunca quede debajo. */}
     <HeroIntro
+      dict={dict}
       className="kcb-container relative flex min-h-[100dvh] flex-col justify-center pt-[calc(var(--kcb-chrome-height)+4rem)] pb-16 lg:pb-28"
       actions={
         <>
           <ActionButton
-            href="/#registro"
+            href={localeHref(locale, '/#registro')}
             surface="dark"
             emphasis="primary"
             className="kcb-action--navy-hover"
           >
-            Abre tu cuenta
+            {dict.primaryCta}
           </ActionButton>
-          <ActionButton href="/#productos" surface="dark" emphasis="secondary">
-            Ver productos
+          <ActionButton href={localeHref(locale, '/#productos')} surface="dark" emphasis="secondary">
+            {dict.secondaryCta}
           </ActionButton>
         </>
       }

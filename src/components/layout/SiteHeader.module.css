@@ -386,3 +386,71 @@
     transition: none;
   }
 }
+
+/* Cambio de idioma ------------------------------------------------------- */
+
+/* Grupo segmentado: las dos opciones comparten caja y solo las separa el
+   filete central. Se lee como un único control de dos estados, no como dos
+   enlaces sueltos, que es lo que es. */
+.langGroup {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: var(--radius-pill);
+  transition: border-color 420ms var(--ease-kcb);
+}
+
+.langOption {
+  padding: 0.3125rem 0.625rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background-color 420ms var(--ease-kcb),
+    color 420ms var(--ease-kcb);
+}
+
+.langOption + .langOption {
+  border-inline-start: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+.langOption:hover,
+.langOption:focus-visible {
+  color: var(--color-white);
+}
+
+/* El idioma vigente se sostiene sobre su propia superficie: sin ella, «activo»
+   y «con el puntero encima» acabarían siendo el mismo blanco. */
+.langOption[data-active='true'] {
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--color-white);
+}
+
+/* Sobre la superficie blanca se invierte el tono, igual que el resto del
+   cromo. #1f558b sobre blanco da 6,6:1; el gris de reposo, 4,8:1. */
+.header[data-scrolled='true'] .langGroup {
+  border-color: rgba(13, 45, 67, 0.22);
+}
+
+.header[data-scrolled='true'] .langOption {
+  color: var(--color-muted);
+}
+
+.header[data-scrolled='true'] .langOption + .langOption {
+  border-inline-start-color: rgba(13, 45, 67, 0.16);
+}
+
+.header[data-scrolled='true'] .langOption:hover,
+.header[data-scrolled='true'] .langOption:focus-visible {
+  color: var(--color-navy);
+}
+
+.header[data-scrolled='true'] .langOption[data-active='true'] {
+  background: rgba(31, 85, 139, 0.12);
+  color: #1f558b;
+}

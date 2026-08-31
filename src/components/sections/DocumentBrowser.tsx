@@ -6,9 +6,8 @@ import React, { useId, useMemo, useState } from 'react'
 import { DocumentRow } from '@/components/ui/DocumentRow'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Icon } from '@/components/ui/Icon'
+import type { Dictionary } from '@/dictionaries/getDictionary'
 import {
-  DOCUMENT_CATEGORY_DESCRIPTIONS,
-  DOCUMENT_CATEGORY_LABELS,
   type DocumentCategory,
   type FinancialStatementArchive,
   type PublicDocument,
@@ -19,6 +18,9 @@ type Props = {
   institutional: PublicDocument[]
   compliance: PublicDocument[]
   reference: PublicDocument[]
+  /** Todo el envoltorio de interfaz, resuelto en el servidor. Los documentos en
+   *  sí —título, descripción, periodo, tamaño— llegan de Payload sin tocar. */
+  dict: Dictionary['documents']
 }
 
 const TAB_ORDER: DocumentCategory[] = [
@@ -28,12 +30,10 @@ const TAB_ORDER: DocumentCategory[] = [
   'reference',
 ]
 
-const SHORT_LABELS: Record<DocumentCategory, string> = {
-  'financial-statement': 'Estados financieros',
-  institutional: 'Institucional',
-  compliance: 'Cumplimiento',
-  reference: 'Referencia',
-}
+/* Las etiquetas de pestaña y las descripciones de cada categoría viven ahora en
+   los diccionarios, indexadas por la misma clave que usa el dominio. La clave
+   —`financial-statement`, `institutional`…— sigue viniendo de Payload; lo que se
+   traduce es únicamente cómo se nombra en la interfaz. */
 
 const ALL_YEARS = 'todos'
 
@@ -49,6 +49,7 @@ export const DocumentBrowser: React.FC<Props> = ({
   institutional,
   compliance,
   reference,
+  dict,
 }) => {
   const [active, setActive] = useState<DocumentCategory>('financial-statement')
   const [year, setYear] = useState<string>(ALL_YEARS)
@@ -111,7 +112,7 @@ export const DocumentBrowser: React.FC<Props> = ({
       <div className="-mx-[clamp(1.25rem,4vw,3rem)] overflow-x-auto px-[clamp(1.25rem,4vw,3rem)] pb-1">
         <div
           role="tablist"
-          aria-label="Tipo de documentación"
+          aria-label={dict.tablist}
           className="flex w-max min-w-full gap-1 rounded-full bg-white p-1"
         >
           {TAB_ORDER.map((category) => {
@@ -131,7 +132,7 @@ export const DocumentBrowser: React.FC<Props> = ({
                   selected ? 'bg-navy text-white' : 'text-navy hover:bg-tint',
                 ].join(' ')}
               >
-                {SHORT_LABELS[category]}
+                {dict.tabs[category]}
                 <span
                   className={[
                     'rounded-full px-2 py-0.5 text-xs font-semibold',
@@ -159,7 +160,7 @@ export const DocumentBrowser: React.FC<Props> = ({
             transition={transition}
           >
             <p className="kcb-measure text-[0.9375rem] leading-relaxed text-muted">
-              {DOCUMENT_CATEGORY_DESCRIPTIONS[active]}
+              {dict.categoryDescriptions[active]}
             </p>
 
             {active === 'financial-statement' ? (
@@ -171,7 +172,7 @@ export const DocumentBrowser: React.FC<Props> = ({
                         htmlFor={searchId}
                         className="block font-[family-name:var(--font-display)] text-sm font-semibold text-navy"
                       >
-                        Buscar por periodo o título
+                        {dict.searchLabel}
                       </label>
                       <div className="relative mt-2">
                         <Icon
@@ -183,7 +184,7 @@ export const DocumentBrowser: React.FC<Props> = ({
                           type="search"
                           value={query}
                           onChange={(event) => setQuery(event.target.value)}
-                          placeholder="Ejemplo: abril"
+                          placeholder={dict.searchPlaceholder}
                           className="min-h-11 w-full rounded-full border border-line bg-white ps-11 pe-4 text-[0.9375rem] text-ink placeholder:text-muted focus-visible:border-blue"
                         />
                       </div>
@@ -193,7 +194,7 @@ export const DocumentBrowser: React.FC<Props> = ({
                       <div
                         className="flex flex-wrap gap-2"
                         role="group"
-                        aria-label="Filtrar estados financieros por año"
+                        aria-label={dict.yearFilterLabel}
                       >
                         {[ALL_YEARS, ...archive.availableYears.map(String)].map((value) => {
                           const selected = year === value
@@ -210,7 +211,7 @@ export const DocumentBrowser: React.FC<Props> = ({
                                   : 'bg-white text-navy hover:bg-tint',
                               ].join(' ')}
                             >
-                              {value === ALL_YEARS ? 'Todos los años' : value}
+                              {value === ALL_YEARS ? dict.allYears : value}
                             </button>
                           )
                         })}
@@ -220,16 +221,18 @@ export const DocumentBrowser: React.FC<Props> = ({
                 ) : null}
 
                 <p className="kcb-visually-hidden" role="status">
-                  {financialResultCount}{' '}
-                  {financialResultCount === 1 ? 'documento encontrado' : 'documentos encontrados'}.
+                  {(financialResultCount === 1
+                    ? dict.resultCountOne
+                    : dict.resultCountOther
+                  ).replace('{n}', String(financialResultCount))}
                 </p>
 
                 {archive.totalDocuments === 0 ? (
                   <div className="mt-8">
                     <EmptyState
                       icon="chart"
-                      title="Aún no hay estados financieros publicados"
-                      description="En cuanto se publique el primer periodo aparecerá aquí, ordenado del más reciente al más antiguo."
+                      title={dict.emptyFinancial.title}
+                      description={dict.emptyFinancial.description}
                     />
                   </div>
                 ) : filteredYears.length === 0 ? (
@@ -237,8 +240,8 @@ export const DocumentBrowser: React.FC<Props> = ({
                     <EmptyState
                       live
                       icon="search"
-                      title="Ningún documento coincide con tu búsqueda"
-                      description="Prueba con otro periodo o quita los filtros para ver todos los estados financieros."
+                      title={dict.noMatch.title}
+                      description={dict.noMatch.description}
                     />
                   </div>
                 ) : (
@@ -248,13 +251,14 @@ export const DocumentBrowser: React.FC<Props> = ({
                         <h3
                           id={`ejercicio-${group.year}`}
                           className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.08em] text-muted uppercase"
+                          suppressHydrationWarning
                         >
-                          Ejercicio {group.year}
+                          {dict.fiscalYear} {group.year}
                         </h3>
                         <ul className="mt-3">
                           {group.documents.map((document) => (
                             <li key={document.id}>
-                              <DocumentRow document={document} />
+                              <DocumentRow document={document} dict={dict.row} />
                             </li>
                           ))}
                         </ul>
@@ -268,14 +272,18 @@ export const DocumentBrowser: React.FC<Props> = ({
                 {byCategory[active].length === 0 ? (
                   <EmptyState
                     icon="doc"
-                    title={`Aún no hay ${DOCUMENT_CATEGORY_LABELS[active].toLowerCase()} publicada`}
-                    description="Publicaremos aquí los documentos en cuanto estén disponibles."
+                    /* Título completo por categoría en vez de componerlo con
+                       el nombre: en castellano la concordancia de género cambia
+                       —«publicada» frente a «publicados»— y una plantilla única
+                       obligaba a elegir una de las dos y equivocarse en la otra. */
+                    title={dict.emptyByCategory[active]}
+                    description={dict.emptyCategoryDescription}
                   />
                 ) : (
                   <ul>
                     {byCategory[active].map((document) => (
                       <li key={document.id}>
-                        <DocumentRow document={document} />
+                        <DocumentRow document={document} dict={dict.row} />
                       </li>
                     ))}
                   </ul>

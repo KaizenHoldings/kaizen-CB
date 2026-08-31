@@ -23,7 +23,7 @@ type BentoRevealProps = {
  *
  * Se repite cada vez que la sección vuelve a pantalla, igual que el titular, y
  * se rearma solo cuando ha salido por completo. El estado oculto lo pone
- * `globals.css` bajo `html[data-motion='on']`: sin JavaScript o con movimiento
+ * `globals.css` sin condiciones: sin JavaScript —vía `<noscript>`— o con movimiento
  * reducido las celdas nunca llegan a ocultarse.
  */
 export const BentoReveal: React.FC<BentoRevealProps> = ({

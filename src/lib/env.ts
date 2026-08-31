@@ -67,6 +67,30 @@ export const emailProvider = () => ({
   from: readOptional('EMAIL_FROM_ADDRESS'),
 })
 
+/**
+ * Credenciales de la audiencia de Mailchimp. Solo servidor: ninguna de las tres
+ * lleva el prefijo `NEXT_PUBLIC_`, así que nunca llegan al navegador.
+ */
+export const mailchimpAudience = () => ({
+  apiKey: readOptional('MAILCHIMP_API_KEY'),
+  serverPrefix: readOptional('MAILCHIMP_SERVER_PREFIX'),
+  audienceId: readOptional('MAILCHIMP_AUDIENCE_ID'),
+})
+
+/**
+ * Credenciales de Microsoft Graph para el envío de correo. Solo servidor: el
+ * secreto de cliente nunca debe salir del proceso.
+ */
+export const msGraph = () => ({
+  tenantId: readOptional('MS_GRAPH_TENANT_ID'),
+  clientId: readOptional('MS_GRAPH_CLIENT_ID'),
+  clientSecret: readOptional('MS_GRAPH_CLIENT_SECRET'),
+  senderEmail: readOptional('MS_GRAPH_SENDER_EMAIL'),
+})
+
+/** Buzón que recibe los mensajes del formulario de contacto. */
+export const contactRecipient = (): string | undefined => readOptional('CONTACT_FORM_RECIPIENT')
+
 export const storageProvider = () => ({
   bucket: readOptional('STORAGE_BUCKET'),
   region: readOptional('STORAGE_REGION'),

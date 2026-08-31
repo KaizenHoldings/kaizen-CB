@@ -1,0 +1,267 @@
+{
+  "nav": {
+    "inicio": "Inicio",
+    "nosotros": "Nosotros",
+    "productos": "Productos",
+    "informacionFinanciera": "Información financiera",
+    "cumplimiento": "Cumplimiento",
+    "contacto": "Contacto",
+    "publicaciones": "Publicaciones",
+    "abreTuCuenta": "Abre tu cuenta",
+    "irAlInicio": "Kaizen Casa de Bolsa, ir al inicio",
+    "navegacionPrincipal": "Navegación principal",
+    "cambiarIdioma": "Cambiar idioma",
+    "abrirMenu": "Abrir menú",
+    "cerrarMenu": "Cerrar menú",
+    "menuNavegacion": "Menú de navegación"
+  },
+  "hero": {
+    "titleFirst": "Invertir con visión",
+    "titleSecond": "crecer con confianza",
+    "primaryCta": "Abre tu cuenta",
+    "secondaryCta": "Ver productos"
+  },
+  "pitch": {
+    "title": "Elige tu punto de partida",
+    "cta": "Comenzar",
+    "natural": {
+      "title": "Invierto por mi cuenta",
+      "description": "Haz crecer tu patrimonio con acompañamiento de un asesor en cada decisión."
+    },
+    "juridica": {
+      "title": "Represento a una empresa",
+      "description": "Financia, estructura y emite en el mercado de valores venezolano."
+    }
+  },
+  "about": {
+    "title": "Una alianza financiera para el mercado venezolano",
+    "description": "Somos una institución financiera con un equipo de profesionales de amplia experiencia. Diseñamos productos de renta fija y variable para promover un mercado más eficiente, trabajando junto a cada cliente para mitigar riesgos y aprovechar oportunidades.",
+    "purposeLabel": "Nuestro propósito",
+    "purpose": "Crear relaciones duraderas que impacten de forma positiva al ecosistema empresarial venezolano.",
+    "valuesLabel": "Nuestros valores",
+    "values": [
+      {
+        "title": "Integridad",
+        "description": "Actuamos con honestidad, franqueza y transparencia en cada operación."
+      },
+      {
+        "title": "Confiabilidad",
+        "description": "Resguardamos los intereses de nuestros clientes con rigor técnico."
+      },
+      {
+        "title": "Compromiso",
+        "description": "Calidad de servicio y eficacia en los tiempos de respuesta."
+      },
+      {
+        "title": "Ser Kaizen",
+        "description": "Perfeccionamos cada proceso y servicio, paso a paso, todos los días."
+      }
+    ]
+  },
+  "products": {
+    "title": "Soluciones financieras integrales",
+    "cta": "Quiero asesoría",
+    "items": [
+      {
+        "title": "Pagaré bursátil",
+        "description": "Financiamiento a corto plazo emitido a través del mercado de valores."
+      },
+      {
+        "title": "Estructuración",
+        "description": "Diseñamos la estrategia de emisión óptima para cada empresa."
+      },
+      {
+        "title": "Emisiones",
+        "description": "Bonos, papeles comerciales y obligaciones en la Bolsa de Valores de Caracas."
+      },
+      {
+        "title": "Colocación de emisiones",
+        "description": "Colocamos tu emisión entre los inversionistas del mercado."
+      },
+      {
+        "title": "Finanzas corporativas",
+        "description": "Valoración, fusiones y adquisiciones, y consultoría estratégica."
+      },
+      {
+        "title": "Titularización",
+        "description": "Transformamos tus activos en títulos negociables para obtener liquidez."
+      },
+      {
+        "title": "Negociación de valores",
+        "description": "Compra y venta de instrumentos financieros en el mercado bursátil."
+      },
+      {
+        "title": "Cartera administrada",
+        "description": "Gestionamos tu portafolio según tus metas y tu perfil de riesgo."
+      },
+      {
+        "title": "Reporto",
+        "description": "Financiamiento de corto plazo respaldado por títulos valores."
+      }
+    ]
+  },
+  "advantages": {
+    "title": "¿Por qué invertir con Kaizen?",
+    "description": "Porque la confianza se construye explicando. Te mostramos lo que puedes esperar de cada instrumento, incluido su riesgo, antes de que decidas.",
+    "items": [
+      {
+        "title": "Acceso a financiamiento",
+        "description": "Conectamos a tu empresa con el capital del mercado de valores."
+      },
+      {
+        "title": "Instrumentos de renta fija y variable",
+        "description": "Alternativas orientadas a preservar y hacer crecer tu patrimonio, con su riesgo explicado."
+      },
+      {
+        "title": "Diversificación",
+        "description": "Distribuye tu inversión entre distintos sectores e instrumentos."
+      },
+      {
+        "title": "Mercado regulado",
+        "description": "Operamos bajo la supervisión de la {regulator}."
+      },
+      {
+        "title": "Asesoría personalizada",
+        "description": "Un ejecutivo te acompaña según tu perfil y tus objetivos."
+      }
+    ]
+  },
+  "financial": {
+    "title": "Información financiera y documentos",
+    "description": "Documentación institucional y estados financieros conforme a los requerimientos del regulador. Cada archivo indica su periodo, su formato y su tamaño real, y ninguno se enlaza si no existe.",
+    "empty": {
+      "title": "Todavía no hay documentos publicados",
+      "description": "Aquí aparecerán los estados financieros y la documentación institucional en cuanto se publiquen desde el panel."
+    },
+    "cta": "Ver documentos"
+  },
+  "compliance": {
+    "title": "Cumplimiento y publicaciones",
+    "description": "Publicamos contenido regulatorio del mercado de valores venezolano e internacional, junto con nuestras actualizaciones de mercado y newsletters.",
+    "empty": {
+      "title": "Todavía no hay publicaciones",
+      "description": "Aquí aparecerán las circulares, los análisis de mercado y los newsletters en cuanto se publiquen desde el panel."
+    },
+    "note": "¿Buscas normativa, manuales o el código de gobierno corporativo? Están en la pestaña",
+    "noteLink": "Referencia",
+    "noteEnd": "de la información financiera.",
+    "verMas": "Ver más",
+    "mostrando": "Mostrando {shown} de {total}",
+    "railLabel": "Publicaciones de tipo {tipo}",
+    "railScroll": "{label}: desplazamiento horizontal"
+  },
+  "steps": {
+    "title": "Abrir tu cuenta es sencillo",
+    "description": "Cuatro pasos, con acompañamiento en cada uno.",
+    "items": [
+      {
+        "title": "Completa tu registro",
+        "description": "Llena el formulario en línea, como persona natural o jurídica."
+      },
+      {
+        "title": "Consigna tus recaudos",
+        "description": "Cargas tus documentos directamente en el formulario, sin traslados."
+      },
+      {
+        "title": "Abre tu cuenta en la CVV",
+        "description": "Gestionas la apertura de tu cuenta en la Caja Venezolana de Valores."
+      },
+      {
+        "title": "Comienza a invertir",
+        "description": "Tu asesor te guía en tus primeras operaciones y resuelve tus dudas."
+      }
+    ]
+  },
+  "registration": {
+    "title": "Regístrate con nosotros",
+    "description": "Elige tu tipo de persona para ver los pasos que te corresponden. Un asesor te acompaña durante todo el proceso.",
+    "tablistLabel": "Tipo de persona",
+    "emailCta": "Escríbenos por correo",
+    "natural": {
+      "label": "Persona natural",
+      "intro": "Abres tu cuenta a tu nombre para invertir en instrumentos del mercado de valores venezolano.",
+      "formLabel": "Formulario de Identificación de Clientes Persona Natural Kaizen Casa de Bolsa"
+    },
+    "juridica": {
+      "label": "Persona jurídica",
+      "intro": "Registras a tu empresa para invertir, financiarte o emitir en el mercado de valores.",
+      "formLabel": "Formulario de Identificación de Clientes PJ -Kaizen Casa de Bolsa"
+    },
+    "backToSection": "Volver a Regístrate con nosotros"
+  },
+  "newsletter": {
+    "title": "Recibe nuestro newsletter",
+    "description": "Análisis del mercado, novedades regulatorias y publicaciones de Kaizen, directamente en tu correo. Puedes darte de baja cuando quieras."
+  },
+  "footer": {
+    "tagline": "Institución financiera dedicada a crear relaciones duraderas que impacten de forma positiva al ecosistema empresarial venezolano.",
+    "navegacion": "Navegación",
+    "productos": "Productos",
+    "productLinks": [
+      "Finanzas corporativas",
+      "Intermediación de títulos",
+      "Cartera administrada",
+      "Emisiones",
+      "Abre tu cuenta"
+    ],
+    "derechos": "Todos los derechos reservados.",
+    "regulados": "Regulados por la {regulator}."
+  },
+  "documents": {
+    "title": "Documentos",
+    "description": "Documentación institucional y estados financieros conforme a los requerimientos del regulador. Cada archivo indica su periodo, su formato y su tamaño real, y ninguno se enlaza si no existe.",
+    "metaTitle": "Documentos",
+    "metaDescription": "Estados financieros, documentación institucional, material de cumplimiento y textos de referencia de Kaizen Casa de Bolsa.",
+    "ogTitle": "Documentos · Kaizen Casa de Bolsa",
+    "ogDescription": "Estados financieros y documentación institucional publicados conforme a los requerimientos del regulador.",
+    "empty": {
+      "title": "Todavía no hay documentos publicados",
+      "description": "En cuanto se publique el primero desde el panel aparecerá aquí, con su periodo y su formato."
+    },
+    "tablist": "Tipo de documentación",
+    "tabs": {
+      "financial-statement": "Estados financieros",
+      "institutional": "Institucional",
+      "compliance": "Cumplimiento",
+      "reference": "Referencia"
+    },
+    "categoryDescriptions": {
+      "financial-statement": "Balances y estados de resultados por periodo, publicados conforme a los requerimientos del regulador.",
+      "institutional": "Quiénes somos por escrito: estructura, gobierno corporativo y documentos que describen a la institución.",
+      "compliance": "Manuales, políticas y material de cumplimiento normativo del mercado de valores.",
+      "reference": "Normativa y textos de consulta que enmarcan la actividad de una casa de bolsa en Venezuela."
+    },
+    "emptyByCategory": {
+      "financial-statement": "Aún no hay estados financieros publicados",
+      "institutional": "Aún no hay documentación institucional publicada",
+      "compliance": "Aún no hay material de cumplimiento publicado",
+      "reference": "Aún no hay documentos de referencia publicados"
+    },
+    "emptyCategoryDescription": "Publicaremos aquí los documentos en cuanto estén disponibles.",
+    "searchLabel": "Buscar por periodo o título",
+    "searchPlaceholder": "Ejemplo: abril",
+    "yearFilterLabel": "Filtrar estados financieros por año",
+    "allYears": "Todos los años",
+    "fiscalYear": "Ejercicio",
+    "resultCountOne": "{n} documento encontrado.",
+    "resultCountOther": "{n} documentos encontrados.",
+    "emptyFinancial": {
+      "title": "Aún no hay estados financieros publicados",
+      "description": "En cuanto se publique el primer periodo aparecerá aquí, ordenado del más reciente al más antiguo."
+    },
+    "noMatch": {
+      "title": "Ningún documento coincide con tu búsqueda",
+      "description": "Prueba con otro periodo o quita los filtros para ver todos los estados financieros."
+    },
+    "row": {
+      "publishedOn": "Publicado el {date}",
+      "effectiveFrom": "Vigente desde",
+      "noFile": "Sin archivo disponible",
+      "download": "Descargar",
+      "open": "Abrir",
+      "fileUnavailable": "Archivo no disponible",
+      "fileUnavailableFor": "{title}: archivo no disponible"
+    },
+    "relatedDocument": "Documento relacionado"
+  }
+}

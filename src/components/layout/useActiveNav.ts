@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
+import { stripLocale } from '@/lib/i18n'
 import { NAV_LINKS } from '@/lib/site'
 
 /** Ids de las secciones de la portada, deducidos de los propios destinos: la
@@ -34,7 +35,9 @@ const SECTION_IDS = NAV_LINKS.filter((link) => link.href.startsWith('/#')).map((
  * consume solo tiene que comparar cadenas.
  */
 export const useActiveNav = (): string | null => {
-  const pathname = usePathname()
+  /* Se normaliza nada más leerla: a partir de aquí la ruta no sabe de idiomas,
+     igual que `NAV_LINKS`. */
+  const pathname = stripLocale(usePathname())
   const isLanding = pathname === '/'
   const [sectionId, setSectionId] = useState<string | null>(null)
 

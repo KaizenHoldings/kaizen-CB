@@ -37,7 +37,12 @@ export default async function PublicationsPage() {
     <div className="bg-white">
       <div className="kcb-container py-16 lg:py-24">
         <header className="max-w-3xl">
-          <h1 className="text-[clamp(2rem,1.6rem+2vw,3rem)] font-bold text-navy">Publicaciones</h1>
+          <h1
+            className="text-[clamp(2rem,1.6rem+2vw,3rem)] font-bold text-navy"
+            suppressHydrationWarning
+          >
+            Publicaciones
+          </h1>
           <p className="kcb-measure mt-5 text-[1.0625rem] leading-relaxed text-muted">
             Newsletters, material de cumplimiento normativo y actualizaciones del mercado de valores
             venezolano e internacional.

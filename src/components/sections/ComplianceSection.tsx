@@ -7,6 +7,8 @@ import { Icon } from '@/components/ui/Icon'
 import { PublicationCard } from '@/components/ui/PublicationCard'
 import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import type { Dictionary } from '@/dictionaries/getDictionary'
+import { localeHref, type Locale } from '@/lib/i18n'
 import {
   PUBLICATION_TYPE_LABELS,
   PUBLICATION_TYPES,
@@ -23,9 +25,11 @@ import {
  * Los documentos de referencia y los manuales descargables se consultan en la
  * sección de información financiera, para no duplicar la misma lista.
  */
-export const ComplianceSection: React.FC<{ publications: PublicationSummary[] }> = ({
-  publications,
-}) => {
+export const ComplianceSection: React.FC<{
+  publications: PublicationSummary[]
+  dict: Dictionary['compliance']
+  locale: Locale
+}> = ({ publications, dict, locale }) => {
   // Agrupación en memoria: la consulta ya trae lo publicado y ordenado, así que
   // no hace falta una petición por tipo.
   const byType = PUBLICATION_TYPES.map((type) => ({
@@ -42,8 +46,8 @@ export const ComplianceSection: React.FC<{ publications: PublicationSummary[] }>
       <div className="kcb-container">
         <SectionHeading
           id="cumplimiento-titulo"
-          title="Cumplimiento y publicaciones"
-          description="Publicamos contenido regulatorio del mercado de valores venezolano e internacional, junto con nuestras actualizaciones de mercado y newsletters."
+          title={dict.title}
+          description={dict.description}
         />
 
         <div className="mt-12">
@@ -51,8 +55,8 @@ export const ComplianceSection: React.FC<{ publications: PublicationSummary[] }>
             <Reveal>
               <EmptyState
                 icon="doc"
-                title="Todavía no hay publicaciones"
-                description="Aquí aparecerán las circulares, los análisis de mercado y los newsletters en cuanto se publiquen desde el panel."
+                title={dict.empty.title}
+                description={dict.empty.description}
               />
             </Reveal>
           ) : (
@@ -61,9 +65,12 @@ export const ComplianceSection: React.FC<{ publications: PublicationSummary[] }>
                 <Reveal key={group.type}>
                   <CategoryRail
                     title={PUBLICATION_TYPE_LABELS[group.type]}
-                    label={`Publicaciones de tipo ${PUBLICATION_TYPE_LABELS[group.type]}`}
-                    href="/publicaciones"
+                    label={dict.railLabel.replace('{tipo}', PUBLICATION_TYPE_LABELS[group.type])}
+                    href={localeHref(locale, '/publicaciones')}
                     total={group.items.length}
+                    verMas={dict.verMas}
+                    mostrando={dict.mostrando}
+                    scrollLabel={dict.railScroll}
                   >
                     {group.items.slice(0, RAIL_LIMIT).map((publication) => (
                       <li
@@ -84,11 +91,11 @@ export const ComplianceSection: React.FC<{ publications: PublicationSummary[] }>
           <p className="flex items-start gap-2 rounded-xl bg-tint px-4 py-3.5 text-sm text-navy">
             <Icon name="info" className="mt-0.5 size-4 shrink-0 text-blue" />
             <span>
-              ¿Buscas normativa, manuales o el código de gobierno corporativo? Están en la pestaña{' '}
-              <Link href="/#informacion-financiera" className="kcb-link">
-                Referencia
+              {dict.note}{' '}
+              <Link href={localeHref(locale, '/#informacion-financiera')} className="kcb-link">
+                {dict.noteLink}
               </Link>{' '}
-              de la información financiera.
+              {dict.noteEnd}
             </span>
           </p>
         </Reveal>

@@ -8,6 +8,8 @@ import React from 'react'
 
 import { DocumentRow } from '@/components/ui/DocumentRow'
 import { Icon } from '@/components/ui/Icon'
+import { getDictionary } from '@/dictionaries/getDictionary'
+import { DEFAULT_LOCALE, isLocale } from '@/lib/i18n'
 import { formatLongDate, toDateTimeAttribute } from '@/lib/format'
 import {
   PUBLICATION_TYPE_LABELS,
@@ -25,7 +27,7 @@ import { publicationService } from '@/modules/publications/services/publication.
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
-type Params = { params: Promise<{ slug: string }> }
+type Params = { params: Promise<{ lang: string; slug: string }> }
 
 /* Sin `generateStaticParams`: mientras existía, Next prerenderizaba en el build
    una página por publicación y `force-dynamic` no llegaba a aplicarse —la ruta
@@ -52,14 +54,20 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       url: `/publicaciones/${publication.slug}`,
       publishedTime: publication.publishedAt,
       modifiedTime: publication.updatedAt,
-      images: publication.image ? [{ url: publication.image.url, alt: publication.image.alt }] : undefined,
+      images: publication.image
+        ? [{ url: publication.image.url, alt: publication.image.alt }]
+        : undefined,
     },
   }
 }
 
 export default async function PublicationPage({ params }: Params) {
-  const { slug } = await params
-  const publication = await publicationService.getBySlug(slug)
+  const { lang, slug } = await params
+  const locale = isLocale(lang) ? lang : DEFAULT_LOCALE
+  const [dict, publication] = await Promise.all([
+    getDictionary(locale),
+    publicationService.getBySlug(slug),
+  ])
 
   if (!publication) notFound()
 
@@ -97,7 +105,10 @@ export default async function PublicationPage({ params }: Params) {
             ) : null}
           </div>
 
-          <h1 className="mt-5 text-balance text-[clamp(1.875rem,1.5rem+1.9vw,2.75rem)] leading-tight font-bold text-navy">
+          <h1
+            className="mt-5 text-balance text-[clamp(1.875rem,1.5rem+1.9vw,2.75rem)] leading-tight font-bold text-navy"
+            suppressHydrationWarning
+          >
             {publication.title}
           </h1>
 
@@ -129,12 +140,13 @@ export default async function PublicationPage({ params }: Params) {
             <h2
               id="documento-relacionado"
               className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.08em] text-muted uppercase"
+              suppressHydrationWarning
             >
-              Documento relacionado
+              {dict.documents.relatedDocument}
             </h2>
             <ul className="mt-3">
               <li>
-                <DocumentRow document={publication.relatedDocument} />
+                <DocumentRow document={publication.relatedDocument} dict={dict.documents.row} />
               </li>
             </ul>
           </section>

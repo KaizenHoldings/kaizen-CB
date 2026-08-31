@@ -1,5 +1,10 @@
 import React from 'react'
 
+import type { Dictionary } from '@/dictionaries/getDictionary'
+
+/** Cadenas compartidas por la fila de documento y su botón de descarga. */
+export type DocumentRowDictionary = Dictionary['documents']['row']
+
 type Surface = 'light' | 'dark' | 'blue'
 
 export type DownloadButtonProps = {
@@ -13,6 +18,8 @@ export type DownloadButtonProps = {
   fileSize?: string | null
   /** Nombre del documento, para construir el nombre accesible completo. */
   documentTitle: string
+  /** Copia del control, resuelta arriba: este componente no lee el diccionario. */
+  dict: DocumentRowDictionary
   surface?: Surface
   /** `open` abre en pestaña nueva en vez de descargar. */
   intent?: 'download' | 'open'
@@ -33,11 +40,12 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({
   fileType,
   fileSize,
   documentTitle,
+  dict,
   surface = 'light',
   intent = 'download',
   tooltipSide = 'end',
 }) => {
-  const actionLabel = intent === 'open' ? 'Abrir' : 'Descargar'
+  const actionLabel = intent === 'open' ? dict.open : dict.download
 
   // Solo se enuncian los metadatos que existen de verdad.
   const details = [fileType, fileSize].filter(Boolean).join(' · ')
@@ -73,8 +81,8 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({
         data-surface={surface}
         aria-disabled="true"
         role="link"
-        aria-label={`${documentTitle}: archivo no disponible`}
-        title="Archivo no disponible"
+        aria-label={dict.fileUnavailableFor.replace('{title}', documentTitle)}
+        title={dict.fileUnavailable}
       >
         {icon}
       </span>

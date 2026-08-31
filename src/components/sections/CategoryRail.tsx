@@ -15,6 +15,13 @@ type CategoryRailProps = {
   label: string
   /** Cuántas piezas hay en total, para decir si el carril es una muestra. */
   total: number
+  /** Copia del carril, resuelta en el servidor: este componente no lee el
+   *  diccionario por su cuenta. `mostrando` y `scrollLabel` llegan como
+   *  plantillas con marcadores porque el orden de las piezas cambia de un
+   *  idioma a otro y concatenar aquí lo daría por fijo. */
+  verMas: string
+  mostrando: string
+  scrollLabel: string
   children: React.ReactNode
 }
 
@@ -35,12 +42,18 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({
   href,
   label,
   total,
+  verMas,
+  mostrando,
+  scrollLabel,
   children,
 }) => (
   <section aria-label={label} className="min-w-0">
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">
-        <h3 className="font-[family-name:var(--font-display)] text-[clamp(1.35rem,1.15rem+1vw,1.875rem)] font-light text-navy">
+        <h3
+          className="font-[family-name:var(--font-display)] text-[clamp(1.35rem,1.15rem+1vw,1.875rem)] font-light text-navy"
+          suppressHydrationWarning
+        >
           {title}
         </h3>
         {description ? (
@@ -58,7 +71,7 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({
       <ul
         className="kcb-rail gap-4 px-[clamp(1.25rem,4vw,3rem)] pb-4"
         tabIndex={0}
-        aria-label={`${label}: desplazamiento horizontal`}
+        aria-label={scrollLabel.replace('{label}', label)}
       >
         {children}
       </ul>
@@ -66,11 +79,11 @@ export const CategoryRail: React.FC<CategoryRailProps> = ({
 
     <div className="mt-2 flex items-center gap-4">
       <ActionButton href={href} surface="light" emphasis="secondary">
-        Ver más
+        {verMas}
       </ActionButton>
       {total > RAIL_LIMIT ? (
         <p className="text-[0.875rem] text-muted">
-          Mostrando {RAIL_LIMIT} de {total}
+          {mostrando.replace('{shown}', String(RAIL_LIMIT)).replace('{total}', String(total))}
         </p>
       ) : null}
     </div>

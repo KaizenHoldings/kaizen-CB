@@ -25,14 +25,16 @@ export const SITE = {
   regulator: 'Superintendencia Nacional de Valores',
 } as const
 
-/** Destinos de la navegación principal. Un solo origen para navbar, menú móvil y footer. */
+/** Destinos de la navegación principal. Un solo origen para navbar, menú móvil y footer.
+ *  `key` apunta a la entrada del diccionario; `label` queda como respaldo en
+ *  español para cualquier consumo que no reciba diccionario. */
 export const NAV_LINKS = [
-  { href: '/#inicio', label: 'Inicio' },
-  { href: '/#nosotros', label: 'Nosotros' },
-  { href: '/#productos', label: 'Productos' },
-  { href: '/#informacion-financiera', label: 'Información financiera' },
-  { href: '/#cumplimiento', label: 'Cumplimiento' },
-  { href: '/contacto', label: 'Contacto' },
+  { href: '/#inicio', key: 'inicio', label: 'Inicio' },
+  { href: '/#nosotros', key: 'nosotros', label: 'Nosotros' },
+  { href: '/#productos', key: 'productos', label: 'Productos' },
+  { href: '/#informacion-financiera', key: 'informacionFinanciera', label: 'Información financiera' },
+  { href: '/#cumplimiento', key: 'cumplimiento', label: 'Cumplimiento' },
+  { href: '/contacto', key: 'contacto', label: 'Contacto' },
 ] as const
 
 /**

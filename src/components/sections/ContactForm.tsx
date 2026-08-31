@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useId, useState } from 'react'
+import React, { useId, useRef, useState } from 'react'
 
 import { ActionButton } from '@/components/ui/ActionButton'
 import { Icon } from '@/components/ui/Icon'
@@ -17,17 +17,19 @@ const FIELD =
 
 const LABEL = 'font-[family-name:var(--font-display)] text-[0.9375rem] font-semibold text-navy'
 
+type Estado =
+  { kind: 'idle' } | { kind: 'sending' } | { kind: 'done'; ok: boolean; message: string }
+
 /**
  * Formulario de contacto.
  *
- * **No envía a ningún sitio.** El backend todavía no está definido, así que el
- * `submit` se queda en el cliente: no se inventa un endpoint ni se promete una
- * entrega que no ocurre. El acuse dice exactamente eso, para no dar por enviado
- * un mensaje que nadie ha recibido.
+ * Entrega el mensaje en `POST /api/contact`, que lo remite al buzón de la
+ * institución por Microsoft Graph. El navegador no conoce ninguna credencial:
+ * de la respuesta solo lee `status` y un texto en castellano.
  *
- * La validación es la del navegador (`required`, `type="email"`): sin capa
- * propia que duplique lo que la plataforma ya hace bien y ya anuncia a las
- * tecnologías asistivas.
+ * La validación de forma sigue siendo la del navegador (`required`,
+ * `type="email"`), que ya la anuncia a las tecnologías asistivas; el servidor
+ * la repite porque nunca se confía en el cliente.
  */
 export const ContactForm: React.FC = () => {
   const baseId = useId()
@@ -36,16 +38,69 @@ export const ContactForm: React.FC = () => {
   const messageId = `${baseId}-mensaje`
   const statusId = `${baseId}-estado`
 
-  const [sent, setSent] = useState(false)
+  /* Los campos pasan a estado controlado por una razón concreta: limpiarlos al
+     terminar bien. Un `reset()` sobre el formulario borraría también el acuse. */
+  const [nombre, setNombre] = useState('')
+  const [correo, setCorreo] = useState('')
+  const [mensaje, setMensaje] = useState('')
+  const [estado, setEstado] = useState<Estado>({ kind: 'idle' })
+  const honeypotRef = useRef<HTMLInputElement>(null)
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const enviando = estado.kind === 'sending'
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setSent(true)
+    if (enviando) return
+
+    setEstado({ kind: 'sending' })
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre,
+          correo,
+          mensaje,
+          company: honeypotRef.current?.value ?? '',
+        }),
+      })
+
+      const payload = (await response.json()) as { status: string; message: string }
+      const ok = payload.status === 'sent'
+
+      setEstado({ kind: 'done', ok, message: payload.message })
+
+      // Solo se vacían los campos cuando el mensaje salió de verdad: si falló,
+      // quien escribe conserva su texto para reintentar.
+      if (ok) {
+        setNombre('')
+        setCorreo('')
+        setMensaje('')
+
+        /* Importación dinámica, no en la cabecera del módulo: SweetAlert2 pesa
+           lo suyo y solo hace falta en este instante. Así no viaja en el bundle
+           de quien abre la página de contacto y no llega a enviar nada. */
+        const { default: Swal } = await import('sweetalert2')
+        await Swal.fire({
+          icon: 'success',
+          title: 'Correo enviado correctamente',
+          confirmButtonText: 'Aceptar',
+          // Navy de marca, el mismo que `--color-navy`.
+          confirmButtonColor: '#0E3048',
+        })
+      }
+    } catch {
+      setEstado({ kind: 'done', ok: false, message: 'Hubo un error al enviar el mensaje.' })
+    }
   }
 
   return (
     <div className="rounded-2xl border border-line bg-white p-6 shadow-[var(--shadow-soft-sm)] sm:p-8">
-      <h2 className="font-[family-name:var(--font-display)] text-[clamp(1.35rem,1.15rem+1vw,1.875rem)] font-light text-navy">
+      <h2
+        className="font-[family-name:var(--font-display)] text-[clamp(1.35rem,1.15rem+1vw,1.875rem)] font-light text-navy"
+        suppressHydrationWarning
+      >
         Escríbenos
       </h2>
 
@@ -60,9 +115,12 @@ export const ContactForm: React.FC = () => {
             type="text"
             autoComplete="name"
             required
+            maxLength={120}
+            disabled={enviando}
+            value={nombre}
             placeholder="Nombre y apellido"
             className={`${FIELD} min-h-12`}
-            onChange={() => setSent(false)}
+            onChange={(event) => setNombre(event.target.value)}
           />
         </div>
 
@@ -77,9 +135,12 @@ export const ContactForm: React.FC = () => {
             inputMode="email"
             autoComplete="email"
             required
+            maxLength={254}
+            disabled={enviando}
+            value={correo}
             placeholder="nombre@empresa.com"
             className={`${FIELD} min-h-12`}
-            onChange={() => setSent(false)}
+            onChange={(event) => setCorreo(event.target.value)}
           />
         </div>
 
@@ -92,30 +153,66 @@ export const ContactForm: React.FC = () => {
             name="mensaje"
             rows={5}
             required
+            maxLength={4000}
+            disabled={enviando}
+            value={mensaje}
             placeholder="Cuéntanos en qué podemos ayudarte."
             className={`${FIELD} resize-y py-3 leading-relaxed`}
-            onChange={() => setSent(false)}
+            onChange={(event) => setMensaje(event.target.value)}
           />
         </div>
 
+        {/* Trampa para bots: fuera del flujo visual y del orden de tabulación. */}
+        <input
+          ref={honeypotRef}
+          type="text"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="kcb-visually-hidden"
+        />
+
         <div className="pt-1">
-          <ActionButton type="submit" surface="light" emphasis="primary">
-            Enviar mensaje
+          {/* `loading` ya deshabilita —`ActionButton` resuelve
+              `disabled={disabled || loading}`— y añade el indicador y
+              `aria-busy`. `disabled` se declara igualmente para que la intención
+              se lea en el propio marcado y no dependa de conocer el componente.
+              El aspecto del estado lo pone `.kcb-action:disabled` en
+              `buttons.css`, según BUTTON_SYSTEM.md. */}
+          <ActionButton
+            type="submit"
+            surface="light"
+            emphasis="primary"
+            loading={enviando}
+            disabled={enviando}
+          >
+            {enviando ? 'Enviando…' : 'Enviar mensaje'}
           </ActionButton>
         </div>
 
         {/* `role="status"` anuncia el acuse sin robar el foco. */}
         <p id={statusId} role="status" aria-live="polite" className="min-h-0">
-          {sent ? (
+          {estado.kind === 'done' ? (
             <span className="flex items-start gap-2 text-[0.9375rem] leading-relaxed text-muted">
-              <Icon name="info" className="mt-0.5 size-4 shrink-0 text-navy" />
+              <Icon
+                name={estado.ok ? 'check' : 'alert'}
+                className={`mt-0.5 size-4 shrink-0 ${estado.ok ? 'text-emerald' : 'text-negative'}`}
+              />
               <span>
-                Gracias por escribirnos. El envío automático todavía no está habilitado, así que
-                escríbenos directamente a{' '}
-                <a href={SITE.contact.emailHref} className="kcb-link">
-                  {SITE.contact.email}
-                </a>{' '}
-                mientras lo activamos.
+                {estado.message}
+                {/* Si el envío falló, la vía directa sigue disponible: no se deja
+                    a quien escribe sin salida. */}
+                {estado.ok ? null : (
+                  <>
+                    {' '}
+                    También puedes escribirnos directamente a{' '}
+                    <a href={SITE.contact.emailHref} className="kcb-link">
+                      {SITE.contact.email}
+                    </a>
+                    .
+                  </>
+                )}
               </span>
             </span>
           ) : null}

@@ -1,11 +1,15 @@
 /**
  * Resultado de una solicitud de suscripción.
  *
- * `accepted` se devuelve tanto para un alta nueva como para un correo que ya
- * estaba registrado: la respuesta pública no revela qué direcciones existen.
+ * `already-subscribed` se separó de `accepted` a petición expresa del encargo.
+ * Conviene tenerlo presente: distinguirlos convierte el formulario en un oráculo
+ * capaz de confirmar si una dirección concreta está en la lista, que es justo lo
+ * que la respuesta genérica anterior evitaba. Es una decisión de producto —la
+ * persona sabe que no hace falta reintentar—, no un descuido.
  */
 export type SubscriptionOutcome =
   | { status: 'accepted' }
+  | { status: 'already-subscribed' }
   | { status: 'invalid-email' }
   | { status: 'consent-required' }
   | { status: 'rate-limited' }
@@ -27,12 +31,10 @@ export const isValidEmail = (value: string): boolean => {
 
 export const normalizeEmail = (value: string): string => value.trim().toLowerCase()
 
-/**
- * Mensajes de la interfaz. Se mantienen genéricos a propósito: ninguno permite
- * deducir si un correo ya estaba suscrito.
- */
+/** Mensajes de la interfaz. */
 export const SUBSCRIPTION_MESSAGES: Record<SubscriptionOutcome['status'], string> = {
   accepted: 'Listo. Si todo está en orden, recibirás nuestras próximas comunicaciones.',
+  'already-subscribed': 'Este correo ya está suscrito.',
   'invalid-email': 'Revisa el correo: parece que le falta algo.',
   'consent-required': 'Necesitamos tu autorización para escribirte.',
   'rate-limited': 'Recibimos varias solicitudes desde aquí. Inténtalo de nuevo en unos minutos.',

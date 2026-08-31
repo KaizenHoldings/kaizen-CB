@@ -1,0 +1,267 @@
+{
+  "nav": {
+    "inicio": "Home",
+    "nosotros": "About us",
+    "productos": "Products",
+    "informacionFinanciera": "Financial information",
+    "cumplimiento": "Compliance",
+    "contacto": "Contact",
+    "publicaciones": "Publications",
+    "abreTuCuenta": "Open your account",
+    "irAlInicio": "Kaizen Casa de Bolsa, go to home",
+    "navegacionPrincipal": "Main navigation",
+    "cambiarIdioma": "Change language",
+    "abrirMenu": "Open menu",
+    "cerrarMenu": "Close menu",
+    "menuNavegacion": "Navigation menu"
+  },
+  "hero": {
+    "titleFirst": "Invest with vision",
+    "titleSecond": "grow with confidence",
+    "primaryCta": "Open your account",
+    "secondaryCta": "View products"
+  },
+  "pitch": {
+    "title": "Choose your starting point",
+    "cta": "Get started",
+    "natural": {
+      "title": "I invest on my own",
+      "description": "Grow your wealth with an adviser alongside you in every decision."
+    },
+    "juridica": {
+      "title": "I represent a company",
+      "description": "Finance, structure and issue in the Venezuelan securities market."
+    }
+  },
+  "about": {
+    "title": "A financial partner for the Venezuelan market",
+    "description": "We are a financial institution with a team of highly experienced professionals. We design fixed and variable income products to foster a more efficient market, working alongside each client to mitigate risk and seize opportunities.",
+    "purposeLabel": "Our purpose",
+    "purpose": "To build lasting relationships that have a positive impact on the Venezuelan business ecosystem.",
+    "valuesLabel": "Our values",
+    "values": [
+      {
+        "title": "Integrity",
+        "description": "We act with honesty, candour and transparency in every transaction."
+      },
+      {
+        "title": "Reliability",
+        "description": "We safeguard our clients' interests with technical rigour."
+      },
+      {
+        "title": "Commitment",
+        "description": "Quality of service and effective response times."
+      },
+      {
+        "title": "Being Kaizen",
+        "description": "We refine every process and service, step by step, every single day."
+      }
+    ]
+  },
+  "products": {
+    "title": "Comprehensive financial solutions",
+    "cta": "I want advice",
+    "items": [
+      {
+        "title": "Commercial paper",
+        "description": "Short-term financing issued through the securities market."
+      },
+      {
+        "title": "Structuring",
+        "description": "We design the optimal issuance strategy for each company."
+      },
+      {
+        "title": "Issuances",
+        "description": "Bonds, commercial paper and debentures on the Caracas Stock Exchange."
+      },
+      {
+        "title": "Issuance placement",
+        "description": "We place your issuance among the market's investors."
+      },
+      {
+        "title": "Corporate finance",
+        "description": "Valuation, mergers and acquisitions, and strategic consulting."
+      },
+      {
+        "title": "Securitisation",
+        "description": "We turn your assets into tradable securities to obtain liquidity."
+      },
+      {
+        "title": "Securities trading",
+        "description": "Buying and selling financial instruments on the stock market."
+      },
+      {
+        "title": "Managed portfolio",
+        "description": "We manage your portfolio according to your goals and risk profile."
+      },
+      {
+        "title": "Repo",
+        "description": "Short-term financing backed by securities."
+      }
+    ]
+  },
+  "advantages": {
+    "title": "Why invest with Kaizen?",
+    "description": "Because trust is built by explaining. We show you what to expect from each instrument, including its risk, before you decide.",
+    "items": [
+      {
+        "title": "Access to financing",
+        "description": "We connect your company with the capital of the securities market."
+      },
+      {
+        "title": "Fixed and variable income instruments",
+        "description": "Alternatives aimed at preserving and growing your wealth, with their risk explained."
+      },
+      {
+        "title": "Diversification",
+        "description": "Spread your investment across different sectors and instruments."
+      },
+      {
+        "title": "Regulated market",
+        "description": "We operate under the supervision of the {regulator}."
+      },
+      {
+        "title": "Personalised advice",
+        "description": "An executive works with you according to your profile and goals."
+      }
+    ]
+  },
+  "financial": {
+    "title": "Financial information and documents",
+    "description": "Institutional documentation and financial statements in line with the regulator's requirements. Every file states its period, its format and its real size, and none is linked if it does not exist.",
+    "empty": {
+      "title": "No documents published yet",
+      "description": "Financial statements and institutional documentation will appear here as soon as they are published from the admin panel."
+    },
+    "cta": "View documents"
+  },
+  "compliance": {
+    "title": "Compliance and publications",
+    "description": "We publish regulatory content from the Venezuelan and international securities markets, along with our market updates and newsletters.",
+    "empty": {
+      "title": "No publications yet",
+      "description": "Circulars, market analyses and newsletters will appear here as soon as they are published from the admin panel."
+    },
+    "note": "Looking for regulations, manuals or the corporate governance code? They are in the",
+    "noteLink": "Reference",
+    "noteEnd": "tab of the financial information.",
+    "verMas": "See more",
+    "mostrando": "Showing {shown} of {total}",
+    "railLabel": "{tipo} publications",
+    "railScroll": "{label}: horizontal scrolling"
+  },
+  "steps": {
+    "title": "Opening your account is simple",
+    "description": "Four steps, with guidance at every one.",
+    "items": [
+      {
+        "title": "Complete your registration",
+        "description": "Fill in the online form, as an individual or as a company."
+      },
+      {
+        "title": "Submit your documents",
+        "description": "Upload your documents directly in the form, with no trips required."
+      },
+      {
+        "title": "Open your CVV account",
+        "description": "You arrange the opening of your account at the Caja Venezolana de Valores."
+      },
+      {
+        "title": "Start investing",
+        "description": "Your adviser guides you through your first transactions and answers your questions."
+      }
+    ]
+  },
+  "registration": {
+    "title": "Register with us",
+    "description": "Choose your type of person to see the steps that apply to you. An adviser is with you throughout the process.",
+    "tablistLabel": "Type of person",
+    "emailCta": "Email us",
+    "natural": {
+      "label": "Individual",
+      "intro": "You open an account in your own name to invest in Venezuelan securities market instruments.",
+      "formLabel": "Client Identification Form"
+    },
+    "juridica": {
+      "label": "Company",
+      "intro": "You register your company to invest, obtain financing or issue in the securities market.",
+      "formLabel": "Client Identification Form"
+    },
+    "backToSection": "Back to Register with us"
+  },
+  "newsletter": {
+    "title": "Get our newsletter",
+    "description": "Market analysis, regulatory news and Kaizen publications, straight to your inbox. You can unsubscribe whenever you want."
+  },
+  "footer": {
+    "tagline": "A financial institution devoted to building lasting relationships that have a positive impact on the Venezuelan business ecosystem.",
+    "navegacion": "Navigation",
+    "productos": "Products",
+    "productLinks": [
+      "Corporate finance",
+      "Securities brokerage",
+      "Managed portfolios",
+      "Issuances",
+      "Open your account"
+    ],
+    "derechos": "All rights reserved.",
+    "regulados": "Regulated by the {regulator}."
+  },
+  "documents": {
+    "title": "Documents",
+    "description": "Institutional documentation and financial statements in line with the regulator's requirements. Every file states its period, its format and its real size, and none is linked if it does not exist.",
+    "metaTitle": "Documents",
+    "metaDescription": "Financial statements, institutional documentation, compliance material and reference texts from Kaizen Casa de Bolsa.",
+    "ogTitle": "Documents · Kaizen Casa de Bolsa",
+    "ogDescription": "Financial statements and institutional documentation published in line with the regulator's requirements.",
+    "empty": {
+      "title": "No documents published yet",
+      "description": "As soon as the first one is published from the admin panel it will appear here, with its period and its format."
+    },
+    "tablist": "Type of documentation",
+    "tabs": {
+      "financial-statement": "Financial statements",
+      "institutional": "Institutional",
+      "compliance": "Compliance",
+      "reference": "Reference"
+    },
+    "categoryDescriptions": {
+      "financial-statement": "Balance sheets and income statements by period, published in line with the regulator's requirements.",
+      "institutional": "Who we are, in writing: structure, corporate governance and the documents that describe the institution.",
+      "compliance": "Manuals, policies and regulatory compliance material for the securities market.",
+      "reference": "Regulations and reference texts that frame the work of a brokerage house in Venezuela."
+    },
+    "emptyByCategory": {
+      "financial-statement": "No financial statements published yet",
+      "institutional": "No institutional documentation published yet",
+      "compliance": "No compliance material published yet",
+      "reference": "No reference documents published yet"
+    },
+    "emptyCategoryDescription": "We will publish the documents here as soon as they are available.",
+    "searchLabel": "Search by period or title",
+    "searchPlaceholder": "Example: April",
+    "yearFilterLabel": "Filter financial statements by year",
+    "allYears": "All years",
+    "fiscalYear": "Fiscal year",
+    "resultCountOne": "{n} document found.",
+    "resultCountOther": "{n} documents found.",
+    "emptyFinancial": {
+      "title": "No financial statements published yet",
+      "description": "As soon as the first period is published it will appear here, ordered from the most recent to the oldest."
+    },
+    "noMatch": {
+      "title": "No document matches your search",
+      "description": "Try another period, or clear the filters to see every financial statement."
+    },
+    "row": {
+      "publishedOn": "Published on {date}",
+      "effectiveFrom": "In force since",
+      "noFile": "No file available",
+      "download": "Download",
+      "open": "Open",
+      "fileUnavailable": "File not available",
+      "fileUnavailableFor": "{title}: file not available"
+    },
+    "relatedDocument": "Related document"
+  }
+}

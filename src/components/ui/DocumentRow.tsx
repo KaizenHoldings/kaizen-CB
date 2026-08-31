@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { DownloadButton } from '@/components/ui/DownloadButton'
+import { DownloadButton, type DocumentRowDictionary } from '@/components/ui/DownloadButton'
 import { Icon } from '@/components/ui/Icon'
 import { formatShortDate, toDateTimeAttribute } from '@/lib/format'
 import type { PublicDocument } from '@/modules/documents/domain/document'
@@ -14,8 +14,11 @@ import type { PublicDocument } from '@/modules/documents/domain/document'
  */
 export const DocumentRow: React.FC<{
   document: PublicDocument
+  /** Solo el envoltorio de interfaz. El título, la descripción, el periodo y el
+   *  tamaño llegan de Payload y se muestran tal cual: no se traducen. */
+  dict: DocumentRowDictionary
   surface?: 'light' | 'dark'
-}> = ({ document, surface = 'light' }) => {
+}> = ({ document, dict, surface = 'light' }) => {
   const isDark = surface === 'dark'
   const publishedLabel = formatShortDate(document.publishedAt)
 
@@ -24,7 +27,7 @@ export const DocumentRow: React.FC<{
     document.periodLabel,
     document.file?.typeLabel,
     document.file?.sizeLabel,
-    publishedLabel ? `Publicado el ${publishedLabel}` : null,
+    publishedLabel ? dict.publishedOn.replace('{date}', publishedLabel) : null,
   ].filter(Boolean) as string[]
 
   const title = document.file ? (
@@ -93,13 +96,13 @@ export const DocumentRow: React.FC<{
               </React.Fragment>
             ))
           ) : (
-            <span>Sin archivo disponible</span>
+            <span>{dict.noFile}</span>
           )}
         </p>
 
         {document.effectiveDate ? (
           <p className={['mt-1 text-sm', isDark ? 'text-tint/85' : 'text-muted'].join(' ')}>
-            Vigente desde{' '}
+            {dict.effectiveFrom}{' '}
             <time dateTime={toDateTimeAttribute(document.effectiveDate)}>
               {formatShortDate(document.effectiveDate)}
             </time>
@@ -114,6 +117,7 @@ export const DocumentRow: React.FC<{
           fileType={document.file?.typeLabel}
           fileSize={document.file?.sizeLabel}
           documentTitle={document.title}
+          dict={dict}
           intent={document.intent}
           surface={surface}
           tooltipSide="start"

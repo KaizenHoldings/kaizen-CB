@@ -8,16 +8,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ActionButton } from '@/components/ui/ActionButton'
 import { Icon } from '@/components/ui/Icon'
 import { Logo } from '@/components/ui/Logo'
+import { LocaleSwitcher } from '@/components/layout/LocaleSwitcher'
 import { useActiveNav } from '@/components/layout/useActiveNav'
 import { heroTransition } from '@/lib/hero-choreography'
 import { DESKTOP_NAV_LINKS, NAV_LINKS } from '@/lib/site'
 
 import styles from './SiteHeader.module.css'
+import type { Dictionary } from '@/dictionaries/getDictionary'
+import { localeHref, stripLocale, type Locale } from '@/lib/i18n'
 
 /** Desplazamiento a partir del cual el navbar adopta su superficie blanca. */
 const SCROLL_THRESHOLD = 40
 
-export const SiteHeader: React.FC = () => {
+export const SiteHeader: React.FC<{ dict: Dictionary['nav']; locale: Locale }> = ({
+  dict,
+  locale,
+}) => {
   // Ambos estados arrancan en `false` porque es lo único que el servidor puede
   // saber: no conoce el desplazamiento ni la preferencia de movimiento. El
   // primer render del cliente coincide con el HTML servido y los valores
@@ -26,8 +32,13 @@ export const SiteHeader: React.FC = () => {
   /* La cabecera transparente existe para el hero oscuro de la portada. En
      cualquier otra página el contenido arranca claro, y dejarla transparente
      pintaba la navegación en blanco sobre fondo claro: ilegible hasta
-     desplazarse. Fuera de la portada nace ya sólida. */
-  const isLanding = usePathname() === '/'
+     desplazarse. Fuera de la portada nace ya sólida.
+
+     Con el prefijo de idioma la portada dejó de ser `/` y pasó a ser `/es` o
+     `/en`: comparar con la raíz la daba siempre por falsa y la cabecera nacía
+     sólida incluso sobre el hero. `stripLocale` devuelve la ruta neutra, así
+     que la comparación vuelve a ser la de siempre. */
+  const isLanding = stripLocale(usePathname()) === '/'
   const activeHref = useActiveNav()
   const [reduceMotion, setReduceMotion] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -135,7 +146,7 @@ export const SiteHeader: React.FC = () => {
       />
 
       <div className={styles.inner}>
-        <Link href="/#inicio" className={styles.brand} aria-label="Kaizen Casa de Bolsa, ir al inicio">
+        <Link href={localeHref(locale, '/#inicio')} className={styles.brand} aria-label={dict.irAlInicio}>
           {/* Las dos versiones oficiales conviven y se funden. Ninguna se
               recolorea: sobre el hero manda la clara, sobre blanco la oscura. */}
           <Logo
@@ -152,7 +163,7 @@ export const SiteHeader: React.FC = () => {
           />
         </Link>
 
-        <nav className={styles.nav} aria-label="Navegación principal">
+        <nav className={styles.nav} aria-label={dict.navegacionPrincipal}>
           <ul className={styles.menu}>
             {DESKTOP_NAV_LINKS.map((link) => {
               const active = activeHref === link.href
@@ -192,11 +203,11 @@ export const SiteHeader: React.FC = () => {
                     />
                   ) : null}
                   <Link
-                    href={link.href}
+                    href={localeHref(locale, link.href)}
                     className={styles.link}
                     aria-current={active ? 'page' : undefined}
                   >
-                    {link.label}
+                    {dict[link.key]}
                   </Link>
                 </li>
               )
@@ -213,14 +224,22 @@ export const SiteHeader: React.FC = () => {
               No se remonta, así que su animación no se reinicia. */}
           <span className={styles.ctaWrap}>
             <ActionButton
-              href="/#registro"
+              href={localeHref(locale, '/#registro')}
               surface={solid ? 'light' : 'dark'}
               emphasis="primary"
               className="kcb-action--navy-hover"
             >
-              Abre tu cuenta
+              {dict.abreTuCuenta}
             </ActionButton>
           </span>
+
+          {/* Última pieza de la barra: en escritorio la hamburguesa está oculta,
+              así que el selector queda pegado al borde derecho, detrás del CTA.
+              En móvil el CTA es el que se oculta y el selector cede el borde a
+              la hamburguesa, que es el control que debe seguir en la esquina.
+              No necesita utilidades propias: `.actions` ya empuja el grupo con
+              `margin-inline-start: auto` y reparte con su `gap`. */}
+          <LocaleSwitcher locale={locale} label={dict.cambiarIdioma} />
 
           <button
             ref={burgerRef}
@@ -231,7 +250,7 @@ export const SiteHeader: React.FC = () => {
             onClick={() => setMenuOpen((open) => !open)}
           >
             <Icon name={menuOpen ? 'close' : 'menu'} className={styles.burgerIcon} />
-            <span className="kcb-visually-hidden">{menuOpen ? 'Cerrar menú' : 'Abrir menú'}</span>
+            <span className="kcb-visually-hidden">{menuOpen ? dict.cerrarMenu : dict.abrirMenu}</span>
           </button>
         </div>
       </div>
@@ -254,7 +273,7 @@ export const SiteHeader: React.FC = () => {
               className={styles.panel}
               role="dialog"
               aria-modal="true"
-              aria-label="Menú de navegación"
+              aria-label={dict.menuNavegacion}
               initial={reduceMotion ? false : { opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0, x: 24 }}
@@ -264,13 +283,13 @@ export const SiteHeader: React.FC = () => {
                 {NAV_LINKS.map((link) => (
                   <li key={link.href}>
                     <Link
-                      href={link.href}
+                      href={localeHref(locale, link.href)}
                       className={styles.panelLink}
                       data-active={activeHref === link.href ? 'true' : undefined}
                       aria-current={activeHref === link.href ? 'page' : undefined}
                       onClick={closeMenu}
                     >
-                      {link.label}
+                      {dict[link.key]}
                       <Icon name="arrowRight" className={styles.panelArrow} />
                     </Link>
                   </li>
@@ -279,13 +298,13 @@ export const SiteHeader: React.FC = () => {
 
               <div className={styles.panelFoot}>
                 <ActionButton
-                  href="/#registro"
+                  href={localeHref(locale, '/#registro')}
                   surface="light"
                   emphasis="primary"
                   fullWidth
                   onClick={closeMenu}
                 >
-                  Abre tu cuenta
+                  {dict.abreTuCuenta}
                 </ActionButton>
               </div>
             </motion.div>

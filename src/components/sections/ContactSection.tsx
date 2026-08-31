@@ -44,7 +44,10 @@ export const ContactSection: React.FC<{ level?: 1 | 2 }> = ({ level = 2 }) => (
                   <Icon name={channel.icon} className="size-5" />
                 </span>
                 <div className="min-w-0">
-                  <h3 className="font-[family-name:var(--font-display)] text-[0.9375rem] font-semibold text-navy">
+                  <h3
+                    className="font-[family-name:var(--font-display)] text-[0.9375rem] font-semibold text-navy"
+                    suppressHydrationWarning
+                  >
                     {channel.label}
                   </h3>
                   {channel.href ? (

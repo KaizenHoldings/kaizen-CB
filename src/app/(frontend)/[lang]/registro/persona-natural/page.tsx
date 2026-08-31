@@ -27,12 +27,18 @@ export default function Page() {
         </Link>
       </nav>
 
-      <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.5rem,1.25rem+1.2vw,2.125rem)] leading-[1.15] font-light text-balance text-navy">
+      <h1
+        className="font-[family-name:var(--font-display)] text-[clamp(1.5rem,1.25rem+1.2vw,2.125rem)] leading-[1.15] font-light text-balance text-navy"
+        suppressHydrationWarning
+      >
         Formulario de Identificación de Clientes Persona Natural Kaizen Casa de Bolsa
       </h1>
 
       <div className="mt-10">
-        <JotformEmbed formId="262094240939663" title="Formulario de Identificación de Clientes Persona Natural Kaizen Casa de Bolsa" />
+        <JotformEmbed
+          formId="262094240939663"
+          title="Formulario de Identificación de Clientes Persona Natural Kaizen Casa de Bolsa"
+        />
       </div>
     </div>
   )

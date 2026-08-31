@@ -6,41 +6,19 @@ import React, { useEffect, useState } from 'react'
 import { ActionButton } from '@/components/ui/ActionButton'
 import { Icon, type IconName } from '@/components/ui/Icon'
 import { SITE } from '@/lib/site'
+import type { Dictionary } from '@/dictionaries/getDictionary'
+import { localeHref, type Locale } from '@/lib/i18n'
 
 type Track = 'natural' | 'juridica'
 
 /* La vía de registro vive dentro de la pestaña, no en una condición aparte:
    así el panel solo puede ofrecer la que corresponde a la persona activa, y
    emparejarlas mal deja de ser posible por construcción. */
-const TABS: Array<{
-  id: Track
-  label: string
-  icon: IconName
-  intro: string
-  form: { href: string; label: string }
-}> = [
-  {
-    id: 'natural',
-    label: 'Persona natural',
-    icon: 'user',
-    intro:
-      'Abres tu cuenta a tu nombre para invertir en instrumentos del mercado de valores venezolano.',
-    form: {
-      href: '/registro/persona-natural',
-      label: 'Formulario de Identificación de Clientes Persona Natural Kaizen Casa de Bolsa',
-    },
-  },
-  {
-    id: 'juridica',
-    label: 'Persona jurídica',
-    icon: 'building',
-    intro:
-      'Registras a tu empresa para invertir, financiarte o emitir en el mercado de valores.',
-    form: {
-      href: '/registro/persona-juridica',
-      label: 'Formulario de Identificación de Clientes PJ -Kaizen Casa de Bolsa',
-    },
-  },
+/* Solo estructura: la copia y el destino del formulario vienen del diccionario.
+   `key` es lo que empareja ambos lados. */
+const TABS: Array<{ id: Track; key: 'natural' | 'juridica'; icon: IconName; href: string }> = [
+  { id: 'natural', key: 'natural', icon: 'user', href: '/registro/persona-natural' },
+  { id: 'juridica', key: 'juridica', icon: 'building', href: '/registro/persona-juridica' },
 ]
 
 /**
@@ -54,7 +32,10 @@ const trackFromHash = (hash: string): Track | null => {
   return null
 }
 
-export const RegistrationTabs: React.FC = () => {
+export const RegistrationTabs: React.FC<{
+  dict: Dictionary['registration']
+  locale: Locale
+}> = ({ dict, locale }) => {
   const [active, setActive] = useState<Track>('natural')
   const prefersReducedMotion = useReducedMotion()
 
@@ -74,7 +55,7 @@ export const RegistrationTabs: React.FC = () => {
     <div>
       <div
         role="tablist"
-        aria-label="Tipo de persona"
+        aria-label={dict.tablistLabel}
         className="flex w-full max-w-md gap-1 rounded-full bg-tint p-1 sm:inline-flex sm:w-auto"
       >
         {TABS.map((tab) => {
@@ -97,7 +78,7 @@ export const RegistrationTabs: React.FC = () => {
               ].join(' ')}
             >
               <Icon name={tab.icon} className="size-[1.125rem] shrink-0" />
-              {tab.label}
+              {dict[tab.key].label}
             </button>
           )
         })}
@@ -115,7 +96,7 @@ export const RegistrationTabs: React.FC = () => {
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8 rounded-2xl bg-pearl p-6 sm:p-10"
         >
-          <p className="kcb-measure text-[1.0625rem] leading-relaxed text-ink">{activeTab.intro}</p>
+          <p className="kcb-measure text-[1.0625rem] leading-relaxed text-ink">{dict[activeTab.key].intro}</p>
 
           {/* Formularios de identificación. Se abren en un diálogo dentro de la
               página: así el visitante no pierde el contexto de la sección ni
@@ -126,8 +107,12 @@ export const RegistrationTabs: React.FC = () => {
             {/* El formulario dejó de ser un diálogo y vive en su propia página:
                 `ActionButton` con `href` renderiza el `Link` de Next, así que la
                 navegación es del enrutador y no de un manejador propio. */}
-            <ActionButton href={activeTab.form.href} surface="light" emphasis="secondary">
-              {activeTab.form.label}
+            <ActionButton
+              href={localeHref(locale, activeTab.href)}
+              surface="light"
+              emphasis="secondary"
+            >
+              {dict[activeTab.key].formLabel}
             </ActionButton>
           </div>
 
@@ -136,7 +121,7 @@ export const RegistrationTabs: React.FC = () => {
               Quedan las vías de contacto, que siguen siendo válidas. */}
           <div className="kcb-hairline mt-8 flex flex-col gap-3 pt-8 sm:flex-row sm:items-center">
             <ActionButton href={SITE.contact.emailHref} surface="light" emphasis="primary">
-              Escríbenos por correo
+              {dict.emailCta}
             </ActionButton>
             <a
               href={SITE.contact.phoneHref}

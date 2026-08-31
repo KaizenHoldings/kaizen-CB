@@ -14,6 +14,8 @@ import { StepsSection } from '@/components/sections/StepsSection'
 
 import { PUBLICATION_TYPES } from '@/modules/publications/domain/publication'
 import { publicationService } from '@/modules/publications/services/publication.service'
+import { getDictionary } from '@/dictionaries/getDictionary'
+import { DEFAULT_LOCALE, isLocale } from '@/lib/i18n'
 
 /* Sin caché de ruta: la página se renderiza en cada petición.
    Los datos vienen de Payload por Local API, no por `fetch`, así que no hay
@@ -32,7 +34,11 @@ export const fetchCache = 'force-no-store'
  * servicios de dominio, que a su vez usan la Local API de Payload. Ningún
  * componente visual consulta la base de datos ni una API externa.
  */
-export default async function HomePage() {
+export default async function HomePage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params
+  const locale = isLocale(lang) ? lang : DEFAULT_LOCALE
+  const dict = await getDictionary(locale)
+
   const [publications] = await Promise.all([
     /* Suficientes para llenar un carril por tipo: la sección agrupa en memoria y
        cada grupo muestra hasta `RAIL_LIMIT`. Pidiendo solo tres, cada carril se
@@ -42,16 +48,16 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSection />
-      <PitchSection />
-      <AboutSection />
-      <ProductsSection />
-      <AdvantagesSection />
-      <FinancialInformationSection />
-      <ComplianceSection publications={publications} />
-      <StepsSection />
-      <RegistrationSection />
-      <NewsletterSection />
+      <HeroSection dict={dict.hero} locale={locale} />
+      <PitchSection dict={dict.pitch} />
+      <AboutSection dict={dict.about} />
+      <ProductsSection dict={dict.products} locale={locale} />
+      <AdvantagesSection dict={dict.advantages} />
+      <FinancialInformationSection dict={dict.financial} locale={locale} />
+      <ComplianceSection publications={publications} dict={dict.compliance} locale={locale} />
+      <StepsSection dict={dict.steps} />
+      <RegistrationSection dict={dict.registration} locale={locale} />
+      <NewsletterSection dict={dict.newsletter} />
     </>
   )
 }

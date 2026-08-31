@@ -13,7 +13,10 @@ export default function NotFound() {
             <Icon name="search" className="size-5" />
           </span>
 
-          <h1 className="mt-6 text-[clamp(1.875rem,1.5rem+1.9vw,2.75rem)] font-bold text-navy">
+          <h1
+            className="mt-6 text-[clamp(1.875rem,1.5rem+1.9vw,2.75rem)] font-bold text-navy"
+            suppressHydrationWarning
+          >
             No encontramos esta página
           </h1>
 

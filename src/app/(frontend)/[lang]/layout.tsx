@@ -5,10 +5,14 @@ import React from 'react'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
 import { MarketTicker } from '@/components/layout/MarketTicker'
+import { notFound } from 'next/navigation'
+
 import { SITE } from '@/lib/site'
 import { marketDataService } from '@/modules/market-data/services/market-data.service'
 
-import './globals.css'
+import '../globals.css'
+import { LOCALES, isLocale } from '@/lib/i18n'
+import { getDictionary } from '@/dictionaries/getDictionary'
 
 /**
  * `200` no está en la lista de pesos autorizados por `BRAND.md` §8
@@ -98,7 +102,26 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
+/* `generateStaticParams` deja los dos idiomas conocidos por el enrutador; el
+   `proxy` ya impide que llegue cualquier otro valor al segmento. */
+export function generateStaticParams() {
+  return LOCALES.map((lang) => ({ lang }))
+}
+
+export default async function FrontendLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ lang: string }>
+}) {
+  const { lang } = await params
+  /* Un segmento desconocido es un 404, no la portada en castellano: servir
+     contenido bajo `/zzz` lo convertiría en una URL válida y duplicada. */
+  if (!isLocale(lang)) notFound()
+
+  const locale = lang
+  const dict = await getDictionary(locale)
   const marketSnapshot = await marketDataService.getSnapshot()
   // Sin datos la cinta no se dibuja, así que tampoco debe reservar altura: el
   // cálculo se resuelve en el servidor para que no haya salto ni parpadeo.
@@ -106,26 +129,39 @@ export default async function FrontendLayout({ children }: { children: React.Rea
 
   return (
     <html
-      lang="es"
+      lang={locale}
       className={`${sora.variable} ${inter.variable}`}
       style={showTicker ? undefined : ({ '--kcb-ticker-height': '0rem' } as React.CSSProperties)}
+      /* Las extensiones del navegador escriben en `<html>` y `<body>` antes de
+         que React hidrate —medido: `data-lt-installed` de LanguageTool aquí, y
+         `cz-shortcut-listen` y `data-new-gr-c-s-check-loaded` en el `<body>`—.
+         React compara el HTML del servidor con el DOM ya alterado y avisa de un
+         desajuste que no es nuestro y que no podemos evitar: la extensión
+         siempre llega antes.
+
+         `suppressHydrationWarning` solo silencia los atributos y el texto de
+         *este* nodo, no los de sus descendientes, así que no tapa ningún
+         desajuste real del árbol. La aplicación no escribe nada en estos dos
+         elementos desde el cliente. */
       suppressHydrationWarning
     >
-      <head>
-        {/*
-          Habilita el estado inicial de las entradas de sección antes del primer
-          pintado, y solo si el movimiento está permitido. El HTML servido nunca
-          oculta contenido: sin JavaScript o con movimiento reducido, esta marca
-          no se pone y el texto se lee tal cual. Va en `head` para ejecutarse
-          antes de que el navegador pinte, sin provocar parpadeo.
-        */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.dataset.motion='on'}}catch(e){}`,
-          }}
-        />
-      </head>
-      <body>
+      {/* Mismo motivo que en `<html>`: es donde más escriben las extensiones. */}
+      <body suppressHydrationWarning>
+        {/* Las entradas son un realce: sin JavaScript, cada bloque que Motion
+            revelaría debe renderizarse a plena opacidad y en su sitio. El
+            estado oculto lo declara `globals.css` sin condiciones, y es esta
+            hoja la que lo deshace cuando no hay scripting.
+
+            Sustituye al `<script>` en línea que marcaba la raíz con
+            `data-motion`: aquel se ejecutaba antes del pintado, pero al ser un
+            nodo que React reconcilia lanzaba «Encountered a script tag while
+            rendering React component» en cada cambio de idioma, que es cuando
+            el segmento `[lang]` remonta el layout. `<noscript>` lo resuelve sin
+            script alguno, que es como lo hace el proyecto de referencia. */}
+        <noscript>
+          <style>{`[data-product-item],[data-scroll-media],[data-reveal],[data-hero],[data-hero] *,[data-bento] > *{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
+        </noscript>
+
         {/* El contrato viaja como comentario HTML real: un comentario JSX lo
             borraría el compilador y quedaría fuera del build auditable. */}
         <div hidden dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
@@ -135,7 +171,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         </a>
 
         <MarketTicker snapshot={marketSnapshot} />
-        <SiteHeader />
+        <SiteHeader dict={dict.nav} locale={locale} />
 
         {/* La cinta y el navbar son cromo fijo: el contenido reserva su altura
             para no quedar debajo. Una sección puede renunciar a esa reserva
@@ -144,7 +180,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
           {children}
         </main>
 
-        <SiteFooter />
+        <SiteFooter dict={dict.nav} footer={dict.footer} locale={locale} />
       </body>
     </html>
   )

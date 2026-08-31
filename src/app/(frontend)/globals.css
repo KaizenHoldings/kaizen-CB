@@ -322,18 +322,19 @@
    El estado oculto lo declara Motion en su `initial`, porque necesita conocer
    el punto de partida en el montaje para poder interpolarlo; si se lo damos
    después, solo anima la opacidad y el desplazamiento no ocurre. Ese `initial`
-   también viaja en el HTML del servidor, así que esta regla lo deshace mientras
-   el script previo al pintado no haya marcado la raíz: sin JavaScript todo el
-   contenido se lee entero, en su sitio y a plena opacidad. */
-html:not([data-motion='on']) [data-product-item],
-html:not([data-motion='on']) [data-scroll-media],
-html:not([data-motion='on']) [data-reveal],
-html:not([data-motion='on']) [data-hero],
-html:not([data-motion='on']) [data-hero] * {
-  opacity: 1 !important;
-  transform: none !important;
-  clip-path: none !important;
-}
+   también viaja en el HTML del servidor, así que sin JavaScript el contenido se
+   quedaría oculto para siempre.
+
+   Quien lo deshace es el bloque `<noscript>` del layout, que declara estas
+   mismas reglas. Antes lo hacía un marcador —`data-motion`— que ponía un script
+   en línea en el `<head>`, y ese script era justamente lo que hacía saltar
+   «Encountered a script tag while rendering React component» cada vez que
+   cambiar de idioma remontaba el layout. `<noscript>` no es un script: el
+   navegador lo aplica antes del pintado, sin JavaScript de por medio, y React
+   no tiene nada que reconciliar.
+
+   Las reglas viven en el layout, no aquí, porque `<noscript>` solo surte efecto
+   si el propio documento lo declara. */
 
 /* Entrada del bento: cada celda llega desde su lado hasta encajar.
    `--bento-from` (-1 izquierda, 1 derecha) y `--bento-delay` los escribe
@@ -344,12 +345,12 @@ html:not([data-motion='on']) [data-hero] * {
   overflow-x: clip;
 }
 
-html[data-motion='on'] [data-bento] > * {
+[data-bento] > * {
   opacity: 0;
   transform: translate3d(calc(var(--bento-from, -1) * clamp(2.5rem, 6vw, 5rem)), 0, 0);
 }
 
-html[data-motion='on'] [data-bento][data-in='true'] > * {
+[data-bento][data-in='true'] > * {
   opacity: 1;
   transform: none;
   transition:
@@ -358,8 +359,8 @@ html[data-motion='on'] [data-bento][data-in='true'] > * {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Red de seguridad: aunque algo marcara la raíz, con movimiento reducido el
-     contenido permanece visible y en su sitio. */
+  /* Con movimiento reducido el contenido permanece visible y en su sitio,
+     pase lo que pase por encima. */
   [data-reveal],
   [data-bento] > *,
   [data-product-item] {

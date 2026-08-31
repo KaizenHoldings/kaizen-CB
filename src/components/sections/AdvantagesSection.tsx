@@ -4,6 +4,7 @@ import { BentoReveal } from '@/components/ui/BentoReveal'
 import { Icon, type IconName } from '@/components/ui/Icon'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { SITE } from '@/lib/site'
+import type { Dictionary } from '@/dictionaries/getDictionary'
 
 /**
  * Ventajas de invertir con Kaizen.
@@ -15,45 +16,17 @@ import { SITE } from '@/lib/site'
 /* `cell` define el reparto bento en escritorio. La colocación automática de la
    rejilla hace el resto: la celda mayor ocupa dos columnas y dos filas, y las
    siguientes van cayendo en los huecos que deja. */
-const ADVANTAGES: Array<{
-  icon: IconName
-  title: string
-  description: string
-  cell?: string
-  featured?: boolean
-}> = [
-  {
-    icon: 'coins',
-    title: 'Acceso a financiamiento',
-    description: 'Conectamos a tu empresa con el capital del mercado de valores.',
-    cell: 'lg:col-span-2 lg:row-span-2',
-    featured: true,
-  },
-  {
-    icon: 'trend',
-    title: 'Instrumentos de renta fija y variable',
-    description:
-      'Alternativas orientadas a preservar y hacer crecer tu patrimonio, con su riesgo explicado.',
-  },
-  {
-    icon: 'grid',
-    title: 'Diversificación',
-    description: 'Distribuye tu inversión entre distintos sectores e instrumentos.',
-  },
-  {
-    icon: 'scale',
-    title: 'Mercado regulado',
-    description: `Operamos bajo la supervisión de la ${SITE.regulator}.`,
-  },
-  {
-    icon: 'headset',
-    title: 'Asesoría personalizada',
-    description: 'Un ejecutivo te acompaña según tu perfil y tus objetivos.',
-    cell: 'lg:col-span-2',
-  },
+/* Solo metadatos de presentación: la copia vive en los diccionarios y el
+   índice de este arreglo es el que la empareja. */
+const ADVANTAGES: Array<{ icon: IconName; cell?: string; featured?: boolean }> = [
+  { icon: 'coins', cell: 'lg:col-span-2 lg:row-span-2', featured: true },
+  { icon: 'trend' },
+  { icon: 'grid' },
+  { icon: 'scale' },
+  { icon: 'headset', cell: 'lg:col-span-2' },
 ]
 
-export const AdvantagesSection: React.FC = () => (
+export const AdvantagesSection: React.FC<{ dict: Dictionary['advantages'] }> = ({ dict }) => (
   <section
     id="ventajas"
     /* La pantalla es un mínimo, no una medida fija: el bento la llena cuando
@@ -74,8 +47,8 @@ export const AdvantagesSection: React.FC = () => (
       <SectionHeading
         id="ventajas-titulo"
         surface="light"
-        title="¿Por qué invertir con Kaizen?"
-        description="Porque la confianza se construye explicando. Te mostramos lo que puedes esperar de cada instrumento, incluido su riesgo, antes de que decidas."
+        title={dict.title}
+        description={dict.description}
       />
 
       {/* Entra distinto del resto de secciones: en lugar del fundido de
@@ -86,9 +59,15 @@ export const AdvantagesSection: React.FC = () => (
           altura legible: por debajo de ese suelo el bloque prefiere crecer y
           que la página se desplace antes que apretar el texto. */}
       <BentoReveal className="mt-[clamp(1rem,2.5vh,2rem)] grid min-h-0 flex-1 gap-[clamp(0.25rem,0.7vh,0.375rem)] sm:grid-cols-2 lg:auto-rows-[minmax(clamp(8.5rem,19vh,12rem),1fr)] lg:grid-cols-3">
-          {ADVANTAGES.map((advantage) => (
+        {ADVANTAGES.map((advantage, index) => {
+          const copy = dict.items[index]
+          if (!copy) return null
+          // `{regulator}` se resuelve aquí: el nombre del supervisor es un dato
+          // institucional, no texto traducible.
+          const description = copy.description.replace('{regulator}', SITE.regulator)
+          return (
             <li
-              key={advantage.title}
+              key={copy.title}
               className={[
                 // Celdas navy sobre el blanco de la sección: la separación la
                 // marca el propio hueco, sin necesidad de filete.
@@ -139,8 +118,9 @@ export const AdvantagesSection: React.FC = () => (
                       ? 'text-[clamp(1.35rem,1.15rem+1vw,1.875rem)] leading-[1.15]'
                       : 'text-[clamp(1rem,0.94rem+0.2vw,1.125rem)] leading-[1.25]',
                   ].join(' ')}
+                  suppressHydrationWarning
                 >
-                  {advantage.title}
+                  {copy.title}
                 </h3>
                 <p
                   className={[
@@ -150,11 +130,12 @@ export const AdvantagesSection: React.FC = () => (
                       : 'text-[clamp(0.875rem,0.84rem+0.15vw,0.9375rem)]',
                   ].join(' ')}
                 >
-                  {advantage.description}
+                  {description}
                 </p>
               </div>
             </li>
-          ))}
+          )
+        })}
       </BentoReveal>
     </div>
   </section>

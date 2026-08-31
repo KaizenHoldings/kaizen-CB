@@ -4,6 +4,7 @@ import { PitchImage } from '@/components/sections/PitchImage'
 
 import { ActionButton } from '@/components/ui/ActionButton'
 import { Reveal } from '@/components/ui/Reveal'
+import type { Dictionary } from '@/dictionaries/getDictionary'
 
 /**
  * Las dos rutas del sitio —persona y empresa— son la tesis de la página: pesan
@@ -17,23 +18,15 @@ import { Reveal } from '@/components/ui/Reveal'
    Con el `Link` de Next el hash cambiaba pero el evento no llegaba y la
    pestaña jurídica no se activaba. */
 const ROUTES = [
-  {
-    href: '#registro-natural',
-    title: 'Invierto por mi cuenta',
-    description: 'Haz crecer tu patrimonio con acompañamiento de un asesor en cada decisión.',
-  },
-  {
-    href: '#registro-juridica',
-    title: 'Represento a una empresa',
-    description: 'Financia, estructura y emite en el mercado de valores venezolano.',
-  },
-]
+  { href: '#registro-natural', key: 'natural' },
+  { href: '#registro-juridica', key: 'juridica' },
+] as const
 
 /** Una sola fotografía sostiene la sección entera. Decorativa: los títulos de
  *  las tarjetas ya nombran cada ruta. */
 const IMAGE = '/img/pitchSection/opt1.jpg'
 
-export const PitchSection: React.FC = () => (
+export const PitchSection: React.FC<{ dict: Dictionary['pitch'] }> = ({ dict }) => (
   <section
     id="propuesta"
     /* Alto de pantalla como mínimo, no como medida fija: si el contenido pide
@@ -55,11 +48,20 @@ export const PitchSection: React.FC = () => (
       />
 
       <Reveal className="flex flex-col justify-center p-8 lg:col-span-3 lg:p-16 xl:p-24">
+        {/* Una extensión del navegador rotula los encabezados con
+            `data-heading-tag="H2"` antes de que React hidrate, y React lo lee
+            como un desajuste que no es nuestro y que no podemos evitar: la
+            extensión siempre llega antes.
+
+            `suppressHydrationWarning` alcanza solo a los atributos y al texto de
+            este nodo, no a sus descendientes, así que no oculta ningún desajuste
+            real del árbol. El título sigue viniendo del diccionario. */}
         <h2
           id="propuesta-titulo"
           className="font-[family-name:var(--font-display)] text-[clamp(1.75rem,1.35rem+1.9vw,2.75rem)] leading-[1.12] font-light tracking-[-0.02em] text-balance text-navy"
+          suppressHydrationWarning
         >
-          Elige tu punto de partida
+          {dict.title}
         </h2>
 
         {/* `items-stretch` es implícito en la rejilla, y el `flex flex-col` de
@@ -71,12 +73,18 @@ export const PitchSection: React.FC = () => (
               key={route.href}
               className="flex flex-col rounded-2xl border border-line bg-white p-6 transition-shadow duration-300 ease-[var(--ease-kcb)] hover:shadow-[var(--shadow-soft-sm)] has-[a:focus-visible]:shadow-[var(--shadow-soft-sm)] lg:p-8"
             >
-              <h3 className="font-[family-name:var(--font-display)] text-[1.125rem] leading-[1.35] font-light text-balance text-navy">
-                {route.title}
+              {/* Mismo motivo que el `<h2>` de la sección: la extensión rotula
+                  todos los encabezados con `data-heading-tag` antes de que React
+                  hidrate. Uno por tarjeta, así que aquí son dos nodos. */}
+              <h3
+                className="font-[family-name:var(--font-display)] text-[1.125rem] leading-[1.35] font-light text-balance text-navy"
+                suppressHydrationWarning
+              >
+                {dict[route.key].title}
               </h3>
 
               <p className="mt-4 text-[0.9375rem] leading-relaxed text-pretty text-muted">
-                {route.description}
+                {dict[route.key].description}
               </p>
 
               {/* `mt-auto` lo fija abajo: las dos tarjetas alinean su botón. */}
@@ -86,9 +94,9 @@ export const PitchSection: React.FC = () => (
                   surface="light"
                   emphasis="primary"
                   className="kcb-action--pitch-hover"
-                  ariaLabel={`Comenzar: ${route.title}`}
+                  ariaLabel={`${dict.cta}: ${dict[route.key].title}`}
                 >
-                  Comenzar
+                  {dict.cta}
                 </ActionButton>
               </div>
             </li>

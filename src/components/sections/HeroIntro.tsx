@@ -7,6 +7,9 @@ import { usePrefersReducedMotion } from '@/components/ui/useReducedMotion'
 import { heroTransition } from '@/lib/hero-choreography'
 
 type HeroIntroProps = {
+  /** Los dos tramos del titular. Llegan resueltos desde el servidor: este
+   *  componente es de cliente y no debe cargar el diccionario por su cuenta. */
+  dict: { titleFirst: string; titleSecond: string }
   /** Botonera del hero. Llega como `children` para que siga renderizándose en
    *  el servidor: el cliente solo aporta el movimiento, no el marcado. */
   actions: React.ReactNode
@@ -22,7 +25,7 @@ type HeroIntroProps = {
  * transformación, y un salto de línea no se puede animar. La semántica no
  * cambia: un párrafo, dos líneas.
  */
-export const HeroIntro: React.FC<HeroIntroProps> = ({ actions, className }) => {
+export const HeroIntro: React.FC<HeroIntroProps> = ({ dict, actions, className }) => {
   const reduced = usePrefersReducedMotion()
 
   // Con movimiento reducido no hay recorrido ni escalonado: solo el fundido.
@@ -38,7 +41,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({ actions, className }) => {
           animate={shown}
           transition={heroTransition('titleFirst', reduced)}
         >
-          Invertir con visión
+          {dict.titleFirst}
         </motion.span>
         {/* Separador explícito: al partir el titular en dos bloques, el `<br>`
             que antes los separaba desapareció y el texto accesible quedaba
@@ -51,7 +54,7 @@ export const HeroIntro: React.FC<HeroIntroProps> = ({ actions, className }) => {
           animate={shown}
           transition={heroTransition('titleSecond', reduced)}
         >
-          crecer con confianza
+          {dict.titleSecond}
         </motion.span>
       </p>
 

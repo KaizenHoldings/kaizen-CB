@@ -73,7 +73,13 @@ export const PublicationCard: React.FC<{
           ) : null}
         </div>
 
-        <Heading className="mt-4 font-[family-name:var(--font-display)] text-[1.0625rem] leading-snug font-semibold text-navy underline-offset-4 group-hover:underline">
+        {/* Encabezado dinámico, igual que en `SectionHeading`: la extensión que
+            rotula los títulos con `data-heading-tag` no distingue si la etiqueta
+            se resolvió en tiempo de render. */}
+        <Heading
+          className="mt-4 font-[family-name:var(--font-display)] text-[1.0625rem] leading-snug font-semibold text-navy underline-offset-4 group-hover:underline"
+          suppressHydrationWarning
+        >
           {publication.title}
         </Heading>
 

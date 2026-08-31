@@ -4,24 +4,31 @@ import React from 'react'
 import { Icon } from '@/components/ui/Icon'
 import { Logo } from '@/components/ui/Logo'
 import { NAV_LINKS, SITE } from '@/lib/site'
+import type { Dictionary } from '@/dictionaries/getDictionary'
+import { localeHref, type Locale } from '@/lib/i18n'
 
-const PRODUCT_LINKS = [
-  { href: '/#productos', label: 'Finanzas corporativas' },
-  { href: '/#productos', label: 'Intermediación de títulos' },
-  { href: '/#productos', label: 'Cartera administrada' },
-  { href: '/#productos', label: 'Emisiones' },
-  { href: '/#registro', label: 'Abre tu cuenta' },
+/* Solo el destino: las etiquetas viven en `footer.productLinks` y se emparejan
+   por índice, igual que en el resto de secciones. */
+const PRODUCT_HREFS = [
+  '/#productos',
+  '/#productos',
+  '/#productos',
+  '/#productos',
+  '/#registro',
 ] as const
 
-export const SiteFooter: React.FC = () => (
+export const SiteFooter: React.FC<{
+  dict: Dictionary['nav']
+  footer: Dictionary['footer']
+  locale: Locale
+}> = ({ dict, footer, locale }) => (
   <footer className="kcb-gradient text-white">
     <div className="kcb-container py-16 lg:py-20">
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
         <div>
           <Logo variant="light" className="h-10 w-auto" />
           <p className="kcb-measure mt-6 text-[0.9375rem] leading-relaxed text-tint">
-            Institución financiera dedicada a crear relaciones duraderas que impacten de forma
-            positiva al ecosistema empresarial venezolano.
+            {footer.tagline}
           </p>
 
           <ul className="mt-8 space-y-3 text-[0.9375rem] text-tint">
@@ -48,20 +55,27 @@ export const SiteFooter: React.FC = () => (
           <h2
             id="footer-nav"
             className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.08em] text-white uppercase"
+            suppressHydrationWarning
           >
-            Navegación
+            {footer.navegacion}
           </h2>
           <ul className="mt-5 space-y-3 text-[0.9375rem]">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-tint transition-colors hover:text-white">
-                  {link.label}
+                <Link
+                  href={localeHref(locale, link.href)}
+                  className="text-tint transition-colors hover:text-white"
+                >
+                  {dict[link.key]}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/publicaciones" className="text-tint transition-colors hover:text-white">
-                Publicaciones
+              <Link
+                href={localeHref(locale, '/publicaciones')}
+                className="text-tint transition-colors hover:text-white"
+              >
+                {dict.publicaciones}
               </Link>
             </li>
           </ul>
@@ -71,14 +85,18 @@ export const SiteFooter: React.FC = () => (
           <h2
             id="footer-productos"
             className="font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.08em] text-white uppercase"
+            suppressHydrationWarning
           >
-            Productos
+            {footer.productos}
           </h2>
           <ul className="mt-5 space-y-3 text-[0.9375rem]">
-            {PRODUCT_LINKS.map((link) => (
-              <li key={link.label}>
-                <Link href={link.href} className="text-tint transition-colors hover:text-white">
-                  {link.label}
+            {footer.productLinks.map((label, index) => (
+              <li key={label}>
+                <Link
+                  href={localeHref(locale, PRODUCT_HREFS[index] ?? '/#productos')}
+                  className="text-tint transition-colors hover:text-white"
+                >
+                  {label}
                 </Link>
               </li>
             ))}
@@ -88,9 +106,9 @@ export const SiteFooter: React.FC = () => (
 
       <div className="kcb-hairline-light mt-14 flex flex-col gap-3 pt-8 text-[0.8125rem] text-tint sm:flex-row sm:items-center sm:justify-between">
         <p>
-          © {new Date().getFullYear()} {SITE.name}. Todos los derechos reservados.
+          © {new Date().getFullYear()} {SITE.name}. {footer.derechos}
         </p>
-        <p>Regulados por la {SITE.regulator}.</p>
+        <p>{footer.regulados.replace('{regulator}', SITE.regulator)}</p>
       </div>
     </div>
   </footer>

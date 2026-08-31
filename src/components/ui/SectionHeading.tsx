@@ -64,6 +64,17 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
             titleSize,
             isDark ? 'text-white' : 'text-navy',
           ].join(' ')}
+          /* Una extensión del navegador rotula los encabezados con
+             `data-heading-tag` antes de que React hidrate, y React lo lee como
+             un desajuste que no es nuestro y que no podemos evitar: la
+             extensión siempre llega antes.
+
+             Aquí cubre de una vez la mayoría de los títulos del sitio, porque
+             casi todas las secciones pasan por este componente. El alcance es de
+             un solo nivel —solo los atributos y el texto de este nodo, no los de
+             sus descendientes—, así que no oculta ningún desajuste real del
+             árbol. `title` y `description` siguen llegando por props. */
+          suppressHydrationWarning
         >
           {title}
         </Heading>

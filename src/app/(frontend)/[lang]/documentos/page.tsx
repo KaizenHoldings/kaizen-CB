@@ -3,6 +3,8 @@ import React from 'react'
 
 import { DocumentBrowser } from '@/components/sections/DocumentBrowser'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { getDictionary } from '@/dictionaries/getDictionary'
+import { DEFAULT_LOCALE, isLocale } from '@/lib/i18n'
 import { documentService } from '@/modules/documents/services/document.service'
 
 /* Sin caché: cada recarga refleja lo último publicado en el panel.
@@ -11,23 +13,37 @@ import { documentService } from '@/modules/documents/services/document.service'
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
-export const metadata: Metadata = {
-  title: 'Documentos',
-  description:
-    'Estados financieros, documentación institucional, material de cumplimiento y textos de referencia de Kaizen Casa de Bolsa.',
-  openGraph: {
-    title: 'Documentos · Kaizen Casa de Bolsa',
-    description:
-      'Estados financieros y documentación institucional publicados conforme a los requerimientos del regulador.',
-    url: '/documentos',
-  },
+type Params = { params: Promise<{ lang: string }> }
+
+/* Los metadatos dejan de ser una constante: dependen del idioma del segmento,
+   y una constante se evalúa una sola vez para las dos rutas. */
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { lang } = await params
+  const locale = isLocale(lang) ? lang : DEFAULT_LOCALE
+  const dict = (await getDictionary(locale)).documents
+
+  return {
+    title: dict.metaTitle,
+    description: dict.metaDescription,
+    openGraph: {
+      title: dict.ogTitle,
+      description: dict.ogDescription,
+      url: `/${locale}/documentos`,
+    },
+  }
 }
 
-export default async function DocumentsPage() {
-  const [archive, supporting] = await Promise.all([
+export default async function DocumentsPage({ params }: Params) {
+  const { lang } = await params
+  const locale = isLocale(lang) ? lang : DEFAULT_LOCALE
+
+  const [dictionary, archive, supporting] = await Promise.all([
+    getDictionary(locale),
     documentService.financialStatementArchive(),
     documentService.listSupportingDocuments(),
   ])
+
+  const dict = dictionary.documents
 
   const total =
     archive.totalDocuments +
@@ -39,27 +55,27 @@ export default async function DocumentsPage() {
     <div className="bg-white">
       <div className="kcb-container py-16 lg:py-24">
         <header className="max-w-3xl">
-          <h1 className="text-[clamp(2rem,1.6rem+2vw,3rem)] font-light text-navy">Documentos</h1>
+          <h1
+            className="text-[clamp(2rem,1.6rem+2vw,3rem)] font-light text-navy"
+            suppressHydrationWarning
+          >
+            {dict.title}
+          </h1>
           <p className="kcb-measure mt-5 text-[1.0625rem] leading-relaxed text-muted">
-            Documentación institucional y estados financieros conforme a los requerimientos de la
-            Superintendencia Nacional de Valores. Cada archivo indica su periodo, su formato y su
-            tamaño real, y ninguno se enlaza si no existe.
+            {dict.description}
           </p>
         </header>
 
         <div className="mt-12">
           {total === 0 ? (
-            <EmptyState
-              icon="doc"
-              title="Todavía no hay documentos publicados"
-              description="En cuanto se publique el primero desde el panel aparecerá aquí, con su periodo y su formato."
-            />
+            <EmptyState icon="doc" title={dict.empty.title} description={dict.empty.description} />
           ) : (
             <DocumentBrowser
               archive={archive}
               institutional={supporting.institutional}
               compliance={supporting.compliance}
               reference={supporting.reference}
+              dict={dict}
             />
           )}
         </div>
